@@ -1,0 +1,143 @@
+/* ========================================
+   DESKTOP OVERRIDE - Force Multi-Column Layout
+   Add this AFTER styles.css in your HTML
+   ======================================== */
+
+/* Desktop Layout - Screens wider than 768px */
+@media screen and (min-width: 768px) {
+    
+    /* FEATURES GRID - 3 COLUMNS */
+    .features-grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 32px !important;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    /* HERO STATS - HORIZONTAL */
+    .hero-stats {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 48px !important;
+    }
+    
+    /* HELP GRID - 2 COLUMNS */
+    .help-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 24px !important;
+    }
+    
+    /* SHARE BUTTONS - HORIZONTAL */
+    .share-buttons {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+        gap: 16px !important;
+    }
+    
+    /* CONTACT BUTTONS - HORIZONTAL */
+    .contact-buttons {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 16px !important;
+    }
+    
+    /* NAVIGATION - HORIZONTAL MENU */
+    .nav-menu {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 32px !important;
+        position: static !important;
+        max-height: none !important;
+        overflow: visible !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+    
+    .nav-menu.active {
+        max-height: none !important;
+    }
+    
+    /* HIDE HAMBURGER ON DESKTOP */
+    .menu-toggle {
+        display: none !important;
+    }
+    
+    /* FOOTER - HORIZONTAL */
+    .footer-content {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: 32px !important;
+        flex-wrap: nowrap !important;
+    }
+    
+    .footer-links {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 24px !important;
+    }
+    
+    .footer-credits {
+        text-align: right !important;
+    }
+    
+    /* IMPACT GRID - 4 COLUMNS (if exists) */
+    .impact-grid {
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 16px !important;
+    }
+    
+    /* RECIPE STATS ROW */
+    .recipe-stats-row {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 16px !important;
+    }
+    
+    /* ACHIEVEMENTS GRID - 3 COLUMNS */
+    .achievements-grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 16px !important;
+    }
+    
+    /* FAQ ITEMS - BETTER WIDTH */
+    .faq-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+}
+
+/* Large Desktop - 4 columns for help */
+@media screen and (min-width: 1200px) {
+    .help-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+    }
+}
+
+/* Tablet - 2 columns */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    
+    .impact-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    
+    .achievements-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
