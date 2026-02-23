@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FreshPlate - Stop wasting food and save money with smart recipe suggestions">
+    <title>FreshPlate - Leftover Recipe Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍽️</text></svg>">
+</head>
+<body>
+    <!-- App Container -->
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="logo">🍽️ FreshPlate</h1>
+                <p class="tagline">Stop wasting food, save money</p>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-screen="home" onclick="switchScreen('home')">
+                <span class="tab-icon">🏠</span>
+                <span class="tab-label">Home</span>
+            </button>
+            <button class="nav-tab" data-screen="fridge" onclick="switchScreen('fridge')">
+                <span class="tab-icon">🧊</span>
+                <span class="tab-label">My Fridge</span>
+            </button>
+            <button class="nav-tab" data-screen="recipes" onclick="switchScreen('recipes')">
+                <span class="tab-icon">📖</span>
+                <span class="tab-label">Recipes</span>
+            </button>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Home Screen -->
+            <section id="home-screen" class="screen active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-total">0</div>
+                        <div class="stat-label">Total Items</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-expiring">0</div>
+                        <div class="stat-label">Expiring Soon</div>
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h2>Today's Recipe Ideas</h2>
+                    <button class="link-button" onclick="switchScreen('recipes')">See all →</button>
+                </div>
+
+                <div id="home-recipes" class="recipes-container"></div>
+
+                <div class="welcome-message" id="welcome-message">
+                    <div class="welcome-icon">👋</div>
+                    <h3>Welcome to FreshPlate!</h3>
+                    <p>Add ingredients to your fridge to get personalized recipe suggestions.</p>
+                    <button class="btn btn-primary" onclick="openAddModal()">
+                        Add Your First Ingredient
+                    </button>
+                </div>
+            </section>
+
+            <!-- Fridge Screen -->
+            <section id="fridge-screen" class="screen">
+                <div class="section-header">
+                    <h2>My Ingredients</h2>
+                    <div class="header-actions">
+                        <select id="sort-filter" class="filter-select" onchange="updateIngredientList()">
+                            <option value="expiry">Sort by Expiry</option>
+                            <option value="name">Sort by Name</option>
+                            <option value="added">Sort by Date Added</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="ingredient-list" class="ingredient-list"></div>
+
+                <div class="empty-state" id="fridge-empty">
+                    <div class="empty-icon">🧊</div>
+                    <h3>Your fridge is empty!</h3>
+                    <p>Start by adding the ingredients you have at home.</p>
+                    <button class="btn btn-primary" onclick="openAddModal()">
+                        Add Ingredient
+                    </button>
+                </div>
+            </section>
+
+            <!-- Recipes Screen -->
+            <section id="recipes-screen" class="screen">
+                <div class="section-header">
+                    <h2>Recipe Suggestions</h2>
+                    <div class="header-actions">
+                        <select id="recipe-filter" class="filter-select" onchange="updateRecipeList()">
+                            <option value="match">Best Match</option>
+                            <option value="expiring">Uses Expiring Items</option>
+                            <option value="quick">Quick & Easy</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="recipe-list" class="recipes-container"></div>
+
+                <div class="empty-state" id="recipes-empty">
+                    <div class="empty-icon">🍽️</div>
+                    <h3>No recipes yet!</h3>
+                    <p>Add some ingredients to see what you can cook.</p>
+                    <button class="btn btn-primary" onclick="switchScreen('fridge')">
+                        Go to My Fridge
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Floating Action Button -->
+        <button class="fab" onclick="openAddModal()" title="Add Ingredient">
+            <span>+</span>
+        </button>
+    </div>
+
+    <!-- Add Ingredient Modal -->
+    <div id="add-modal" class="modal">
+        <div class="modal-overlay" onclick="closeAddModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Ingredient</h3>
+                <button class="modal-close" onclick="closeAddModal()">&times;</button>
+            </div>
+
+            <form id="add-ingredient-form" onsubmit="handleAddIngredient(event)">
+                <div class="form-group">
+                    <label class="form-label">Ingredient</label>
+                    <select id="ingredient-select" class="form-input" required>
+                        <option value="">Choose an ingredient...</option>
+                        <optgroup label="Vegetables">
+                            <option value="🥬 Spinach">🥬 Spinach</option>
+                            <option value="🥕 Carrots">🥕 Carrots</option>
+                            <option value="🥦 Broccoli">🥦 Broccoli</option>
+                            <option value="🍅 Tomatoes">🍅 Tomatoes</option>
+                            <option value="🥒 Cucumber">🥒 Cucumber</option>
+                            <option value="🫑 Bell Peppers">🫑 Bell Peppers</option>
+                            <option value="🧅 Onions">🧅 Onions</option>
+                            <option value="🥔 Potatoes">🥔 Potatoes</option>
+                            <option value="🍄 Mushrooms">🍄 Mushrooms</option>
+                            <option value="🥗 Lettuce">🥗 Lettuce</option>
+                        </optgroup>
+                        <optgroup label="Proteins">
+                            <option value="🥚 Eggs">🥚 Eggs</option>
+                            <option value="🍗 Chicken Breast">🍗 Chicken Breast</option>
+                            <option value="🥩 Beef">🥩 Beef</option>
+                            <option value="🐟 Salmon">🐟 Salmon</option>
+                            <option value="🍤 Shrimp">🍤 Shrimp</option>
+                            <option value="🥓 Bacon">🥓 Bacon</option>
+                        </optgroup>
+                        <optgroup label="Dairy">
+                            <option value="🥛 Milk">🥛 Milk</option>
+                            <option value="🧀 Cheddar Cheese">🧀 Cheddar Cheese</option>
+                            <option value="🧀 Feta Cheese">🧀 Feta Cheese</option>
+                            <option value="🧀 Parmesan">🧀 Parmesan</option>
+                            <option value="🧈 Butter">🧈 Butter</option>
+                            <option value="🥛 Yogurt">🥛 Yogurt</option>
+                        </optgroup>
+                        <optgroup label="Grains & Pasta">
+                            <option value="🍞 Bread">🍞 Bread</option>
+                            <option value="🍝 Pasta">🍝 Pasta</option>
+                            <option value="🍚 Rice">🍚 Rice</option>
+                            <option value="🌾 Quinoa">🌾 Quinoa</option>
+                        </optgroup>
+                        <optgroup label="Fruits">
+                            <option value="🍎 Apples">🍎 Apples</option>
+                            <option value="🍌 Bananas">🍌 Bananas</option>
+                            <option value="🍓 Strawberries">🍓 Strawberries</option>
+                            <option value="🍋 Lemons">🍋 Lemons</option>
+                            <option value="🥑 Avocado">🥑 Avocado</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Quantity</label>
+                    <input 
+                        type="text" 
+                        id="quantity-input" 
+                        class="form-input" 
+                        placeholder="e.g., 1 bag, 2 cups, 500g"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Expiration Date</label>
+                    <input 
+                        type="date" 
+                        id="expiry-input" 
+                        class="form-input"
+                        required
+                    >
+                    <div class="form-hint">When does this expire?</div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Add to Fridge</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeAddModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Recipe Detail Modal -->
+    <div id="recipe-modal" class="modal">
+        <div class="modal-overlay" onclick="closeRecipeModal()"></div>
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3 id="recipe-modal-title">Recipe Details</h3>
+                <button class="modal-close" onclick="closeRecipeModal()">&times;</button>
+            </div>
+            <div id="recipe-modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <p>Built with ❤️ by Monisha Sood | Product Manager Portfolio Project</p>
+        <div class="footer-links">
+            <a href="https://github.com/monishasood" target="_blank">GitHub</a>
+            <a href="https://linkedin.com/in/monishasood" target="_blank">LinkedIn</a>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="recipes-data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
