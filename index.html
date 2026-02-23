@@ -17,6 +17,7 @@
             line-height: 1.6;
             color: #1f2937;
             background: #f9fafb;
+            scroll-behavior: smooth;
         }
         
         .container {
@@ -34,29 +35,76 @@
             display: none;
         }
         
+        /* Header with Animation */
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 40px 20px;
+            padding: 60px 20px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
         }
         
         .logo {
             width: 150px;
             margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+            transition: transform 0.3s;
+        }
+        
+        .logo:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
         
         .header h1 {
             font-size: 48px;
             margin-bottom: 10px;
+            animation: slideInDown 0.8s ease-out;
         }
         
         .header p {
             font-size: 20px;
             opacity: 0.95;
+            animation: slideInUp 0.8s ease-out 0.2s backwards;
         }
         
-        /* Stats */
+        @keyframes slideInDown {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes slideInUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* Stats with Hover Effects */
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -70,21 +118,53 @@
             border-radius: 12px;
             text-align: center;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .stat-card:hover::before {
+            left: 100%;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 12px 24px rgba(102, 126, 234, 0.3);
         }
         
         .stat-number {
             font-size: 48px;
             font-weight: 800;
-            color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover .stat-number {
+            transform: scale(1.1);
         }
         
         .stat-label {
             font-size: 16px;
             color: #6b7280;
+            font-weight: 600;
         }
         
-        /* Features */
+        /* Features with Enhanced Hover */
         .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -95,31 +175,87 @@
         .feature-card {
             background: white;
             padding: 30px;
-            border-radius: 12px;
+            border-radius: 16px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
             transition: transform 0.3s;
         }
         
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+        
         .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 16px 32px rgba(102, 126, 234, 0.2);
         }
         
         .feature-icon {
-            font-size: 48px;
+            font-size: 56px;
             margin-bottom: 20px;
+            transition: transform 0.3s;
+            display: inline-block;
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2) rotate(5deg);
         }
         
         .feature-title {
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 10px;
+            color: #1f2937;
+            transition: color 0.3s;
+        }
+        
+        .feature-card:hover .feature-title {
+            color: #667eea;
         }
         
         .feature-desc {
             color: #6b7280;
+            font-size: 16px;
         }
         
+        /* Tooltip */
+        .feature-card::after {
+            content: attr(data-tip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px);
+            background: #1f2937;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-5px);
+        }
+        
+        /* Button with Pulse Animation */
         .btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -132,22 +268,269 @@
             display: inline-block;
             text-decoration: none;
             margin: 20px 0;
-            transition: transform 0.3s;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
         
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 12px 24px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(-1px);
         }
         
         .section-title {
-            font-size: 36px;
+            font-size: 42px;
             font-weight: 800;
             text-align: center;
             margin: 60px 0 40px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 0.8s ease-out;
         }
         
-        /* App Styles */
+        @keyframes fadeInUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* Interactive FAQ Accordion */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            background: white;
+            margin-bottom: 16px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        .faq-item:hover {
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.2);
+        }
+        
+        .faq-question {
+            width: 100%;
+            background: white;
+            border: none;
+            padding: 20px;
+            text-align: left;
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .faq-question:hover {
+            color: #667eea;
+            background: #f9fafb;
+        }
+        
+        .faq-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: transform 0.3s;
+        }
+        
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            padding: 0 20px;
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding: 0 20px 20px 20px;
+        }
+        
+        .faq-answer p {
+            color: #6b7280;
+            line-height: 1.8;
+        }
+        
+        /* Help Cards with Hover */
+        .help-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin: 40px 0;
+        }
+        
+        .help-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .help-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(102, 126, 234, 0.2);
+        }
+        
+        .help-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            transition: transform 0.3s;
+        }
+        
+        .help-card:hover .help-icon {
+            transform: scale(1.2);
+        }
+        
+        .help-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        
+        .help-list {
+            list-style: none;
+        }
+        
+        .help-list li {
+            padding: 8px 0 8px 24px;
+            position: relative;
+            color: #6b7280;
+            transition: all 0.3s;
+        }
+        
+        .help-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: 700;
+            transition: transform 0.3s;
+        }
+        
+        .help-card:hover .help-list li::before {
+            transform: translateX(5px);
+        }
+        
+        /* Share Buttons with Hover */
+        .share-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 40px 0;
+        }
+        
+        .share-btn {
+            padding: 14px 28px;
+            border: 2px solid #e5e7eb;
+            background: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .share-btn.twitter:hover {
+            background: #1DA1F2;
+            color: white;
+            border-color: #1DA1F2;
+        }
+        
+        .share-btn.facebook:hover {
+            background: #1877F2;
+            color: white;
+            border-color: #1877F2;
+        }
+        
+        .share-btn.linkedin:hover {
+            background: #0A66C2;
+            color: white;
+            border-color: #0A66C2;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #1f2937;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 80px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+        
+        /* Scroll Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* App Styles (same as before) */
         .app-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -175,6 +558,12 @@
             border-radius: 20px;
             cursor: pointer;
             font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(-3px);
         }
         
         .tabs {
@@ -196,6 +585,12 @@
             font-weight: 600;
             color: #6b7280;
             border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab:hover {
+            color: #667eea;
+            background: #f9fafb;
         }
         
         .tab.active {
@@ -210,9 +605,15 @@
         
         .tab-content.active {
             display: block;
+            animation: fadeIn 0.5s;
         }
         
-        /* Ingredient Card */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Rest of app styles... */
         .ingredient-card {
             background: white;
             padding: 20px;
@@ -222,6 +623,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .ingredient-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
         
         .ingredient-info h3 {
@@ -262,7 +669,6 @@
             color: #2563eb;
         }
         
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -271,6 +677,7 @@
             right: 0;
             bottom: 0;
             background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
             z-index: 1000;
             align-items: center;
             justify-content: center;
@@ -283,11 +690,17 @@
         .modal-content {
             background: white;
             padding: 30px;
-            border-radius: 12px;
+            border-radius: 16px;
             max-width: 500px;
             width: 90%;
             max-height: 80vh;
             overflow-y: auto;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
         
         .modal-header {
@@ -307,6 +720,12 @@
             font-size: 28px;
             cursor: pointer;
             color: #6b7280;
+            transition: all 0.3s;
+        }
+        
+        .close-btn:hover {
+            color: #dc2626;
+            transform: rotate(90deg);
         }
         
         .form-group {
@@ -326,12 +745,14 @@
             border: 2px solid #e5e7eb;
             border-radius: 8px;
             font-size: 16px;
+            transition: all 0.3s;
         }
         
         .form-group input:focus,
         .form-group select:focus {
             outline: none;
             border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
         
         .photo-upload {
@@ -372,10 +793,18 @@
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
             z-index: 999;
+            transition: all 0.3s;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
         
         .fab:hover {
-            transform: scale(1.1);
+            transform: scale(1.15);
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.6);
         }
         
         .empty-state {
@@ -388,6 +817,7 @@
             font-size: 80px;
             margin-bottom: 20px;
             opacity: 0.5;
+            animation: float 3s ease-in-out infinite;
         }
         
         .recipe-card {
@@ -397,12 +827,12 @@
             margin-bottom: 20px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: all 0.3s;
         }
         
         .recipe-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 12px 24px rgba(102, 126, 234, 0.2);
         }
         
         .recipe-image {
@@ -413,6 +843,11 @@
             align-items: center;
             justify-content: center;
             font-size: 80px;
+            transition: transform 0.3s;
+        }
+        
+        .recipe-card:hover .recipe-image {
+            transform: scale(1.05);
         }
         
         .recipe-info {
@@ -452,6 +887,9 @@
             .features {
                 grid-template-columns: 1fr;
             }
+            .section-title {
+                font-size: 32px;
+            }
         }
     </style>
 </head>
@@ -459,9 +897,11 @@
     <!-- Landing Page -->
     <div id="landing-page">
         <div class="header">
-            <img src="logo.png" alt="FreshPlate Logo" class="logo">
-            <h1>Stop Wasting Food, Start Saving Money</h1>
-            <p>Join thousands saving <strong>$1,600/year</strong> by reducing food waste</p>
+            <div class="header-content">
+                <img src="logo.png" alt="FreshPlate Logo" class="logo">
+                <h1>Stop Wasting Food, Start Saving Money</h1>
+                <p>Join thousands saving <strong>$1,600/year</strong> by reducing food waste</p>
+            </div>
         </div>
         
         <div class="container">
@@ -481,47 +921,176 @@
             </div>
             
             <div style="text-align: center;">
-                <button class="btn" onclick="openApp()">Start Saving Today - It's Free!</button>
+                <button class="btn" onclick="openApp()">
+                    <span style="position: relative; z-index: 1;">Start Saving Today - It's Free!</span>
+                </button>
                 <p style="color: #6b7280; margin-top: 10px;">No signup required • Works offline • 100% private</p>
             </div>
             
-            <h2 class="section-title">How FreshPlate Helps You</h2>
+            <h2 class="section-title animate-on-scroll">How FreshPlate Helps You</h2>
             <div class="features">
-                <div class="feature-card">
+                <div class="feature-card animate-on-scroll" data-tip="Upload & earn points!">
                     <div class="feature-icon">📸</div>
                     <h3 class="feature-title">Photo Upload</h3>
                     <p class="feature-desc">Snap photos of your ingredients for better tracking and bonus points</p>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card animate-on-scroll" data-tip="Smart AI suggestions">
                     <div class="feature-icon">🍽️</div>
                     <h3 class="feature-title">Smart Recipes</h3>
                     <p class="feature-desc">AI-powered suggestions using ingredients you already have</p>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card animate-on-scroll" data-tip="Never miss expiry!">
                     <div class="feature-icon">⏰</div>
                     <h3 class="feature-title">Expiry Tracking</h3>
                     <p class="feature-desc">Automatic alerts when food is about to expire</p>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card animate-on-scroll" data-tip="Gamified savings">
                     <div class="feature-icon">⭐</div>
                     <h3 class="feature-title">Rewards System</h3>
                     <p class="feature-desc">Earn points and unlock achievements as you save</p>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card animate-on-scroll" data-tip="Smart categorization">
                     <div class="feature-icon">🏷️</div>
                     <h3 class="feature-title">Cooked vs Raw</h3>
                     <p class="feature-desc">Separate tracking for fresh items and leftovers</p>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card animate-on-scroll" data-tip="See your impact">
                     <div class="feature-icon">💰</div>
                     <h3 class="feature-title">Impact Dashboard</h3>
                     <p class="feature-desc">Visual insights into your savings and impact</p>
                 </div>
             </div>
+            
+            <h2 class="section-title animate-on-scroll">Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How does FreshPlate work?</span>
+                        <div class="faq-icon">+</div>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Simply add ingredients to your virtual fridge with expiration dates. FreshPlate automatically suggests recipes based on what you have and prioritizes items about to expire. Upload photos for bonus points and better tracking!</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Is FreshPlate really free?</span>
+                        <div class="faq-icon">+</div>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, 100% free! No hidden costs, no subscription, no credit card needed. All features are available to everyone. Your data stays on your device - we don't even have a server to pay for!</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Do I need to create an account?</span>
+                        <div class="faq-icon">+</div>
+                    </button>
+                    <div class="faq-answer">
+                        <p>No signup required! FreshPlate works entirely in your browser. Your data is stored locally on your device for complete privacy. Just open the app and start using it immediately.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I earn points?</span>
+                        <div class="faq-icon">+</div>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Earn points by: Adding ingredients (+5), Uploading photos (+10), Using items before expiry (+10-15), Cooking recipes (+20). Points unlock achievements and make saving food fun!</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Can I use it on mobile and desktop?</span>
+                        <div class="faq-icon">+</div>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Absolutely! FreshPlate is fully responsive and works seamlessly on phones, tablets, and computers. Your data syncs via your browser, so access it from any device you use.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What's the difference between Raw and Cooked status?</span>
+                        <div class="faq-icon">+</div>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Raw/Fresh is for uncooked ingredients (vegetables, raw meat, eggs). Cooked is for leftovers and prepared food. This matters because cooked items typically expire faster (3-4 days vs 7-14 days).</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 class="section-title animate-on-scroll">Help & Support</h2>
+            <div class="help-grid">
+                <div class="help-card animate-on-scroll">
+                    <div class="help-icon">📖</div>
+                    <h3 class="help-title">Getting Started</h3>
+                    <ul class="help-list">
+                        <li>Click "Get Started" to open the app</li>
+                        <li>Add your first ingredient</li>
+                        <li>Upload a photo for bonus points</li>
+                        <li>Browse recipe suggestions!</li>
+                    </ul>
+                </div>
+                
+                <div class="help-card animate-on-scroll">
+                    <div class="help-icon">💡</div>
+                    <h3 class="help-title">Pro Tips</h3>
+                    <ul class="help-list">
+                        <li>Upload photos after shopping</li>
+                        <li>Check "Expiring Soon" daily</li>
+                        <li>Use Cooked filter for leftovers</li>
+                        <li>Mark recipes as cooked</li>
+                    </ul>
+                </div>
+                
+                <div class="help-card animate-on-scroll">
+                    <div class="help-icon">🔧</div>
+                    <h3 class="help-title">Troubleshooting</h3>
+                    <ul class="help-list">
+                        <li>Photos: Use smaller file size</li>
+                        <li>Data: Check same browser</li>
+                        <li>Speed: Clear old ingredients</li>
+                        <li>Points: Refresh the page</li>
+                    </ul>
+                </div>
+                
+                <div class="help-card animate-on-scroll">
+                    <div class="help-icon">🌐</div>
+                    <h3 class="help-title">Browser Support</h3>
+                    <ul class="help-list">
+                        <li>✅ Chrome 90+</li>
+                        <li>✅ Firefox 88+</li>
+                        <li>✅ Safari 14+</li>
+                        <li>✅ Edge 90+</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h2 class="section-title animate-on-scroll">Share FreshPlate</h2>
+            <div class="share-buttons">
+                <button class="share-btn twitter">🐦 Twitter</button>
+                <button class="share-btn facebook">📘 Facebook</button>
+                <button class="share-btn linkedin">💼 LinkedIn</button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <img src="logo.png" alt="FreshPlate" class="logo" style="width: 100px; margin-bottom: 20px;">
+            <p><strong>FreshPlate</strong> - Smart Cooking • Zero Waste</p>
+            <p style="margin-top: 20px;">Built by <strong>Monisha Sood</strong> | Product Manager</p>
+            <p style="margin-top: 10px;">
+                <a href="https://github.com/monishasood" target="_blank">GitHub</a> • 
+                <a href="https://linkedin.com/in/monishasood" target="_blank">LinkedIn</a>
+            </p>
         </div>
     </div>
 
-    <!-- App Page -->
+    <!-- App Page (same as before) -->
     <div id="app-page">
         <div class="app-header">
             <button class="back-btn" onclick="backToLanding()">← Back</button>
@@ -535,7 +1104,6 @@
             <button class="tab" onclick="switchTab('insights')">📊 Insights</button>
         </div>
         
-        <!-- Fridge Tab -->
         <div id="fridge-tab" class="tab-content active">
             <div class="container">
                 <div id="fridge-list"></div>
@@ -547,7 +1115,6 @@
             </div>
         </div>
         
-        <!-- Recipes Tab -->
         <div id="recipes-tab" class="tab-content">
             <div class="container">
                 <div id="recipes-list"></div>
@@ -559,7 +1126,6 @@
             </div>
         </div>
         
-        <!-- Insights Tab -->
         <div id="insights-tab" class="tab-content">
             <div class="container">
                 <div class="stats">
@@ -579,11 +1145,9 @@
             </div>
         </div>
         
-        <!-- FAB -->
         <button class="fab" onclick="openAddModal()">+</button>
     </div>
 
-    <!-- Add Ingredient Modal -->
     <div id="add-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -623,12 +1187,48 @@
                     <input type="date" id="ingredient-expiry" required>
                 </div>
                 
-                <button type="submit" class="btn" style="width:100%">Add to Fridge</button>
+                <button type="submit" class="btn" style="width:100%">
+                    <span style="position: relative; z-index: 1;">Add to Fridge</span>
+                </button>
             </form>
         </div>
     </div>
 
     <script>
+        // FAQ Toggle
+        function toggleFAQ(button) {
+            const faqItem = button.parentElement;
+            const wasActive = faqItem.classList.contains('active');
+            
+            // Close all FAQs
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Open clicked FAQ if it wasn't active
+            if (!wasActive) {
+                faqItem.classList.add('active');
+            }
+        }
+        
+        // Scroll Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+        
         // App State
         let ingredients = [];
         let points = 0;
@@ -636,7 +1236,6 @@
         let savedItems = 0;
         let currentPhoto = null;
         
-        // Sample Recipes
         const recipes = [
             {id: 1, name: "Spinach Omelet", emoji: "🍳", time: "15 min", ingredients: ["eggs", "spinach", "cheese"], difficulty: "Easy"},
             {id: 2, name: "Chicken Stir Fry", emoji: "🍗", time: "25 min", ingredients: ["chicken", "vegetables", "rice"], difficulty: "Medium"},
@@ -645,7 +1244,6 @@
             {id: 5, name: "Rice Bowl", emoji: "🍚", time: "30 min", ingredients: ["rice", "vegetables", "eggs"], difficulty: "Easy"}
         ];
         
-        // Load data from localStorage
         function loadData() {
             const saved = localStorage.getItem('freshplate_data');
             if (saved) {
@@ -658,7 +1256,6 @@
             updateViews();
         }
         
-        // Save data
         function saveData() {
             localStorage.setItem('freshplate_data', JSON.stringify({
                 ingredients, points, savedMoney, savedItems
@@ -666,7 +1263,6 @@
             updateViews();
         }
         
-        // Navigation
         function openApp() {
             document.getElementById('landing-page').style.display = 'none';
             document.getElementById('app-page').style.display = 'block';
@@ -679,18 +1275,15 @@
         }
         
         function switchTab(tabName) {
-            // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             
-            // Show selected tab
             document.getElementById(tabName + '-tab').classList.add('active');
             event.target.classList.add('active');
             
             if (tabName === 'recipes') updateRecipes();
         }
         
-        // Modal
         function openAddModal() {
             document.getElementById('add-modal').classList.add('active');
             const tomorrow = new Date();
@@ -705,7 +1298,6 @@
             currentPhoto = null;
         }
         
-        // Photo
         function previewPhoto(event) {
             const file = event.target.files[0];
             if (file) {
@@ -720,7 +1312,6 @@
             }
         }
         
-        // Add Ingredient
         function addIngredient(event) {
             event.preventDefault();
             
@@ -735,28 +1326,26 @@
             };
             
             ingredients.push(ingredient);
-            points += 5; // Base points
-            if (currentPhoto) points += 10; // Photo bonus
+            points += 5;
+            if (currentPhoto) points += 10;
             
             saveData();
             closeAddModal();
             document.getElementById('add-modal').querySelector('form').reset();
-            alert(`Added! Earned ${currentPhoto ? 15 : 5} points!`);
+            alert(`✅ Added! Earned ${currentPhoto ? 15 : 5} points!`);
         }
         
-        // Delete Ingredient
         function deleteIngredient(id) {
-            if (confirm('Delete this ingredient?')) {
+            if (confirm('Mark as used?')) {
                 ingredients = ingredients.filter(i => i.id !== id);
                 savedMoney += 5;
                 savedItems += 1;
                 points += 10;
                 saveData();
-                alert('Saved $5 by using before expiry! +10 points');
+                alert('✅ Saved $5! +10 points');
             }
         }
         
-        // Get days until expiry
         function getDaysUntilExpiry(expiryDate) {
             const now = new Date();
             const expiry = new Date(expiryDate);
@@ -764,7 +1353,6 @@
             return Math.ceil(diff / (1000 * 60 * 60 * 24));
         }
         
-        // Update Views
         function updateViews() {
             document.getElementById('points').textContent = points;
             document.getElementById('saved-money').textContent = '$' + savedMoney;
@@ -775,7 +1363,6 @@
             updateRecipes();
         }
         
-        // Update Fridge
         function updateFridge() {
             const list = document.getElementById('fridge-list');
             const empty = document.getElementById('fridge-empty');
@@ -803,7 +1390,7 @@
                     <div class="ingredient-card">
                         <div class="ingredient-info">
                             <h3>${item.name} ${statusBadge}${badge}</h3>
-                            <p>${item.quantity} • Expires in ${days} days</p>
+                            <p>${item.quantity} • ${days} days left</p>
                         </div>
                         <button class="btn" style="padding:10px 20px;font-size:14px;" onclick="deleteIngredient(${item.id})">Use</button>
                     </div>
@@ -811,7 +1398,6 @@
             }).join('');
         }
         
-        // Update Recipes
         function updateRecipes() {
             const list = document.getElementById('recipes-list');
             const empty = document.getElementById('recipes-empty');
@@ -836,7 +1422,7 @@
               .sort((a, b) => b.matchPercent - a.matchPercent);
             
             if (matched.length === 0) {
-                list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🍽️</div><h3>No matching recipes</h3><p>Add more ingredients to find recipes</p></div>';
+                list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🍽️</div><h3>No matching recipes</h3><p>Add more ingredients</p></div>';
                 return;
             }
             
@@ -846,7 +1432,7 @@
                     <div class="recipe-info">
                         <h3 class="recipe-title">${recipe.name}</h3>
                         <p class="recipe-meta">⏱️ ${recipe.time} • 📊 ${recipe.difficulty}</p>
-                        <p><strong>Match: ${recipe.matchPercent}%</strong> (${recipe.matches}/${recipe.ingredients.length} ingredients)</p>
+                        <p><strong>Match: ${recipe.matchPercent}%</strong> (${recipe.matches}/${recipe.ingredients.length})</p>
                         <div class="match-bar">
                             <div class="match-fill" style="width:${recipe.matchPercent}%"></div>
                         </div>
@@ -856,7 +1442,6 @@
             `).join('');
         }
         
-        // Initialize on page load
         loadData();
     </script>
 </body>
