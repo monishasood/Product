@@ -1,4 +1,4 @@
-// ===== Premium FreshPlate App ===== 
+// ===== Ultra-Premium FreshPlate - Complete Feature Set =====
 
 // App State
 let ingredients = [];
@@ -6,27 +6,99 @@ let currentScreen = 'home';
 let userStats = {
     moneySaved: 0,
     itemsSaved: 0,
-    recipesCooked: 0
+    recipesCooked: 0,
+    totalPoints: 0
+};
+let currentPhoto = null;
+
+// Points System
+const POINTS = {
+    ADD_INGREDIENT: 5,
+    ADD_PHOTO: 10,
+    USE_EXPIRING: 15,
+    COOK_RECIPE: 20,
+    SAVE_ITEM: 10
+};
+
+// Real food images from Unsplash
+const FOOD_IMAGES = {
+    // Vegetables
+    'spinach': 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=300',
+    'carrots': 'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=300',
+    'broccoli': 'https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=300',
+    'tomatoes': 'https://images.unsplash.com/photo-1546470427-3d55a84d14a4?w=300',
+    'cucumber': 'https://images.unsplash.com/photo-1604977042946-1eecc30f269e?w=300',
+    'bell peppers': 'https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?w=300',
+    'onions': 'https://images.unsplash.com/photo-1587135951346-a3af9cfde7e5?w=300',
+    'potatoes': 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=300',
+    'mushrooms': 'https://images.unsplash.com/photo-1565984500691-a25be788df44?w=300',
+    'lettuce': 'https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=300',
+    
+    // Proteins
+    'eggs': 'https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=300',
+    'chicken breast': 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=300',
+    'beef': 'https://images.unsplash.com/photo-1588347818036-8e6d6a3c45cf?w=300',
+    'salmon': 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=300',
+    'shrimp': 'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=300',
+    'bacon': 'https://images.unsplash.com/photo-1528607929212-2636ec44253e?w=300',
+    
+    // Dairy
+    'milk': 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300',
+    'cheddar cheese': 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=300',
+    'feta cheese': 'https://images.unsplash.com/photo-1626200419199-391ae4be7a41?w=300',
+    'parmesan': 'https://images.unsplash.com/photo-1618164436241-4473940d1f5c?w=300',
+    'butter': 'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=300',
+    'yogurt': 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=300',
+    
+    // Grains
+    'bread': 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300',
+    'pasta': 'https://images.unsplash.com/photo-1551462147-37bd3c02a58a?w=300',
+    'rice': 'https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?w=300',
+    'quinoa': 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300',
+    
+    // Fruits
+    'apples': 'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=300',
+    'bananas': 'https://images.unsplash.com/photo-1603833665858-e61d17a86224?w=300',
+    'strawberries': 'https://images.unsplash.com/photo-1464965911861-746a04b4bca6?w=300',
+    'lemons': 'https://images.unsplash.com/photo-1590502593747-42a996133562?w=300',
+    'avocado': 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=300'
+};
+
+// Recipe images
+const RECIPE_IMAGES = {
+    1: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400',  // Omelet
+    2: 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400',  // Chicken Stir Fry
+    3: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400',  // Scrambled Eggs
+    4: 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400',  // Veggie Pasta
+    5: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400',  // Rice Bowl
+    6: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400',  // Salad
+    7: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400',  // Omelet
+    8: 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400',  // Caesar Salad
+    9: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400',  // Soup
+    10: 'https://images.unsplash.com/photo-1476124369491-b79c27f8dd46?w=400', // Risotto
+    11: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400', // Greek Salad
+    12: 'https://images.unsplash.com/photo-1618040996337-2b9a49624318?w=400', // Quesadilla
+    13: 'https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400', // Fried Rice
+    14: 'https://images.unsplash.com/photo-1476718406163-a27953a46c24?w=400', // Soup
+    15: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400'  // Avocado Toast
 };
 
 // ===== Initialize App =====
 document.addEventListener('DOMContentLoaded', () => {
-    // Show splash screen
     setTimeout(() => {
         document.getElementById('splash-screen').style.display = 'none';
         document.getElementById('app-container').style.display = 'block';
     }, 2000);
     
     loadData();
-    setMinExpiryDate();
+    setDefaultDate();
     updateAllViews();
     checkAchievements();
 });
 
-// ===== Local Storage =====
+// ===== Data Persistence =====
 function loadData() {
-    // Load ingredients
-    const storedIngredients = localStorage.getItem('freshplate_ingredients');
+    const storedIngredients = localStorage.getItem('freshplate_ultra_ingredients');
     if (storedIngredients) {
         try {
             ingredients = JSON.parse(storedIngredients);
@@ -35,32 +107,29 @@ function loadData() {
         }
     }
     
-    // Load user stats
-    const storedStats = localStorage.getItem('freshplate_stats');
+    const storedStats = localStorage.getItem('freshplate_ultra_stats');
     if (storedStats) {
         try {
             userStats = JSON.parse(storedStats);
         } catch (e) {
-            userStats = { moneySaved: 0, itemsSaved: 0, recipesCooked: 0 };
+            userStats = { moneySaved: 0, itemsSaved: 0, recipesCooked: 0, totalPoints: 0 };
         }
     }
 }
 
 function saveData() {
-    localStorage.setItem('freshplate_ingredients', JSON.stringify(ingredients));
-    localStorage.setItem('freshplate_stats', JSON.stringify(userStats));
+    localStorage.setItem('freshplate_ultra_ingredients', JSON.stringify(ingredients));
+    localStorage.setItem('freshplate_ultra_stats', JSON.stringify(userStats));
     updateAllViews();
 }
 
 // ===== Screen Navigation =====
 function switchScreen(screenName) {
-    // Update active screen
     document.querySelectorAll('.screen').forEach(screen => {
         screen.classList.remove('active');
     });
     document.getElementById(`${screenName}-screen`).classList.add('active');
     
-    // Update active tab
     document.querySelectorAll('.nav-tab').forEach(tab => {
         tab.classList.remove('active');
     });
@@ -68,26 +137,17 @@ function switchScreen(screenName) {
     
     currentScreen = screenName;
     
-    // Update view based on screen
-    if (screenName === 'fridge') {
-        updateIngredientList();
-    } else if (screenName === 'recipes') {
-        updateRecipeList();
-    } else if (screenName === 'home') {
-        updateHomeView();
-    } else if (screenName === 'insights') {
-        updateInsightsView();
-    }
+    if (screenName === 'fridge') updateIngredientList();
+    else if (screenName === 'recipes') updateRecipeList();
+    else if (screenName === 'home') updateHomeView();
+    else if (screenName === 'insights') updateInsightsView();
 }
 
 // ===== Date Utilities =====
-function setMinExpiryDate() {
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('expiry-input').min = today;
-    
-    // Set default to 7 days from now
-    const nextWeek = new Date();
-    nextWeek.setDate(nextWeek.getDate() + 7);
+function setDefaultDate() {
+    const today = new Date();
+    const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+    document.getElementById('expiry-input').min = today.toISOString().split('T')[0];
     document.getElementById('expiry-input').value = nextWeek.toISOString().split('T')[0];
 }
 
@@ -103,77 +163,113 @@ function getExpiryStatus(expirationDate) {
     const days = getDaysUntilExpiry(expirationDate);
     
     if (days < 0) {
-        return { class: 'badge-danger', text: 'EXPIRED', priority: 4 };
+        return { class: 'expiry-danger', text: 'EXPIRED' };
     } else if (days <= 2) {
-        return { class: 'badge-danger', text: 'USE NOW', priority: 3 };
+        return { class: 'expiry-danger', text: 'USE NOW' };
     } else if (days <= 5) {
-        return { class: 'badge-warning', text: 'SOON', priority: 2 };
+        return { class: 'expiry-warning', text: 'SOON' };
     } else {
-        return { class: 'badge-success', text: 'FRESH', priority: 1 };
+        return { class: 'expiry-success', text: 'FRESH' };
     }
+}
+
+// ===== Photo Upload =====
+function handlePhotoUpload(event) {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            currentPhoto = e.target.result;
+            document.getElementById('photo-preview').src = e.target.result;
+            document.getElementById('photo-placeholder').classList.add('hidden');
+            document.getElementById('photo-preview-container').classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+function removePhoto(event) {
+    event.stopPropagation();
+    currentPhoto = null;
+    document.getElementById('photo-placeholder').classList.remove('hidden');
+    document.getElementById('photo-preview-container').classList.add('hidden');
+    document.getElementById('photo-input').value = '';
 }
 
 // ===== Ingredient Management =====
 function openAddModal() {
     document.getElementById('add-modal').classList.add('active');
-    // Focus on first input
     setTimeout(() => {
-        document.getElementById('ingredient-select').focus();
+        document.getElementById('ingredient-name').focus();
     }, 300);
 }
 
 function closeAddModal() {
     document.getElementById('add-modal').classList.remove('active');
     document.getElementById('add-ingredient-form').reset();
-    setMinExpiryDate(); // Reset default date
+    currentPhoto = null;
+    document.getElementById('photo-placeholder').classList.remove('hidden');
+    document.getElementById('photo-preview-container').classList.add('hidden');
+    setDefaultDate();
 }
 
 function handleAddIngredient(event) {
     event.preventDefault();
     
-    const name = document.getElementById('ingredient-select').value;
+    const name = document.getElementById('ingredient-name').value;
     const quantity = document.getElementById('quantity-input').value;
+    const status = document.getElementById('status-input').value;
     const expirationDate = document.getElementById('expiry-input').value;
+    
+    // Calculate points
+    let points = POINTS.ADD_INGREDIENT;
+    if (currentPhoto) {
+        points += POINTS.ADD_PHOTO;
+    }
     
     const newIngredient = {
         id: Date.now(),
         name: name,
         quantity: quantity,
+        status: status,
         expirationDate: expirationDate,
         addedDate: new Date().toISOString(),
+        photo: currentPhoto,
         used: false
     };
     
     ingredients.push(newIngredient);
+    userStats.totalPoints += points;
     saveData();
     closeAddModal();
     
-    // Show success toast
-    showToast('✅ Ingredient added successfully!');
+    // Show success with points
+    showToast('Success!', `+${points} points! Ingredient added`, 'success');
     
-    // Switch to fridge screen
     setTimeout(() => {
         switchScreen('fridge');
     }, 500);
 }
 
 function deleteIngredient(id) {
-    if (confirm('Remove this ingredient from your fridge?')) {
+    if (confirm('Remove this ingredient?')) {
         const ingredient = ingredients.find(i => i.id === id);
         
-        // Calculate value saved if using before expiry
         const daysLeft = getDaysUntilExpiry(ingredient.expirationDate);
         if (daysLeft >= 0) {
-            const estimatedValue = 5; // Average $5 per ingredient
+            const estimatedValue = 5;
             userStats.moneySaved += estimatedValue;
             userStats.itemsSaved += 1;
+            userStats.totalPoints += POINTS.SAVE_ITEM;
             
-            // Show impact banner
-            showImpactBanner(estimatedValue);
+            if (daysLeft <= 3) {
+                userStats.totalPoints += POINTS.USE_EXPIRING;
+            }
         }
         
         ingredients = ingredients.filter(item => item.id !== id);
         saveData();
+        showToast('Great!', `Item removed! You saved $5`, 'success');
         checkAchievements();
     }
 }
@@ -191,22 +287,33 @@ function updateIngredientList() {
         return;
     }
     
-    container.style.display = 'flex';
+    container.style.display = 'grid';
     emptyState.style.display = 'none';
     progressSection.style.display = 'block';
     
-    // Calculate freshness score
     updateFreshnessScore();
     
-    // Get sort option
+    // Apply filters
+    const statusFilter = document.getElementById('status-filter').value;
     const sortBy = document.getElementById('sort-filter').value;
-    const sorted = sortIngredients(sortBy);
     
-    container.innerHTML = sorted.map(item => {
+    let filtered = [...ingredients];
+    if (statusFilter !== 'all') {
+        filtered = filtered.filter(i => i.status === statusFilter);
+    }
+    
+    // Sort
+    if (sortBy === 'expiry') {
+        filtered.sort((a, b) => new Date(a.expirationDate) - new Date(b.expirationDate));
+    } else if (sortBy === 'name') {
+        filtered.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortBy === 'added') {
+        filtered.sort((a, b) => new Date(b.addedDate) - new Date(a.addedDate));
+    }
+    
+    container.innerHTML = filtered.map(item => {
         const status = getExpiryStatus(item.expirationDate);
         const days = getDaysUntilExpiry(item.expirationDate);
-        const [emoji, ...nameParts] = item.name.split(' ');
-        const displayName = nameParts.join(' ');
         
         let daysText = '';
         if (days < 0) {
@@ -214,23 +321,28 @@ function updateIngredientList() {
         } else if (days === 0) {
             daysText = 'Expires today!';
         } else {
-            daysText = `Expires in ${days} day${days !== 1 ? 's' : ''}`;
+            daysText = `${days} day${days !== 1 ? 's' : ''} left`;
         }
         
+        // Get image
+        const itemImage = item.photo || FOOD_IMAGES[item.name.toLowerCase()] || null;
+        
         return `
-            <div class="ingredient-item">
-                <div class="ingredient-icon">${emoji}</div>
+            <div class="ingredient-card">
+                ${itemImage 
+                    ? `<img src="${itemImage}" alt="${item.name}" class="ingredient-photo">`
+                    : `<div class="ingredient-photo-placeholder">🍽️</div>`
+                }
                 <div class="ingredient-info">
-                    <div class="ingredient-name">${displayName}</div>
-                    <div class="ingredient-meta">
-                        ${daysText} • ${item.quantity}
+                    <div class="ingredient-header">
+                        <h4 class="ingredient-name">${item.name}</h4>
+                        <span class="status-badge status-${item.status}">${item.status === 'raw' ? 'Fresh' : 'Cooked'}</span>
                     </div>
-                </div>
-                <div class="ingredient-actions">
-                    <span class="badge ${status.class}">${status.text}</span>
-                    <button class="btn btn-danger" onclick="deleteIngredient(${item.id})">
-                        🗑️
-                    </button>
+                    <div class="ingredient-meta">${item.quantity} • ${daysText}</div>
+                    <div class="ingredient-actions">
+                        <span class="expiry-badge ${status.class}">${status.text}</span>
+                        <button class="btn btn-danger" onclick="deleteIngredient(${item.id})">Delete</button>
+                    </div>
                 </div>
             </div>
         `;
@@ -247,29 +359,11 @@ function updateFreshnessScore() {
     document.getElementById('freshness-fill').style.width = `${score}%`;
 }
 
-function sortIngredients(sortBy) {
-    const sorted = [...ingredients];
-    
-    if (sortBy === 'expiry') {
-        sorted.sort((a, b) => new Date(a.expirationDate) - new Date(b.expirationDate));
-    } else if (sortBy === 'name') {
-        sorted.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (sortBy === 'added') {
-        sorted.sort((a, b) => new Date(b.addedDate) - new Date(a.addedDate));
-    }
-    
-    return sorted;
-}
-
 // ===== Recipe Matching =====
 function matchRecipes() {
-    if (ingredients.length === 0) {
-        return [];
-    }
+    if (ingredients.length === 0) return [];
     
-    const userIngredients = ingredients.map(i => 
-        i.name.replace(/[^\w\s]/gi, '').trim().toLowerCase()
-    );
+    const userIngredients = ingredients.map(i => i.name.trim().toLowerCase());
     
     return RECIPES_DATABASE.map(recipe => {
         const recipeIngredients = recipe.ingredients.map(i => i.toLowerCase());
@@ -301,7 +395,7 @@ function matchRecipes() {
             ...recipe,
             matchPercentage,
             matchedCount: matchedIngredients.length,
-            missingIngredients: missingIngredients,
+            missingIngredients,
             usesExpiringItems
         };
     }).filter(r => r.matchPercentage > 0);
@@ -340,11 +434,10 @@ function updateRecipeList() {
         return;
     }
     
-    container.style.display = 'flex';
+    container.style.display = 'grid';
     emptyState.style.display = 'none';
-    statsSection.style.display = 'grid';
+    statsSection.style.display = 'flex';
     
-    // Update stats
     const perfectMatches = matchedRecipes.filter(r => r.matchPercentage === 100).length;
     document.getElementById('total-recipes').textContent = matchedRecipes.length;
     document.getElementById('perfect-matches').textContent = perfectMatches;
@@ -358,40 +451,28 @@ function updateRecipeList() {
 function createRecipeCard(recipe) {
     const missingText = recipe.matchPercentage === 100 
         ? '✅ You can cook this now!'
-        : `Missing: ${recipe.missingIngredients.slice(0, 3).join(', ')}${recipe.missingIngredients.length > 3 ? '...' : ''}`;
+        : `Missing: ${recipe.missingIngredients.slice(0, 2).join(', ')}${recipe.missingIngredients.length > 2 ? '...' : ''}`;
     
-    // Determine gradient color based on category
-    const gradients = {
-        breakfast: 'linear-gradient(135deg, #ffa502 0%, #ff6348 100%)',
-        lunch: 'linear-gradient(135deg, #48dbfb 0%, #0abde3 100%)',
-        dinner: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%)',
-        salad: 'linear-gradient(135deg, #2ed573 0%, #26de81 100%)',
-        soup: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)'
-    };
-    
-    const gradient = gradients[recipe.category] || gradients.dinner;
+    const recipeImage = RECIPE_IMAGES[recipe.id] || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400';
     
     return `
         <div class="recipe-card" onclick="showRecipeDetail(${recipe.id})">
-            <div class="recipe-image" style="background: ${gradient}">
-                ${recipe.emoji}
-                ${recipe.usesExpiringItems ? '<div class="recipe-badge">⏰ Uses expiring items</div>' : ''}
-            </div>
-            <div class="recipe-details">
-                <div class="recipe-title">${recipe.name}</div>
-                <div class="recipe-meta">
-                    <span>⏱️ ${recipe.time}</span>
-                    <span>🍽️ ${recipe.servings} servings</span>
-                    <span>📊 ${recipe.difficulty}</span>
-                </div>
-                <div class="match-info">
-                    <div class="match-text">
-                        You have ${recipe.matchedCount}/${recipe.ingredients.length} ingredients (${recipe.matchPercentage}%)
+            <img src="${recipeImage}" alt="${recipe.name}" class="recipe-image">
+            <div class="recipe-content">
+                <div class="recipe-header">
+                    <h3 class="recipe-title">${recipe.name}</h3>
+                    <div class="recipe-meta">
+                        <span>⏱️ ${recipe.time}</span>
+                        <span>🍽️ ${recipe.servings}</span>
+                        <span>📊 ${recipe.difficulty}</span>
                     </div>
+                </div>
+                <div class="match-section">
+                    <div class="match-text">${recipe.matchedCount}/${recipe.ingredients.length} ingredients (${recipe.matchPercentage}%)</div>
                     <div class="match-bar-container">
                         <div class="match-bar" style="width: ${recipe.matchPercentage}%"></div>
                     </div>
-                    <div class="missing-ingredients">${missingText}</div>
+                    <div class="missing-text">${missingText}</div>
                 </div>
             </div>
         </div>
@@ -410,72 +491,56 @@ function showRecipeDetail(recipeId) {
     const title = document.getElementById('recipe-modal-title');
     const body = document.getElementById('recipe-modal-body');
     
-    title.innerHTML = `<span class="modal-icon">${recipe.emoji}</span> ${recipe.name}`;
+    title.textContent = recipe.name;
     
     const ingredientsList = recipe.ingredients.map(ing => {
         const userHas = ingredients.some(userIng => 
             userIng.name.toLowerCase().includes(ing.toLowerCase()) ||
-            ing.toLowerCase().includes(userIng.name.toLowerCase().replace(/[^\w\s]/gi, ''))
+            ing.toLowerCase().includes(userIng.name.toLowerCase())
         );
         
         return `
-            <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: ${userHas ? 'rgba(99, 102, 241, 0.05)' : '#fff'}; border: 2px solid ${userHas ? 'var(--primary)' : 'var(--border-color)'}; border-radius: 12px; margin-bottom: 8px; transition: all 0.3s;">
-                <span style="font-size: 24px;">${userHas ? '✅' : '⬜'}</span>
-                <span style="flex: 1; font-weight: ${userHas ? '600' : '400'}; ${!userHas ? 'color: #999;' : ''}">${ing}</span>
+            <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: ${userHas ? '#f0fdf4' : '#fff'}; border: 1px solid ${userHas ? '#10b981' : '#e5e7eb'}; border-radius: 12px; margin-bottom: 8px;">
+                <span style="font-size: 20px;">${userHas ? '✓' : '○'}</span>
+                <span style="flex: 1; font-weight: ${userHas ? '600' : '400'};">${ing}</span>
             </div>
         `;
     }).join('');
     
     const instructionsList = recipe.instructions.map((step, index) => `
-        <div style="display: flex; gap: 16px; margin-bottom: 20px; padding: 16px; background: var(--bg-primary); border-radius: 12px;">
-            <div style="width: 36px; height: 36px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">
+        <div style="display: flex; gap: 16px; margin-bottom: 16px; padding: 16px; background: var(--bg-tertiary); border-radius: 12px;">
+            <div style="width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">
                 ${index + 1}
             </div>
-            <div style="flex: 1; padding-top: 6px; font-size: 15px; line-height: 1.6;">${step}</div>
+            <div style="flex: 1; font-size: 15px; line-height: 1.6;">${step}</div>
         </div>
     `).join('');
     
     body.innerHTML = `
-        <div style="margin-bottom: 30px;">
-            <div style="display: flex; gap: 24px; padding: 20px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%); border-radius: 16px; margin-bottom: 20px;">
-                <div><strong>⏱️</strong> ${recipe.time}</div>
-                <div><strong>🍽️</strong> ${recipe.servings} servings</div>
-                <div><strong>📊</strong> ${recipe.difficulty}</div>
-            </div>
+        <div style="padding: 24px;">
             ${matchedRecipe ? `
-                <div style="padding: 20px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%); border-radius: 16px; margin-bottom: 20px; border: 2px solid var(--success);">
-                    <div style="font-weight: 700; margin-bottom: 12px; font-size: 16px; color: var(--success);">
-                        🎯 Match: ${matchedRecipe.matchPercentage}%
+                <div style="padding: 16px; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-radius: 12px; margin-bottom: 24px; border: 1px solid #10b981;">
+                    <div style="font-weight: 700; margin-bottom: 12px; color: #10b981;">
+                        Match: ${matchedRecipe.matchPercentage}%
                     </div>
-                    <div style="background: #e5e7eb; height: 12px; border-radius: 9999px; overflow: hidden;">
-                        <div style="background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%); height: 100%; width: ${matchedRecipe.matchPercentage}%; border-radius: 9999px; transition: width 0.8s;"></div>
+                    <div style="background: #e5e7eb; height: 10px; border-radius: 9999px; overflow: hidden;">
+                        <div style="background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%); height: 100%; width: ${matchedRecipe.matchPercentage}%; border-radius: 9999px;"></div>
                     </div>
                 </div>
             ` : ''}
-        </div>
-        
-        <h4 style="font-size: 20px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
-            <span>🥘</span> Ingredients
-        </h4>
-        <div style="margin-bottom: 32px;">
-            ${ingredientsList}
-        </div>
-        
-        <h4 style="font-size: 20px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
-            <span>👨‍🍳</span> Instructions
-        </h4>
-        <div style="margin-bottom: 24px;">
-            ${instructionsList}
-        </div>
-        
-        <div style="display: flex; gap: 12px; margin-top: 32px;">
-            <button class="btn btn-primary btn-full" onclick="markAsCooked(${recipe.id})">
-                <span class="btn-icon">✅</span>
-                I Made This!
-            </button>
-            <button class="btn btn-secondary" onclick="closeRecipeModal()" style="padding: 14px 28px;">
-                Close
-            </button>
+            
+            <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; font-family: 'Poppins', sans-serif;">Ingredients</h4>
+            <div style="margin-bottom: 32px;">${ingredientsList}</div>
+            
+            <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; font-family: 'Poppins', sans-serif;">Instructions</h4>
+            <div>${instructionsList}</div>
+            
+            <div style="display: flex; gap: 12px; margin-top: 32px;">
+                <button class="btn btn-primary btn-full-modern" onclick="markAsCooked(${recipe.id})">
+                    I Made This! (+${POINTS.COOK_RECIPE} pts)
+                </button>
+                <button class="btn btn-secondary" onclick="closeRecipeModal()">Close</button>
+            </div>
         </div>
     `;
     
@@ -488,8 +553,9 @@ function closeRecipeModal() {
 
 function markAsCooked(recipeId) {
     userStats.recipesCooked += 1;
+    userStats.totalPoints += POINTS.COOK_RECIPE;
     saveData();
-    showToast('🎉 Awesome! Recipe marked as cooked!');
+    showToast('Awesome!', `+${POINTS.COOK_RECIPE} points! Recipe completed`, 'success');
     closeRecipeModal();
     checkAchievements();
 }
@@ -510,16 +576,7 @@ function updateHomeView() {
     const matchedRecipes = matchRecipes();
     const topRecipes = sortRecipes(matchedRecipes, 'match').slice(0, 3);
     
-    if (topRecipes.length === 0) {
-        homeRecipesContainer.innerHTML = `
-            <div class="empty-state">
-                <div class="empty-icon">🍽️</div>
-                <p>Add more ingredients to see recipe suggestions!</p>
-            </div>
-        `;
-    } else {
-        homeRecipesContainer.innerHTML = topRecipes.map(recipe => createRecipeCard(recipe)).join('');
-    }
+    homeRecipesContainer.innerHTML = topRecipes.map(recipe => createRecipeCard(recipe)).join('');
 }
 
 // ===== Insights View =====
@@ -527,6 +584,48 @@ function updateInsightsView() {
     document.getElementById('insight-money').textContent = `$${userStats.moneySaved}`;
     document.getElementById('insight-items').textContent = userStats.itemsSaved;
     document.getElementById('insight-recipes').textContent = userStats.recipesCooked;
+    document.getElementById('insight-points').textContent = userStats.totalPoints;
+    
+    // Update achievements
+    updateAchievementsDisplay();
+}
+
+// ===== Achievements =====
+const ACHIEVEMENTS = [
+    { id: 'first-step', condition: () => ingredients.length >= 1, icon: '🌟', name: 'First Step', desc: 'Added first ingredient' },
+    { id: 'photo-pro', condition: () => ingredients.filter(i => i.photo).length >= 5, icon: '📸', name: 'Photo Pro', desc: 'Upload 5 photos' },
+    { id: 'waste-warrior', condition: () => userStats.itemsSaved >= 10, icon: '🔥', name: 'Waste Warrior', desc: 'Save 10 items' },
+    { id: 'master-chef', condition: () => userStats.recipesCooked >= 10, icon: '👨‍🍳', name: 'Master Chef', desc: 'Cook 10 recipes' },
+    { id: 'money-saver', condition: () => userStats.moneySaved >= 50, icon: '💎', name: 'Money Saver', desc: 'Save $50' },
+    { id: 'point-collector', condition: () => userStats.totalPoints >= 100, icon: '⭐', name: 'Point Collector', desc: 'Earn 100 points' }
+];
+
+function checkAchievements() {
+    const unlockedAchievements = JSON.parse(localStorage.getItem('freshplate_ultra_achievements') || '[]');
+    
+    ACHIEVEMENTS.forEach(achievement => {
+        if (achievement.condition() && !unlockedAchievements.includes(achievement.id)) {
+            unlockedAchievements.push(achievement.id);
+            localStorage.setItem('freshplate_ultra_achievements', JSON.stringify(unlockedAchievements));
+            showToast('Achievement!', `🏆 ${achievement.name} unlocked!`, 'success');
+        }
+    });
+}
+
+function updateAchievementsDisplay() {
+    const unlockedAchievements = JSON.parse(localStorage.getItem('freshplate_ultra_achievements') || '[]');
+    const grid = document.getElementById('achievements-grid');
+    
+    grid.innerHTML = ACHIEVEMENTS.map(achievement => {
+        const unlocked = unlockedAchievements.includes(achievement.id);
+        return `
+            <div class="achievement ${unlocked ? 'unlocked' : ''}">
+                <div class="achievement-icon">${achievement.icon}</div>
+                <div class="achievement-name">${achievement.name}</div>
+                <div class="achievement-desc">${achievement.desc}</div>
+            </div>
+        `;
+    }).join('');
 }
 
 // ===== Stats Update =====
@@ -534,104 +633,30 @@ function updateStats() {
     const total = ingredients.length;
     const expiring = ingredients.filter(i => getDaysUntilExpiry(i.expirationDate) <= 3).length;
     
-    // Update all stat displays
     document.getElementById('stat-total').textContent = total;
     document.getElementById('stat-expiring').textContent = expiring;
     document.getElementById('fridge-badge').textContent = total;
-    
-    if (total > 0) {
-        document.getElementById('fridge-badge').classList.remove('hidden');
-    } else {
-        document.getElementById('fridge-badge').classList.add('hidden');
-    }
-    
-    if (expiring > 0) {
-        document.getElementById('home-badge').textContent = expiring;
-        document.getElementById('home-badge').classList.remove('hidden');
-    } else {
-        document.getElementById('home-badge').classList.add('hidden');
-    }
-    
-    // Update header stats
+    document.getElementById('total-points').textContent = userStats.totalPoints;
     document.getElementById('money-saved').textContent = `$${userStats.moneySaved}`;
     document.getElementById('items-saved').textContent = userStats.itemsSaved;
-    
-    // Update recipe badge
-    const matchedRecipes = matchRecipes();
-    if (matchedRecipes.length > 0) {
-        document.getElementById('recipes-badge').textContent = matchedRecipes.length;
-        document.getElementById('recipes-badge').classList.remove('hidden');
-    } else {
-        document.getElementById('recipes-badge').classList.add('hidden');
-    }
 }
 
-// ===== Achievements System =====
-function checkAchievements() {
-    const achievements = [
-        { id: 'first-step', condition: ingredients.length >= 1, icon: '🌟', name: 'First Step', desc: 'Added first ingredient' },
-        { id: 'waste-warrior', condition: userStats.itemsSaved >= 10, icon: '🔥', name: 'Waste Warrior', desc: 'Save 10 items' },
-        { id: 'master-chef', condition: userStats.recipesCooked >= 20, icon: '👨‍🍳', name: 'Master Chef', desc: 'Cook 20 recipes' },
-        { id: 'money-saver', condition: userStats.moneySaved >= 100, icon: '💎', name: 'Money Saver', desc: 'Save $100' }
-    ];
-    
-    const unlockedAchievements = JSON.parse(localStorage.getItem('freshplate_achievements') || '[]');
-    
-    achievements.forEach(achievement => {
-        if (achievement.condition && !unlockedAchievements.includes(achievement.id)) {
-            unlockedAchievements.push(achievement.id);
-            localStorage.setItem('freshplate_achievements', JSON.stringify(unlockedAchievements));
-            
-            // Show achievement toast
-            showToast(`🏆 Achievement Unlocked: ${achievement.name}!`);
-        }
-    });
-}
-
-// ===== UI Helpers =====
-function showToast(message) {
-    const toast = document.getElementById('success-toast');
+// ===== Toast Notifications =====
+function showToast(title, message, type = 'success') {
+    const toast = document.getElementById('toast');
+    const toastIcon = document.getElementById('toast-icon');
+    const toastTitle = document.getElementById('toast-title');
     const toastMessage = document.getElementById('toast-message');
     
+    toastIcon.textContent = type === 'success' ? '✓' : '!';
+    toastTitle.textContent = title;
     toastMessage.textContent = message;
+    
     toast.classList.remove('hidden');
     
     setTimeout(() => {
         toast.classList.add('hidden');
     }, 3000);
-}
-
-function showImpactBanner(amount) {
-    const banner = document.getElementById('impact-banner');
-    const impactAmount = document.getElementById('impact-amount');
-    
-    impactAmount.textContent = `$${amount}`;
-    banner.classList.remove('hidden');
-    
-    setTimeout(() => {
-        banner.classList.add('hidden');
-    }, 5000);
-}
-
-function closeImpactBanner() {
-    document.getElementById('impact-banner').classList.add('hidden');
-}
-
-function showExpiringSoon() {
-    document.getElementById('sort-filter').value = 'expiry';
-    switchScreen('fridge');
-}
-
-function showHelp() {
-    alert('🍽️ FreshPlate Help\n\n' +
-          '• Add ingredients to track what you have\n' +
-          '• Get smart recipe suggestions\n' +
-          '• Use items before they expire\n' +
-          '• Save money and reduce waste!\n\n' +
-          'Tips:\n' +
-          '- Check expiring items daily\n' +
-          '- Cook recipes with high match %\n' +
-          '- Add items right after shopping');
 }
 
 // ===== Update All Views =====
@@ -648,10 +673,8 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         closeAddModal();
         closeRecipeModal();
-        closeImpactBanner();
     }
     
-    // Quick add: Ctrl/Cmd + K
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
         e.preventDefault();
         openAddModal();

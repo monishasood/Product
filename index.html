@@ -7,14 +7,29 @@
     <title>FreshPlate - Save $1,600/Year on Food Waste</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍽️</text></svg>">
+    <!-- Google Fonts for Professional Look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Loading Splash Screen -->
     <div id="splash-screen" class="splash-screen">
         <div class="splash-content">
-            <div class="splash-logo">🍽️</div>
+            <div class="splash-logo-img">
+                <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+                    <circle cx="50" cy="50" r="48" fill="url(#gradient1)"/>
+                    <path d="M30 50 L45 35 L55 45 L70 30" stroke="white" stroke-width="4" stroke-linecap="round" fill="none"/>
+                    <defs>
+                        <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#667eea"/>
+                            <stop offset="100%" style="stop-color:#764ba2"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
             <h1 class="splash-title">FreshPlate</h1>
-            <p class="splash-tagline">Turning leftovers into delicious meals</p>
+            <p class="splash-tagline">Smart Cooking, Zero Waste</p>
             <div class="loading-bar">
                 <div class="loading-progress"></div>
             </div>
@@ -24,148 +39,145 @@
     <!-- App Container -->
     <div class="app-container" id="app-container" style="display: none;">
         
-        <!-- Animated Header -->
+        <!-- Enhanced Header with Points -->
         <header class="app-header">
             <div class="header-content">
                 <div class="logo-container">
-                    <div class="logo-icon">🍽️</div>
+                    <div class="logo-badge">
+                        <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+                            <circle cx="25" cy="25" r="23" fill="white" opacity="0.2"/>
+                            <path d="M15 25 L22 18 L28 24 L35 17" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                    </div>
                     <div class="logo-text">
                         <h1 class="logo-title">FreshPlate</h1>
                         <p class="logo-subtitle">Smart cooking, zero waste</p>
                     </div>
                 </div>
-                <div class="header-stats">
-                    <div class="header-stat">
-                        <div class="stat-icon">💰</div>
-                        <div class="stat-info">
-                            <div class="stat-value" id="money-saved">$0</div>
-                            <div class="stat-label">Saved</div>
-                        </div>
+                <div class="points-display">
+                    <div class="points-icon">⭐</div>
+                    <div class="points-info">
+                        <div class="points-value" id="total-points">0</div>
+                        <div class="points-label">Points</div>
                     </div>
-                    <div class="header-stat">
-                        <div class="stat-icon">🌱</div>
-                        <div class="stat-info">
-                            <div class="stat-value" id="items-saved">0</div>
-                            <div class="stat-label">Items Saved</div>
-                        </div>
-                    </div>
+                </div>
+            </div>
+            
+            <div class="header-stats-row">
+                <div class="stat-pill">
+                    <span class="stat-pill-icon">💰</span>
+                    <span class="stat-pill-value" id="money-saved">$0</span>
+                    <span class="stat-pill-label">Saved</span>
+                </div>
+                <div class="stat-pill">
+                    <span class="stat-pill-icon">🌱</span>
+                    <span class="stat-pill-value" id="items-saved">0</span>
+                    <span class="stat-pill-label">Items</span>
                 </div>
             </div>
         </header>
 
-        <!-- Impact Banner (shows when user saves items) -->
-        <div id="impact-banner" class="impact-banner hidden">
-            <div class="impact-content">
-                <span class="impact-icon">🎉</span>
-                <span class="impact-text">Great! You just saved <strong id="impact-amount">$8</strong> worth of food!</span>
-                <button class="impact-close" onclick="closeImpactBanner()">×</button>
-            </div>
-        </div>
-
-        <!-- Navigation Tabs -->
+        <!-- Navigation -->
         <nav class="nav-tabs">
             <button class="nav-tab active" data-screen="home" onclick="switchScreen('home')">
-                <span class="tab-icon">🏠</span>
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
                 <span class="tab-label">Home</span>
-                <span class="tab-badge hidden" id="home-badge">3</span>
             </button>
             <button class="nav-tab" data-screen="fridge" onclick="switchScreen('fridge')">
-                <span class="tab-icon">🧊</span>
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <line x1="3" y1="9" x2="21" y2="9"/>
+                    <line x1="9" y1="21" x2="9" y2="9"/>
+                </svg>
                 <span class="tab-label">My Fridge</span>
                 <span class="tab-badge" id="fridge-badge">0</span>
             </button>
             <button class="nav-tab" data-screen="recipes" onclick="switchScreen('recipes')">
-                <span class="tab-icon">📖</span>
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                </svg>
                 <span class="tab-label">Recipes</span>
-                <span class="tab-badge hidden" id="recipes-badge">5</span>
             </button>
             <button class="nav-tab" data-screen="insights" onclick="switchScreen('insights')">
-                <span class="tab-icon">📊</span>
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="20" x2="12" y2="10"/>
+                    <line x1="18" y1="20" x2="18" y2="4"/>
+                    <line x1="6" y1="20" x2="6" y2="16"/>
+                </svg>
                 <span class="tab-label">Insights</span>
             </button>
         </nav>
 
-        <!-- Main Content Area -->
+        <!-- Main Content -->
         <main class="main-content">
             
             <!-- Home Screen -->
             <section id="home-screen" class="screen active">
-                <!-- Hero Stats Cards -->
                 <div class="hero-stats">
-                    <div class="hero-card hero-card-primary">
-                        <div class="hero-card-icon">⚡</div>
-                        <div class="hero-card-content">
-                            <div class="hero-card-value" id="stat-total">0</div>
-                            <div class="hero-card-label">Items in Fridge</div>
+                    <div class="hero-card">
+                        <div class="hero-card-header">
+                            <span class="hero-card-title">Total Items</span>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            </svg>
                         </div>
+                        <div class="hero-card-value" id="stat-total">0</div>
+                        <div class="hero-card-trend">+0 this week</div>
                     </div>
                     <div class="hero-card hero-card-warning">
-                        <div class="hero-card-icon">⏰</div>
-                        <div class="hero-card-content">
-                            <div class="hero-card-value" id="stat-expiring">0</div>
-                            <div class="hero-card-label">Expiring Soon</div>
+                        <div class="hero-card-header">
+                            <span class="hero-card-title">Expiring Soon</span>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
                         </div>
+                        <div class="hero-card-value" id="stat-expiring">0</div>
+                        <div class="hero-card-trend">Use today!</div>
                     </div>
                 </div>
 
-                <!-- Quick Actions -->
                 <div class="quick-actions">
-                    <h3 class="section-title">Quick Actions</h3>
-                    <div class="action-grid">
-                        <button class="action-card" onclick="openAddModal()">
-                            <div class="action-icon">➕</div>
-                            <div class="action-label">Add Ingredient</div>
-                        </button>
-                        <button class="action-card" onclick="switchScreen('recipes')">
-                            <div class="action-icon">🔍</div>
-                            <div class="action-label">Find Recipes</div>
-                        </button>
-                        <button class="action-card" onclick="showExpiringSoon()">
-                            <div class="action-icon">⚠️</div>
-                            <div class="action-label">Use Expiring</div>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Today's Recipes -->
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <span class="title-icon">✨</span>
-                        Recipes For You
-                    </h2>
-                    <button class="link-button" onclick="switchScreen('recipes')">
-                        See all <span class="arrow">→</span>
+                    <button class="action-btn action-btn-primary" onclick="openAddModal()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        Add Item
+                    </button>
+                    <button class="action-btn" onclick="switchScreen('recipes')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                        Find Recipes
                     </button>
                 </div>
 
-                <div id="home-recipes" class="recipes-container"></div>
+                <div class="section-header">
+                    <h2 class="section-title">Recipes For You</h2>
+                    <button class="link-btn" onclick="switchScreen('recipes')">See all →</button>
+                </div>
 
-                <!-- Welcome Message (shown when empty) -->
-                <div class="welcome-message" id="welcome-message">
-                    <div class="welcome-animation">
-                        <div class="welcome-emoji">👋</div>
+                <div id="home-recipes" class="recipes-grid"></div>
+
+                <div class="welcome-card" id="welcome-message">
+                    <div class="welcome-icon">
+                        <img src="https://images.unsplash.com/photo-1495195134817-aeb325a55b65?w=400&h=400&fit=crop" alt="Food" class="welcome-img">
                     </div>
                     <h3 class="welcome-title">Welcome to FreshPlate!</h3>
                     <p class="welcome-text">Join thousands saving <strong>$1,600/year</strong> by reducing food waste</p>
-                    
                     <div class="welcome-features">
-                        <div class="welcome-feature">
-                            <div class="feature-icon">🎯</div>
-                            <div class="feature-text">Smart recipe matching</div>
-                        </div>
-                        <div class="welcome-feature">
-                            <div class="feature-icon">⏰</div>
-                            <div class="feature-text">Expiration tracking</div>
-                        </div>
-                        <div class="welcome-feature">
-                            <div class="feature-icon">💰</div>
-                            <div class="feature-text">Save money</div>
-                        </div>
+                        <div class="feature-chip">📷 Photo Upload</div>
+                        <div class="feature-chip">⏰ Expiry Tracking</div>
+                        <div class="feature-chip">💰 Save Money</div>
                     </div>
-
                     <button class="btn btn-primary btn-large" onclick="openAddModal()">
-                        <span class="btn-icon">🚀</span>
-                        Get Started - Add Your First Ingredient
+                        Get Started
                     </button>
                 </div>
             </section>
@@ -173,288 +185,215 @@
             <!-- Fridge Screen -->
             <section id="fridge-screen" class="screen">
                 <div class="section-header">
-                    <h2 class="section-title">
-                        <span class="title-icon">🧊</span>
-                        My Fridge
-                    </h2>
-                    <div class="header-actions">
+                    <h2 class="section-title">My Fridge</h2>
+                    <div class="filter-group">
+                        <select id="status-filter" class="filter-select" onchange="updateIngredientList()">
+                            <option value="all">All Items</option>
+                            <option value="raw">Raw/Fresh</option>
+                            <option value="cooked">Cooked</option>
+                        </select>
                         <select id="sort-filter" class="filter-select" onchange="updateIngredientList()">
-                            <option value="expiry">⏰ By Expiry</option>
-                            <option value="name">🔤 By Name</option>
-                            <option value="added">📅 Recently Added</option>
+                            <option value="expiry">By Expiry</option>
+                            <option value="name">By Name</option>
+                            <option value="added">Recently Added</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- Progress Bar -->
-                <div class="fridge-progress" id="fridge-progress">
-                    <div class="progress-header">
-                        <span class="progress-label">Fridge Freshness Score</span>
-                        <span class="progress-percentage" id="freshness-score">0%</span>
+                <div class="freshness-card" id="fridge-progress">
+                    <div class="freshness-header">
+                        <span class="freshness-label">Fridge Health</span>
+                        <span class="freshness-score" id="freshness-score">0%</span>
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="freshness-fill" style="width: 0%"></div>
+                    <div class="progress-bar-modern">
+                        <div class="progress-fill-modern" id="freshness-fill"></div>
                     </div>
-                    <div class="progress-hint">💡 Keep above 70% to minimize waste</div>
+                    <p class="freshness-hint">💡 Keep above 70% to minimize waste</p>
                 </div>
 
-                <div id="ingredient-list" class="ingredient-list"></div>
+                <div id="ingredient-list" class="ingredients-grid"></div>
 
                 <div class="empty-state" id="fridge-empty">
-                    <div class="empty-animation">
-                        <div class="empty-icon">🧊</div>
-                    </div>
+                    <img src="https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=300&h=300&fit=crop" alt="Empty Fridge" class="empty-img">
                     <h3 class="empty-title">Your fridge is empty!</h3>
-                    <p class="empty-text">Start tracking your ingredients to get personalized recipe suggestions</p>
-                    <button class="btn btn-primary" onclick="openAddModal()">
-                        <span class="btn-icon">➕</span>
-                        Add First Ingredient
-                    </button>
+                    <p class="empty-text">Start tracking ingredients to get personalized recipes</p>
+                    <button class="btn btn-primary" onclick="openAddModal()">Add First Item</button>
                 </div>
             </section>
 
             <!-- Recipes Screen -->
             <section id="recipes-screen" class="screen">
                 <div class="section-header">
-                    <h2 class="section-title">
-                        <span class="title-icon">📖</span>
-                        Recipe Suggestions
-                    </h2>
-                    <div class="header-actions">
-                        <select id="recipe-filter" class="filter-select" onchange="updateRecipeList()">
-                            <option value="match">🎯 Best Match</option>
-                            <option value="expiring">⏰ Use Expiring</option>
-                            <option value="quick">⚡ Quick & Easy</option>
+                    <h2 class="section-title">Recipe Suggestions</h2>
+                    <select id="recipe-filter" class="filter-select" onchange="updateRecipeList()">
+                        <option value="match">Best Match</option>
+                        <option value="expiring">Use Expiring</option>
+                        <option value="quick">Quick & Easy</option>
+                    </select>
+                </div>
+
+                <div class="recipe-stats-row" id="recipe-stats">
+                    <div class="recipe-stat">
+                        <span class="stat-number" id="total-recipes">0</span>
+                        <span class="stat-text">Recipes</span>
+                    </div>
+                    <div class="recipe-stat">
+                        <span class="stat-number" id="perfect-matches">0</span>
+                        <span class="stat-text">Perfect</span>
+                    </div>
+                </div>
+
+                <div id="recipe-list" class="recipes-grid"></div>
+
+                <div class="empty-state" id="recipes-empty">
+                    <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=300&h=300&fit=crop" alt="No Recipes" class="empty-img">
+                    <h3 class="empty-title">No recipes yet!</h3>
+                    <p class="empty-text">Add ingredients to discover recipes you can make</p>
+                    <button class="btn btn-primary" onclick="switchScreen('fridge')">Go to Fridge</button>
+                </div>
+            </section>
+
+            <!-- Insights Screen -->
+            <section id="insights-screen" class="screen">
+                <div class="section-header">
+                    <h2 class="section-title">Your Impact</h2>
+                </div>
+
+                <div class="impact-grid">
+                    <div class="impact-card-modern">
+                        <div class="impact-icon-wrapper">💰</div>
+                        <div class="impact-value" id="insight-money">$0</div>
+                        <div class="impact-label">Money Saved</div>
+                    </div>
+                    <div class="impact-card-modern">
+                        <div class="impact-icon-wrapper">🌱</div>
+                        <div class="impact-value" id="insight-items">0</div>
+                        <div class="impact-label">Items Saved</div>
+                    </div>
+                    <div class="impact-card-modern">
+                        <div class="impact-icon-wrapper">🍳</div>
+                        <div class="impact-value" id="insight-recipes">0</div>
+                        <div class="impact-label">Recipes Cooked</div>
+                    </div>
+                    <div class="impact-card-modern">
+                        <div class="impact-icon-wrapper">⭐</div>
+                        <div class="impact-value" id="insight-points">0</div>
+                        <div class="impact-label">Total Points</div>
+                    </div>
+                </div>
+
+                <div class="achievements-section">
+                    <h3 class="section-subtitle">🏆 Achievements</h3>
+                    <div class="achievements-grid" id="achievements-grid"></div>
+                </div>
+
+                <div class="tips-section">
+                    <h3 class="section-subtitle">💡 Pro Tips</h3>
+                    <div class="tip-card">
+                        <div class="tip-icon">📸</div>
+                        <div class="tip-content">
+                            <div class="tip-title">Upload photos for bonus points!</div>
+                            <div class="tip-text">Earn 10 points for each ingredient photo you add</div>
+                        </div>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-icon">⏰</div>
+                        <div class="tip-content">
+                            <div class="tip-title">Check expiring items daily</div>
+                            <div class="tip-text">Set a morning routine to review your fridge</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- FAB -->
+        <button class="fab-modern" onclick="openAddModal()">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Add Ingredient Modal (Enhanced with Photo Upload) -->
+    <div id="add-modal" class="modal">
+        <div class="modal-overlay" onclick="closeAddModal()"></div>
+        <div class="modal-content-modern">
+            <div class="modal-header-modern">
+                <h3 class="modal-title-modern">Add Ingredient</h3>
+                <button class="modal-close-modern" onclick="closeAddModal()">×</button>
+            </div>
+
+            <form id="add-ingredient-form" onsubmit="handleAddIngredient(event)">
+                <!-- Photo Upload Section -->
+                <div class="photo-upload-section">
+                    <div class="photo-upload-area" id="photo-upload-area" onclick="document.getElementById('photo-input').click()">
+                        <input type="file" id="photo-input" accept="image/*" style="display: none" onchange="handlePhotoUpload(event)">
+                        <div id="photo-preview-container" class="photo-preview-container hidden">
+                            <img id="photo-preview" class="photo-preview" alt="Preview">
+                            <button type="button" class="photo-remove" onclick="removePhoto(event)">×</button>
+                        </div>
+                        <div id="photo-placeholder" class="photo-placeholder">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                            <p class="photo-hint">Click to upload photo</p>
+                            <p class="photo-bonus">+10 points for adding photo!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group-modern">
+                    <label class="form-label-modern">Ingredient Name</label>
+                    <input 
+                        type="text" 
+                        id="ingredient-name" 
+                        class="form-input-modern" 
+                        placeholder="e.g., Spinach, Chicken Breast"
+                        required
+                    >
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group-modern">
+                        <label class="form-label-modern">Quantity</label>
+                        <input 
+                            type="text" 
+                            id="quantity-input" 
+                            class="form-input-modern" 
+                            placeholder="1 bag, 500g"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group-modern">
+                        <label class="form-label-modern">Status</label>
+                        <select id="status-input" class="form-input-modern" required>
+                            <option value="raw">Raw/Fresh</option>
+                            <option value="cooked">Cooked</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- Recipe Stats -->
-                <div class="recipe-stats" id="recipe-stats">
-                    <div class="recipe-stat-card">
-                        <div class="stat-number" id="total-recipes">0</div>
-                        <div class="stat-text">Recipes Found</div>
-                    </div>
-                    <div class="recipe-stat-card">
-                        <div class="stat-number" id="perfect-matches">0</div>
-                        <div class="stat-text">Perfect Matches</div>
-                    </div>
-                </div>
-
-                <div id="recipe-list" class="recipes-container"></div>
-
-                <div class="empty-state" id="recipes-empty">
-                    <div class="empty-animation">
-                        <div class="empty-icon">🍽️</div>
-                    </div>
-                    <h3 class="empty-title">No recipes yet!</h3>
-                    <p class="empty-text">Add ingredients to your fridge to discover amazing recipes you can make</p>
-                    <button class="btn btn-primary" onclick="switchScreen('fridge')">
-                        <span class="btn-icon">🧊</span>
-                        Go to My Fridge
-                    </button>
-                </div>
-            </section>
-
-            <!-- NEW: Insights Screen -->
-            <section id="insights-screen" class="screen">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <span class="title-icon">📊</span>
-                        Your Impact
-                    </h2>
-                </div>
-
-                <!-- Impact Cards -->
-                <div class="impact-cards">
-                    <div class="impact-card impact-card-success">
-                        <div class="impact-card-header">
-                            <span class="impact-card-icon">💰</span>
-                            <span class="impact-card-title">Money Saved</span>
-                        </div>
-                        <div class="impact-card-value" id="insight-money">$0</div>
-                        <div class="impact-card-subtitle">Keep it up!</div>
-                    </div>
-
-                    <div class="impact-card impact-card-primary">
-                        <div class="impact-card-header">
-                            <span class="impact-card-icon">🌱</span>
-                            <span class="impact-card-title">Items Saved</span>
-                        </div>
-                        <div class="impact-card-value" id="insight-items">0</div>
-                        <div class="impact-card-subtitle">From going to waste</div>
-                    </div>
-
-                    <div class="impact-card impact-card-warning">
-                        <div class="impact-card-header">
-                            <span class="impact-card-icon">🍳</span>
-                            <span class="impact-card-title">Recipes Cooked</span>
-                        </div>
-                        <div class="impact-card-value" id="insight-recipes">0</div>
-                        <div class="impact-card-subtitle">Delicious meals</div>
-                    </div>
-                </div>
-
-                <!-- Achievements -->
-                <div class="achievements-section">
-                    <h3 class="section-title">🏆 Achievements</h3>
-                    <div class="achievements-grid" id="achievements-grid">
-                        <div class="achievement unlocked">
-                            <div class="achievement-icon">🌟</div>
-                            <div class="achievement-name">First Step</div>
-                            <div class="achievement-desc">Added first ingredient</div>
-                        </div>
-                        <div class="achievement locked">
-                            <div class="achievement-icon">🔥</div>
-                            <div class="achievement-name">Waste Warrior</div>
-                            <div class="achievement-desc">Save 10 items</div>
-                        </div>
-                        <div class="achievement locked">
-                            <div class="achievement-icon">👨‍🍳</div>
-                            <div class="achievement-name">Master Chef</div>
-                            <div class="achievement-desc">Cook 20 recipes</div>
-                        </div>
-                        <div class="achievement locked">
-                            <div class="achievement-icon">💎</div>
-                            <div class="achievement-name">Money Saver</div>
-                            <div class="achievement-desc">Save $100</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tips -->
-                <div class="tips-section">
-                    <h3 class="section-title">💡 Pro Tips</h3>
-                    <div class="tip-card">
-                        <div class="tip-icon">⏰</div>
-                        <div class="tip-content">
-                            <div class="tip-title">Check your fridge daily</div>
-                            <div class="tip-text">Get into the habit of checking expiring items each morning</div>
-                        </div>
-                    </div>
-                    <div class="tip-card">
-                        <div class="tip-icon">📱</div>
-                        <div class="tip-content">
-                            <div class="tip-title">Add ingredients after shopping</div>
-                            <div class="tip-text">Scan items right when you unpack groceries for best tracking</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-        </main>
-
-        <!-- Floating Action Button -->
-        <button class="fab" onclick="openAddModal()" title="Add Ingredient">
-            <span class="fab-icon">+</span>
-            <span class="fab-tooltip">Add Ingredient</span>
-        </button>
-
-        <!-- Floating Help Button -->
-        <button class="help-fab" onclick="showHelp()" title="Help">
-            <span>?</span>
-        </button>
-    </div>
-
-    <!-- Add Ingredient Modal (Enhanced) -->
-    <div id="add-modal" class="modal">
-        <div class="modal-overlay" onclick="closeAddModal()"></div>
-        <div class="modal-content modal-animated">
-            <div class="modal-header">
-                <h3 class="modal-title">
-                    <span class="modal-icon">➕</span>
-                    Add Ingredient
-                </h3>
-                <button class="modal-close" onclick="closeAddModal()">×</button>
-            </div>
-
-            <form id="add-ingredient-form" onsubmit="handleAddIngredient(event)">
-                <div class="form-group">
-                    <label class="form-label">
-                        <span class="label-icon">🥬</span>
-                        What ingredient do you have?
-                    </label>
-                    <select id="ingredient-select" class="form-input form-select-enhanced" required>
-                        <option value="">Choose an ingredient...</option>
-                        <optgroup label="🥬 Vegetables">
-                            <option value="🥬 Spinach">Spinach</option>
-                            <option value="🥕 Carrots">Carrots</option>
-                            <option value="🥦 Broccoli">Broccoli</option>
-                            <option value="🍅 Tomatoes">Tomatoes</option>
-                            <option value="🥒 Cucumber">Cucumber</option>
-                            <option value="🫑 Bell Peppers">Bell Peppers</option>
-                            <option value="🧅 Onions">Onions</option>
-                            <option value="🥔 Potatoes">Potatoes</option>
-                            <option value="🍄 Mushrooms">Mushrooms</option>
-                            <option value="🥗 Lettuce">Lettuce</option>
-                        </optgroup>
-                        <optgroup label="🍗 Proteins">
-                            <option value="🥚 Eggs">Eggs</option>
-                            <option value="🍗 Chicken Breast">Chicken Breast</option>
-                            <option value="🥩 Beef">Beef</option>
-                            <option value="🐟 Salmon">Salmon</option>
-                            <option value="🍤 Shrimp">Shrimp</option>
-                            <option value="🥓 Bacon">Bacon</option>
-                        </optgroup>
-                        <optgroup label="🧀 Dairy">
-                            <option value="🥛 Milk">Milk</option>
-                            <option value="🧀 Cheddar Cheese">Cheddar Cheese</option>
-                            <option value="🧀 Feta Cheese">Feta Cheese</option>
-                            <option value="🧀 Parmesan">Parmesan</option>
-                            <option value="🧈 Butter">Butter</option>
-                            <option value="🥛 Yogurt">Yogurt</option>
-                        </optgroup>
-                        <optgroup label="🍞 Grains & Pasta">
-                            <option value="🍞 Bread">Bread</option>
-                            <option value="🍝 Pasta">Pasta</option>
-                            <option value="🍚 Rice">Rice</option>
-                            <option value="🌾 Quinoa">Quinoa</option>
-                        </optgroup>
-                        <optgroup label="🍎 Fruits">
-                            <option value="🍎 Apples">Apples</option>
-                            <option value="🍌 Bananas">Bananas</option>
-                            <option value="🍓 Strawberries">Strawberries</option>
-                            <option value="🍋 Lemons">Lemons</option>
-                            <option value="🥑 Avocado">Avocado</option>
-                        </optgroup>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">
-                        <span class="label-icon">📏</span>
-                        How much do you have?
-                    </label>
-                    <input 
-                        type="text" 
-                        id="quantity-input" 
-                        class="form-input" 
-                        placeholder="e.g., 1 bag, 2 cups, 500g"
-                        required
-                    >
-                    <div class="form-hint">💡 Be specific to track better</div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">
-                        <span class="label-icon">📅</span>
-                        When does it expire?
-                    </label>
+                <div class="form-group-modern">
+                    <label class="form-label-modern">Expiration Date</label>
                     <input 
                         type="date" 
                         id="expiry-input" 
-                        class="form-input"
+                        class="form-input-modern"
                         required
                     >
-                    <div class="form-hint">⏰ Check the package or use best judgment</div>
+                    <p class="form-hint-modern">When does this expire or go bad?</p>
                 </div>
 
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary btn-full">
-                        <span class="btn-icon">✅</span>
-                        Add to My Fridge
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary btn-full-modern">
+                        Add to Fridge
                     </button>
-                    <button type="button" class="btn btn-secondary btn-full" onclick="closeAddModal()">
+                    <button type="button" class="btn btn-secondary btn-full-modern" onclick="closeAddModal()">
                         Cancel
                     </button>
                 </div>
@@ -462,25 +401,27 @@
         </div>
     </div>
 
-    <!-- Recipe Detail Modal (Enhanced) -->
+    <!-- Recipe Modal -->
     <div id="recipe-modal" class="modal">
         <div class="modal-overlay" onclick="closeRecipeModal()"></div>
-        <div class="modal-content modal-large modal-animated">
-            <div class="modal-header">
-                <h3 id="recipe-modal-title" class="modal-title">Recipe Details</h3>
-                <button class="modal-close" onclick="closeRecipeModal()">×</button>
+        <div class="modal-content-modern modal-large">
+            <div class="modal-header-modern">
+                <h3 id="recipe-modal-title" class="modal-title-modern">Recipe Details</h3>
+                <button class="modal-close-modern" onclick="closeRecipeModal()">×</button>
             </div>
             <div id="recipe-modal-body"></div>
         </div>
     </div>
 
-    <!-- Success Toast -->
-    <div id="success-toast" class="toast hidden">
-        <div class="toast-icon">✅</div>
-        <div class="toast-message" id="toast-message">Success!</div>
+    <!-- Toast Notification -->
+    <div id="toast" class="toast-modern hidden">
+        <div class="toast-icon-modern" id="toast-icon">✓</div>
+        <div class="toast-content-modern">
+            <div class="toast-title-modern" id="toast-title">Success!</div>
+            <div class="toast-message-modern" id="toast-message">Action completed</div>
+        </div>
     </div>
 
-    <!-- Scripts -->
     <script src="recipes-data.js"></script>
     <script src="app.js"></script>
 </body>
