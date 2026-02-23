@@ -1998,3 +1998,123 @@ form {
 .feature-card:nth-child(4) { animation-delay: 0.4s; }
 .feature-card:nth-child(5) { animation-delay: 0.5s; }
 .feature-card:nth-child(6) { animation-delay: 0.6s; }
+/* ===== CRITICAL FIX: Desktop Responsive Layout ===== */
+
+/* Force proper desktop layout - override any mobile-first issues */
+@media (min-width: 769px) {
+    /* Features Grid - 3 columns on desktop */
+    .features-grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 32px !important;
+    }
+    
+    /* Help Grid - 2 columns on desktop */
+    .help-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 24px !important;
+    }
+    
+    /* Hero Stats - horizontal on desktop */
+    .hero-stats {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 48px !important;
+    }
+    
+    /* Share Buttons - horizontal on desktop */
+    .share-buttons {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+        gap: 16px !important;
+    }
+    
+    /* Contact Buttons - horizontal on desktop */
+    .contact-buttons {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 16px !important;
+    }
+    
+    /* Footer - horizontal layout */
+    .footer-content {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: 32px !important;
+    }
+    
+    /* Footer Links - horizontal */
+    .footer-links {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 24px !important;
+    }
+    
+    /* Navigation - horizontal menu on desktop */
+    .nav-menu {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 32px !important;
+        position: static !important;
+        max-height: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+    
+    /* Hide hamburger menu on desktop */
+    .menu-toggle {
+        display: none !important;
+    }
+    
+    /* Impact Grid - 4 columns on desktop */
+    .impact-grid {
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 16px !important;
+    }
+    
+    /* Recipe Stats Row - horizontal */
+    .recipe-stats-row {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 16px !important;
+    }
+    
+    /* Achievements Grid - 3 columns on desktop */
+    .achievements-grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 16px !important;
+    }
+}
+
+/* Tablet adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    
+    .impact-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+/* Large desktop - wider content */
+@media (min-width: 1200px) {
+    .features-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 40px !important;
+    }
+    
+    .help-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+    }
+}
