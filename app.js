@@ -1,29 +1,54 @@
-// ===== App State =====
+// ===== Premium FreshPlate App ===== 
+
+// App State
 let ingredients = [];
 let currentScreen = 'home';
+let userStats = {
+    moneySaved: 0,
+    itemsSaved: 0,
+    recipesCooked: 0
+};
 
 // ===== Initialize App =====
 document.addEventListener('DOMContentLoaded', () => {
-    loadIngredients();
+    // Show splash screen
+    setTimeout(() => {
+        document.getElementById('splash-screen').style.display = 'none';
+        document.getElementById('app-container').style.display = 'block';
+    }, 2000);
+    
+    loadData();
     setMinExpiryDate();
     updateAllViews();
+    checkAchievements();
 });
 
-// ===== Local Storage Functions =====
-function loadIngredients() {
-    const stored = localStorage.getItem('freshplate_ingredients');
-    if (stored) {
+// ===== Local Storage =====
+function loadData() {
+    // Load ingredients
+    const storedIngredients = localStorage.getItem('freshplate_ingredients');
+    if (storedIngredients) {
         try {
-            ingredients = JSON.parse(stored);
+            ingredients = JSON.parse(storedIngredients);
         } catch (e) {
-            console.error('Error loading ingredients:', e);
             ingredients = [];
+        }
+    }
+    
+    // Load user stats
+    const storedStats = localStorage.getItem('freshplate_stats');
+    if (storedStats) {
+        try {
+            userStats = JSON.parse(storedStats);
+        } catch (e) {
+            userStats = { moneySaved: 0, itemsSaved: 0, recipesCooked: 0 };
         }
     }
 }
 
-function saveIngredients() {
+function saveData() {
     localStorage.setItem('freshplate_ingredients', JSON.stringify(ingredients));
+    localStorage.setItem('freshplate_stats', JSON.stringify(userStats));
     updateAllViews();
 }
 
@@ -50,6 +75,8 @@ function switchScreen(screenName) {
         updateRecipeList();
     } else if (screenName === 'home') {
         updateHomeView();
+    } else if (screenName === 'insights') {
+        updateInsightsView();
     }
 }
 
@@ -57,6 +84,11 @@ function switchScreen(screenName) {
 function setMinExpiryDate() {
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('expiry-input').min = today;
+    
+    // Set default to 7 days from now
+    const nextWeek = new Date();
+    nextWeek.setDate(nextWeek.getDate() + 7);
+    document.getElementById('expiry-input').value = nextWeek.toISOString().split('T')[0];
 }
 
 function getDaysUntilExpiry(expirationDate) {
@@ -81,20 +113,19 @@ function getExpiryStatus(expirationDate) {
     }
 }
 
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    const options = { month: 'short', day: 'numeric' };
-    return date.toLocaleDateString('en-US', options);
-}
-
 // ===== Ingredient Management =====
 function openAddModal() {
     document.getElementById('add-modal').classList.add('active');
+    // Focus on first input
+    setTimeout(() => {
+        document.getElementById('ingredient-select').focus();
+    }, 300);
 }
 
 function closeAddModal() {
     document.getElementById('add-modal').classList.remove('active');
     document.getElementById('add-ingredient-form').reset();
+    setMinExpiryDate(); // Reset default date
 }
 
 function handleAddIngredient(event) {
@@ -109,21 +140,41 @@ function handleAddIngredient(event) {
         name: name,
         quantity: quantity,
         expirationDate: expirationDate,
-        addedDate: new Date().toISOString()
+        addedDate: new Date().toISOString(),
+        used: false
     };
     
     ingredients.push(newIngredient);
-    saveIngredients();
+    saveData();
     closeAddModal();
     
-    // Switch to fridge screen to show the added ingredient
-    switchScreen('fridge');
+    // Show success toast
+    showToast('✅ Ingredient added successfully!');
+    
+    // Switch to fridge screen
+    setTimeout(() => {
+        switchScreen('fridge');
+    }, 500);
 }
 
 function deleteIngredient(id) {
     if (confirm('Remove this ingredient from your fridge?')) {
+        const ingredient = ingredients.find(i => i.id === id);
+        
+        // Calculate value saved if using before expiry
+        const daysLeft = getDaysUntilExpiry(ingredient.expirationDate);
+        if (daysLeft >= 0) {
+            const estimatedValue = 5; // Average $5 per ingredient
+            userStats.moneySaved += estimatedValue;
+            userStats.itemsSaved += 1;
+            
+            // Show impact banner
+            showImpactBanner(estimatedValue);
+        }
+        
         ingredients = ingredients.filter(item => item.id !== id);
-        saveIngredients();
+        saveData();
+        checkAchievements();
     }
 }
 
@@ -131,15 +182,21 @@ function deleteIngredient(id) {
 function updateIngredientList() {
     const container = document.getElementById('ingredient-list');
     const emptyState = document.getElementById('fridge-empty');
+    const progressSection = document.getElementById('fridge-progress');
     
     if (ingredients.length === 0) {
         container.style.display = 'none';
         emptyState.style.display = 'block';
+        progressSection.style.display = 'none';
         return;
     }
     
     container.style.display = 'flex';
     emptyState.style.display = 'none';
+    progressSection.style.display = 'block';
+    
+    // Calculate freshness score
+    updateFreshnessScore();
     
     // Get sort option
     const sortBy = document.getElementById('sort-filter').value;
@@ -178,6 +235,16 @@ function updateIngredientList() {
             </div>
         `;
     }).join('');
+}
+
+function updateFreshnessScore() {
+    if (ingredients.length === 0) return;
+    
+    const freshItems = ingredients.filter(i => getDaysUntilExpiry(i.expirationDate) > 5).length;
+    const score = Math.round((freshItems / ingredients.length) * 100);
+    
+    document.getElementById('freshness-score').textContent = `${score}%`;
+    document.getElementById('freshness-fill').style.width = `${score}%`;
 }
 
 function sortIngredients(sortBy) {
@@ -223,7 +290,6 @@ function matchRecipes() {
             )
         );
         
-        // Check if recipe uses expiring items
         const usesExpiringItems = matchedIngredients.some(matched => {
             const matchingIngredient = ingredients.find(i => 
                 i.name.toLowerCase().includes(matched)
@@ -245,15 +311,12 @@ function sortRecipes(recipes, filterBy) {
     const sorted = [...recipes];
     
     if (filterBy === 'expiring') {
-        // Show only recipes using expiring items
         return sorted.filter(r => r.usesExpiringItems)
             .sort((a, b) => b.matchPercentage - a.matchPercentage);
     } else if (filterBy === 'quick') {
-        // Show quick recipes (<= 20 min)
         return sorted.filter(r => parseInt(r.time) <= 20)
             .sort((a, b) => b.matchPercentage - a.matchPercentage);
     } else {
-        // Default: Sort by match percentage, prioritize expiring items
         return sorted.sort((a, b) => {
             if (a.usesExpiringItems && !b.usesExpiringItems) return -1;
             if (!a.usesExpiringItems && b.usesExpiringItems) return 1;
@@ -266,17 +329,25 @@ function sortRecipes(recipes, filterBy) {
 function updateRecipeList() {
     const container = document.getElementById('recipe-list');
     const emptyState = document.getElementById('recipes-empty');
+    const statsSection = document.getElementById('recipe-stats');
     
     const matchedRecipes = matchRecipes();
     
     if (matchedRecipes.length === 0) {
         container.style.display = 'none';
         emptyState.style.display = 'block';
+        statsSection.style.display = 'none';
         return;
     }
     
     container.style.display = 'flex';
     emptyState.style.display = 'none';
+    statsSection.style.display = 'grid';
+    
+    // Update stats
+    const perfectMatches = matchedRecipes.filter(r => r.matchPercentage === 100).length;
+    document.getElementById('total-recipes').textContent = matchedRecipes.length;
+    document.getElementById('perfect-matches').textContent = perfectMatches;
     
     const filterBy = document.getElementById('recipe-filter').value;
     const sorted = sortRecipes(matchedRecipes, filterBy);
@@ -289,9 +360,20 @@ function createRecipeCard(recipe) {
         ? '✅ You can cook this now!'
         : `Missing: ${recipe.missingIngredients.slice(0, 3).join(', ')}${recipe.missingIngredients.length > 3 ? '...' : ''}`;
     
+    // Determine gradient color based on category
+    const gradients = {
+        breakfast: 'linear-gradient(135deg, #ffa502 0%, #ff6348 100%)',
+        lunch: 'linear-gradient(135deg, #48dbfb 0%, #0abde3 100%)',
+        dinner: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%)',
+        salad: 'linear-gradient(135deg, #2ed573 0%, #26de81 100%)',
+        soup: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)'
+    };
+    
+    const gradient = gradients[recipe.category] || gradients.dinner;
+    
     return `
         <div class="recipe-card" onclick="showRecipeDetail(${recipe.id})">
-            <div class="recipe-image">
+            <div class="recipe-image" style="background: ${gradient}">
                 ${recipe.emoji}
                 ${recipe.usesExpiringItems ? '<div class="recipe-badge">⏰ Uses expiring items</div>' : ''}
             </div>
@@ -328,9 +410,8 @@ function showRecipeDetail(recipeId) {
     const title = document.getElementById('recipe-modal-title');
     const body = document.getElementById('recipe-modal-body');
     
-    title.textContent = recipe.name;
+    title.innerHTML = `<span class="modal-icon">${recipe.emoji}</span> ${recipe.name}`;
     
-    // Build ingredient list with checkmarks
     const ingredientsList = recipe.ingredients.map(ing => {
         const userHas = ingredients.some(userIng => 
             userIng.name.toLowerCase().includes(ing.toLowerCase()) ||
@@ -338,50 +419,63 @@ function showRecipeDetail(recipeId) {
         );
         
         return `
-            <div style="display: flex; align-items: center; gap: 12px; padding: 10px; background: ${userHas ? '#f0f9ff' : '#fff'}; border-radius: 8px; margin-bottom: 8px;">
-                <span style="font-size: 20px;">${userHas ? '✅' : '⬜'}</span>
-                <span style="flex: 1; ${!userHas ? 'color: #999;' : ''}">${ing}</span>
+            <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: ${userHas ? 'rgba(99, 102, 241, 0.05)' : '#fff'}; border: 2px solid ${userHas ? 'var(--primary)' : 'var(--border-color)'}; border-radius: 12px; margin-bottom: 8px; transition: all 0.3s;">
+                <span style="font-size: 24px;">${userHas ? '✅' : '⬜'}</span>
+                <span style="flex: 1; font-weight: ${userHas ? '600' : '400'}; ${!userHas ? 'color: #999;' : ''}">${ing}</span>
             </div>
         `;
     }).join('');
     
-    // Build instructions
     const instructionsList = recipe.instructions.map((step, index) => `
-        <div style="display: flex; gap: 15px; margin-bottom: 16px;">
-            <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">
+        <div style="display: flex; gap: 16px; margin-bottom: 20px; padding: 16px; background: var(--bg-primary); border-radius: 12px;">
+            <div style="width: 36px; height: 36px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">
                 ${index + 1}
             </div>
-            <div style="flex: 1; padding-top: 4px;">${step}</div>
+            <div style="flex: 1; padding-top: 6px; font-size: 15px; line-height: 1.6;">${step}</div>
         </div>
     `).join('');
     
     body.innerHTML = `
-        <div style="margin-bottom: 24px;">
-            <div style="display: flex; gap: 20px; padding: 16px; background: #f8f9fa; border-radius: 12px; margin-bottom: 16px;">
-                <div>⏱️ ${recipe.time}</div>
-                <div>🍽️ ${recipe.servings} servings</div>
-                <div>📊 ${recipe.difficulty}</div>
+        <div style="margin-bottom: 30px;">
+            <div style="display: flex; gap: 24px; padding: 20px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%); border-radius: 16px; margin-bottom: 20px;">
+                <div><strong>⏱️</strong> ${recipe.time}</div>
+                <div><strong>🍽️</strong> ${recipe.servings} servings</div>
+                <div><strong>📊</strong> ${recipe.difficulty}</div>
             </div>
             ${matchedRecipe ? `
-                <div style="padding: 16px; background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); border-radius: 12px; margin-bottom: 16px;">
-                    <div style="font-weight: 600; margin-bottom: 8px;">
-                        Match: ${matchedRecipe.matchPercentage}%
+                <div style="padding: 20px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%); border-radius: 16px; margin-bottom: 20px; border: 2px solid var(--success);">
+                    <div style="font-weight: 700; margin-bottom: 12px; font-size: 16px; color: var(--success);">
+                        🎯 Match: ${matchedRecipe.matchPercentage}%
                     </div>
-                    <div style="background: #e0e0e0; height: 8px; border-radius: 4px; overflow: hidden;">
-                        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 100%; width: ${matchedRecipe.matchPercentage}%; border-radius: 4px;"></div>
+                    <div style="background: #e5e7eb; height: 12px; border-radius: 9999px; overflow: hidden;">
+                        <div style="background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%); height: 100%; width: ${matchedRecipe.matchPercentage}%; border-radius: 9999px; transition: width 0.8s;"></div>
                     </div>
                 </div>
             ` : ''}
         </div>
         
-        <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">Ingredients</h4>
+        <h4 style="font-size: 20px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+            <span>🥘</span> Ingredients
+        </h4>
         <div style="margin-bottom: 32px;">
             ${ingredientsList}
         </div>
         
-        <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">Instructions</h4>
-        <div>
+        <h4 style="font-size: 20px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+            <span>👨‍🍳</span> Instructions
+        </h4>
+        <div style="margin-bottom: 24px;">
             ${instructionsList}
+        </div>
+        
+        <div style="display: flex; gap: 12px; margin-top: 32px;">
+            <button class="btn btn-primary btn-full" onclick="markAsCooked(${recipe.id})">
+                <span class="btn-icon">✅</span>
+                I Made This!
+            </button>
+            <button class="btn btn-secondary" onclick="closeRecipeModal()" style="padding: 14px 28px;">
+                Close
+            </button>
         </div>
     `;
     
@@ -390,6 +484,14 @@ function showRecipeDetail(recipeId) {
 
 function closeRecipeModal() {
     document.getElementById('recipe-modal').classList.remove('active');
+}
+
+function markAsCooked(recipeId) {
+    userStats.recipesCooked += 1;
+    saveData();
+    showToast('🎉 Awesome! Recipe marked as cooked!');
+    closeRecipeModal();
+    checkAchievements();
 }
 
 // ===== Home View =====
@@ -420,15 +522,116 @@ function updateHomeView() {
     }
 }
 
+// ===== Insights View =====
+function updateInsightsView() {
+    document.getElementById('insight-money').textContent = `$${userStats.moneySaved}`;
+    document.getElementById('insight-items').textContent = userStats.itemsSaved;
+    document.getElementById('insight-recipes').textContent = userStats.recipesCooked;
+}
+
 // ===== Stats Update =====
 function updateStats() {
     const total = ingredients.length;
     const expiring = ingredients.filter(i => getDaysUntilExpiry(i.expirationDate) <= 3).length;
     
+    // Update all stat displays
     document.getElementById('stat-total').textContent = total;
     document.getElementById('stat-expiring').textContent = expiring;
-    document.getElementById('totalItems').textContent = total;
-    document.getElementById('expiringItems').textContent = expiring;
+    document.getElementById('fridge-badge').textContent = total;
+    
+    if (total > 0) {
+        document.getElementById('fridge-badge').classList.remove('hidden');
+    } else {
+        document.getElementById('fridge-badge').classList.add('hidden');
+    }
+    
+    if (expiring > 0) {
+        document.getElementById('home-badge').textContent = expiring;
+        document.getElementById('home-badge').classList.remove('hidden');
+    } else {
+        document.getElementById('home-badge').classList.add('hidden');
+    }
+    
+    // Update header stats
+    document.getElementById('money-saved').textContent = `$${userStats.moneySaved}`;
+    document.getElementById('items-saved').textContent = userStats.itemsSaved;
+    
+    // Update recipe badge
+    const matchedRecipes = matchRecipes();
+    if (matchedRecipes.length > 0) {
+        document.getElementById('recipes-badge').textContent = matchedRecipes.length;
+        document.getElementById('recipes-badge').classList.remove('hidden');
+    } else {
+        document.getElementById('recipes-badge').classList.add('hidden');
+    }
+}
+
+// ===== Achievements System =====
+function checkAchievements() {
+    const achievements = [
+        { id: 'first-step', condition: ingredients.length >= 1, icon: '🌟', name: 'First Step', desc: 'Added first ingredient' },
+        { id: 'waste-warrior', condition: userStats.itemsSaved >= 10, icon: '🔥', name: 'Waste Warrior', desc: 'Save 10 items' },
+        { id: 'master-chef', condition: userStats.recipesCooked >= 20, icon: '👨‍🍳', name: 'Master Chef', desc: 'Cook 20 recipes' },
+        { id: 'money-saver', condition: userStats.moneySaved >= 100, icon: '💎', name: 'Money Saver', desc: 'Save $100' }
+    ];
+    
+    const unlockedAchievements = JSON.parse(localStorage.getItem('freshplate_achievements') || '[]');
+    
+    achievements.forEach(achievement => {
+        if (achievement.condition && !unlockedAchievements.includes(achievement.id)) {
+            unlockedAchievements.push(achievement.id);
+            localStorage.setItem('freshplate_achievements', JSON.stringify(unlockedAchievements));
+            
+            // Show achievement toast
+            showToast(`🏆 Achievement Unlocked: ${achievement.name}!`);
+        }
+    });
+}
+
+// ===== UI Helpers =====
+function showToast(message) {
+    const toast = document.getElementById('success-toast');
+    const toastMessage = document.getElementById('toast-message');
+    
+    toastMessage.textContent = message;
+    toast.classList.remove('hidden');
+    
+    setTimeout(() => {
+        toast.classList.add('hidden');
+    }, 3000);
+}
+
+function showImpactBanner(amount) {
+    const banner = document.getElementById('impact-banner');
+    const impactAmount = document.getElementById('impact-amount');
+    
+    impactAmount.textContent = `$${amount}`;
+    banner.classList.remove('hidden');
+    
+    setTimeout(() => {
+        banner.classList.add('hidden');
+    }, 5000);
+}
+
+function closeImpactBanner() {
+    document.getElementById('impact-banner').classList.add('hidden');
+}
+
+function showExpiringSoon() {
+    document.getElementById('sort-filter').value = 'expiry';
+    switchScreen('fridge');
+}
+
+function showHelp() {
+    alert('🍽️ FreshPlate Help\n\n' +
+          '• Add ingredients to track what you have\n' +
+          '• Get smart recipe suggestions\n' +
+          '• Use items before they expire\n' +
+          '• Save money and reduce waste!\n\n' +
+          'Tips:\n' +
+          '- Check expiring items daily\n' +
+          '- Cook recipes with high match %\n' +
+          '- Add items right after shopping');
 }
 
 // ===== Update All Views =====
@@ -437,21 +640,20 @@ function updateAllViews() {
     updateHomeView();
     updateIngredientList();
     updateRecipeList();
+    updateInsightsView();
 }
 
 // ===== Keyboard Shortcuts =====
 document.addEventListener('keydown', (e) => {
-    // ESC to close modals
     if (e.key === 'Escape') {
         closeAddModal();
         closeRecipeModal();
+        closeImpactBanner();
     }
-});
-
-// Close modals when clicking overlay
-document.addEventListener('click', (e) => {
-    if (e.target.classList.contains('modal-overlay')) {
-        closeAddModal();
-        closeRecipeModal();
+    
+    // Quick add: Ctrl/Cmd + K
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        openAddModal();
     }
 });
