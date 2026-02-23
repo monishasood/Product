@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FreshPlate - Save $1,600/Year</title>
     <style>
-        /* ===== SIMPLE WORKING CSS - ALL IN ONE FILE ===== */
+        /* Base Styles */
         * {
             margin: 0;
             padding: 0;
@@ -19,14 +19,21 @@
             background: #f9fafb;
         }
         
-        /* Container */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
         
-        /* Header */
+        /* Landing Page */
+        #landing-page {
+            display: block;
+        }
+        
+        #app-page {
+            display: none;
+        }
+        
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -107,15 +114,12 @@
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 10px;
-            color: #1f2937;
         }
         
         .feature-desc {
             color: #6b7280;
-            font-size: 16px;
         }
         
-        /* Button */
         .btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -136,102 +140,351 @@
             box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
         }
         
-        /* Section */
-        .section {
-            margin: 60px 0;
-        }
-        
         .section-title {
             font-size: 36px;
             font-weight: 800;
             text-align: center;
-            margin-bottom: 40px;
-            color: #1f2937;
+            margin: 60px 0 40px 0;
         }
         
-        /* FAQ */
-        .faq-item {
+        /* App Styles */
+        .app-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .app-title {
+            font-size: 24px;
+            font-weight: 800;
+        }
+        
+        .points-display {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .tabs {
+            display: flex;
+            background: white;
+            border-bottom: 2px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: #6b7280;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Ingredient Card */
+        .ingredient-card {
             background: white;
             padding: 20px;
-            margin-bottom: 15px;
             border-radius: 12px;
+            margin-bottom: 15px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
-        .faq-question {
-            font-weight: 700;
+        .ingredient-info h3 {
             font-size: 18px;
-            margin-bottom: 10px;
-            color: #1f2937;
+            margin-bottom: 5px;
         }
         
-        .faq-answer {
+        .ingredient-info p {
             color: #6b7280;
+            font-size: 14px;
+        }
+        
+        .badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+        
+        .badge-danger {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        
+        .badge-warning {
+            background: #fef3c7;
+            color: #d97706;
+        }
+        
+        .badge-success {
+            background: #d1fae5;
+            color: #059669;
+        }
+        
+        .badge-info {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #6b7280;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
             font-size: 16px;
         }
         
-        /* Footer */
-        .footer {
-            background: #1f2937;
-            color: white;
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .photo-upload {
+            border: 2px dashed #d1d5db;
+            padding: 40px;
             text-align: center;
-            padding: 40px 20px;
-            margin-top: 60px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
         }
         
-        .footer a {
-            color: #667eea;
-            text-decoration: none;
+        .photo-upload:hover {
+            border-color: #667eea;
+            background: #f9fafb;
         }
         
-        /* Responsive */
+        .photo-upload input {
+            display: none;
+        }
+        
+        .photo-preview {
+            max-width: 200px;
+            margin-top: 10px;
+            border-radius: 8px;
+        }
+        
+        .fab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            z-index: 999;
+        }
+        
+        .fab:hover {
+            transform: scale(1.1);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6b7280;
+        }
+        
+        .empty-state-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .recipe-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+        }
+        
+        .recipe-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #ffa502 0%, #ff6348 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+        }
+        
+        .recipe-info {
+            padding: 20px;
+        }
+        
+        .recipe-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .recipe-meta {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .match-bar {
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .match-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s;
+        }
+        
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 32px;
             }
-            
             .features {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
-        <img src="logo.png" alt="FreshPlate Logo" class="logo">
-        <h1>Stop Wasting Food, Start Saving Money</h1>
-        <p>Join thousands saving <strong>$1,600/year</strong> by reducing food waste</p>
-    </div>
-    
-    <!-- Stats -->
-    <div class="container">
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-number">32%</div>
-                <div class="stat-label">Less Waste</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">$1,600</div>
-                <div class="stat-label">Saved Per Year</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">1000+</div>
-                <div class="stat-label">Happy Users</div>
-            </div>
+    <!-- Landing Page -->
+    <div id="landing-page">
+        <div class="header">
+            <img src="logo.png" alt="FreshPlate Logo" class="logo">
+            <h1>Stop Wasting Food, Start Saving Money</h1>
+            <p>Join thousands saving <strong>$1,600/year</strong> by reducing food waste</p>
         </div>
         
-        <div style="text-align: center;">
-            <a href="#" class="btn" onclick="alert('App functionality coming soon!')">Start Saving Today - It\'s Free!</a>
-            <p style="color: #6b7280; margin-top: 10px;">No signup required • Works offline • 100% private</p>
-        </div>
-        
-        <!-- Features -->
-        <div class="section">
+        <div class="container">
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">32%</div>
+                    <div class="stat-label">Less Waste</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">$1,600</div>
+                    <div class="stat-label">Saved Per Year</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1000+</div>
+                    <div class="stat-label">Happy Users</div>
+                </div>
+            </div>
+            
+            <div style="text-align: center;">
+                <button class="btn" onclick="openApp()">Start Saving Today - It's Free!</button>
+                <p style="color: #6b7280; margin-top: 10px;">No signup required • Works offline • 100% private</p>
+            </div>
+            
             <h2 class="section-title">How FreshPlate Helps You</h2>
             <div class="features">
                 <div class="feature-card">
@@ -239,31 +492,26 @@
                     <h3 class="feature-title">Photo Upload</h3>
                     <p class="feature-desc">Snap photos of your ingredients for better tracking and bonus points</p>
                 </div>
-                
                 <div class="feature-card">
                     <div class="feature-icon">🍽️</div>
                     <h3 class="feature-title">Smart Recipes</h3>
                     <p class="feature-desc">AI-powered suggestions using ingredients you already have</p>
                 </div>
-                
                 <div class="feature-card">
                     <div class="feature-icon">⏰</div>
                     <h3 class="feature-title">Expiry Tracking</h3>
                     <p class="feature-desc">Automatic alerts when food is about to expire</p>
                 </div>
-                
                 <div class="feature-card">
                     <div class="feature-icon">⭐</div>
                     <h3 class="feature-title">Rewards System</h3>
                     <p class="feature-desc">Earn points and unlock achievements as you save</p>
                 </div>
-                
                 <div class="feature-card">
                     <div class="feature-icon">🏷️</div>
                     <h3 class="feature-title">Cooked vs Raw</h3>
                     <p class="feature-desc">Separate tracking for fresh items and leftovers</p>
                 </div>
-                
                 <div class="feature-card">
                     <div class="feature-icon">💰</div>
                     <h3 class="feature-title">Impact Dashboard</h3>
@@ -271,42 +519,345 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- App Page -->
+    <div id="app-page">
+        <div class="app-header">
+            <button class="back-btn" onclick="backToLanding()">← Back</button>
+            <div class="app-title">🍽️ FreshPlate</div>
+            <div class="points-display">⭐ <span id="points">0</span> pts</div>
+        </div>
         
-        <!-- FAQ -->
-        <div class="section">
-            <h2 class="section-title">Frequently Asked Questions</h2>
-            
-            <div class="faq-item">
-                <div class="faq-question">How does FreshPlate work?</div>
-                <div class="faq-answer">Simply add ingredients to your virtual fridge with expiration dates. FreshPlate automatically suggests recipes based on what you have and prioritizes items about to expire.</div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question">Is FreshPlate really free?</div>
-                <div class="faq-answer">Yes, 100% free! No hidden costs, no subscription, no credit card needed. Your data stays on your device.</div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question">Do I need to create an account?</div>
-                <div class="faq-answer">No signup required! FreshPlate works entirely in your browser. Just open and start using it immediately.</div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question">How do I earn points?</div>
-                <div class="faq-answer">Earn points by: Adding ingredients (+5), Uploading photos (+10), Using items before expiry (+10-15), Cooking recipes (+20).</div>
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('fridge')">🧊 My Fridge</button>
+            <button class="tab" onclick="switchTab('recipes')">📖 Recipes</button>
+            <button class="tab" onclick="switchTab('insights')">📊 Insights</button>
+        </div>
+        
+        <!-- Fridge Tab -->
+        <div id="fridge-tab" class="tab-content active">
+            <div class="container">
+                <div id="fridge-list"></div>
+                <div id="fridge-empty" class="empty-state">
+                    <div class="empty-state-icon">🧊</div>
+                    <h3>Your fridge is empty!</h3>
+                    <p>Add your first ingredient to get started</p>
+                </div>
             </div>
         </div>
+        
+        <!-- Recipes Tab -->
+        <div id="recipes-tab" class="tab-content">
+            <div class="container">
+                <div id="recipes-list"></div>
+                <div id="recipes-empty" class="empty-state">
+                    <div class="empty-state-icon">🍽️</div>
+                    <h3>No recipes yet!</h3>
+                    <p>Add ingredients to see recipe suggestions</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Insights Tab -->
+        <div id="insights-tab" class="tab-content">
+            <div class="container">
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="saved-money">$0</div>
+                        <div class="stat-label">Money Saved</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="saved-items">0</div>
+                        <div class="stat-label">Items Saved</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-points-display">0</div>
+                        <div class="stat-label">Total Points</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- FAB -->
+        <button class="fab" onclick="openAddModal()">+</button>
     </div>
-    
-    <!-- Footer -->
-    <div class="footer">
-        <img src="logo.png" alt="FreshPlate" class="logo" style="width: 100px; margin-bottom: 20px;">
-        <p><strong>FreshPlate</strong> - Smart Cooking • Zero Waste</p>
-        <p style="margin-top: 20px;">Built by <strong>Monisha Sood</strong> | Product Manager</p>
-        <p style="margin-top: 10px;">
-            <a href="https://github.com/monishasood" target="_blank">GitHub</a> • 
-            <a href="https://linkedin.com/in/monishasood" target="_blank">LinkedIn</a>
-        </p>
+
+    <!-- Add Ingredient Modal -->
+    <div id="add-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add Ingredient</h3>
+                <button class="close-btn" onclick="closeAddModal()">×</button>
+            </div>
+            
+            <form onsubmit="addIngredient(event)">
+                <div class="form-group">
+                    <label onclick="document.getElementById('photo-input').click()" class="photo-upload">
+                        <input type="file" id="photo-input" accept="image/*" onchange="previewPhoto(event)">
+                        <div id="photo-placeholder">📸 Click to upload photo (+10 points!)</div>
+                        <img id="photo-preview" class="photo-preview" style="display:none;">
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label>Ingredient Name</label>
+                    <input type="text" id="ingredient-name" placeholder="e.g., Spinach" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input type="text" id="ingredient-quantity" placeholder="e.g., 1 bag, 500g" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="ingredient-status" required>
+                        <option value="raw">Raw/Fresh</option>
+                        <option value="cooked">Cooked</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Expiration Date</label>
+                    <input type="date" id="ingredient-expiry" required>
+                </div>
+                
+                <button type="submit" class="btn" style="width:100%">Add to Fridge</button>
+            </form>
+        </div>
     </div>
+
+    <script>
+        // App State
+        let ingredients = [];
+        let points = 0;
+        let savedMoney = 0;
+        let savedItems = 0;
+        let currentPhoto = null;
+        
+        // Sample Recipes
+        const recipes = [
+            {id: 1, name: "Spinach Omelet", emoji: "🍳", time: "15 min", ingredients: ["eggs", "spinach", "cheese"], difficulty: "Easy"},
+            {id: 2, name: "Chicken Stir Fry", emoji: "🍗", time: "25 min", ingredients: ["chicken", "vegetables", "rice"], difficulty: "Medium"},
+            {id: 3, name: "Veggie Pasta", emoji: "🍝", time: "20 min", ingredients: ["pasta", "tomatoes", "vegetables"], difficulty: "Easy"},
+            {id: 4, name: "Caesar Salad", emoji: "🥗", time: "10 min", ingredients: ["lettuce", "chicken", "cheese"], difficulty: "Easy"},
+            {id: 5, name: "Rice Bowl", emoji: "🍚", time: "30 min", ingredients: ["rice", "vegetables", "eggs"], difficulty: "Easy"}
+        ];
+        
+        // Load data from localStorage
+        function loadData() {
+            const saved = localStorage.getItem('freshplate_data');
+            if (saved) {
+                const data = JSON.parse(saved);
+                ingredients = data.ingredients || [];
+                points = data.points || 0;
+                savedMoney = data.savedMoney || 0;
+                savedItems = data.savedItems || 0;
+            }
+            updateViews();
+        }
+        
+        // Save data
+        function saveData() {
+            localStorage.setItem('freshplate_data', JSON.stringify({
+                ingredients, points, savedMoney, savedItems
+            }));
+            updateViews();
+        }
+        
+        // Navigation
+        function openApp() {
+            document.getElementById('landing-page').style.display = 'none';
+            document.getElementById('app-page').style.display = 'block';
+            loadData();
+        }
+        
+        function backToLanding() {
+            document.getElementById('landing-page').style.display = 'block';
+            document.getElementById('app-page').style.display = 'none';
+        }
+        
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+            
+            if (tabName === 'recipes') updateRecipes();
+        }
+        
+        // Modal
+        function openAddModal() {
+            document.getElementById('add-modal').classList.add('active');
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 7);
+            document.getElementById('ingredient-expiry').value = tomorrow.toISOString().split('T')[0];
+        }
+        
+        function closeAddModal() {
+            document.getElementById('add-modal').classList.remove('active');
+            document.getElementById('photo-preview').style.display = 'none';
+            document.getElementById('photo-placeholder').style.display = 'block';
+            currentPhoto = null;
+        }
+        
+        // Photo
+        function previewPhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentPhoto = e.target.result;
+                    document.getElementById('photo-preview').src = e.target.result;
+                    document.getElementById('photo-preview').style.display = 'block';
+                    document.getElementById('photo-placeholder').style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        // Add Ingredient
+        function addIngredient(event) {
+            event.preventDefault();
+            
+            const ingredient = {
+                id: Date.now(),
+                name: document.getElementById('ingredient-name').value,
+                quantity: document.getElementById('ingredient-quantity').value,
+                status: document.getElementById('ingredient-status').value,
+                expiry: document.getElementById('ingredient-expiry').value,
+                photo: currentPhoto,
+                addedDate: new Date().toISOString()
+            };
+            
+            ingredients.push(ingredient);
+            points += 5; // Base points
+            if (currentPhoto) points += 10; // Photo bonus
+            
+            saveData();
+            closeAddModal();
+            document.getElementById('add-modal').querySelector('form').reset();
+            alert(`Added! Earned ${currentPhoto ? 15 : 5} points!`);
+        }
+        
+        // Delete Ingredient
+        function deleteIngredient(id) {
+            if (confirm('Delete this ingredient?')) {
+                ingredients = ingredients.filter(i => i.id !== id);
+                savedMoney += 5;
+                savedItems += 1;
+                points += 10;
+                saveData();
+                alert('Saved $5 by using before expiry! +10 points');
+            }
+        }
+        
+        // Get days until expiry
+        function getDaysUntilExpiry(expiryDate) {
+            const now = new Date();
+            const expiry = new Date(expiryDate);
+            const diff = expiry - now;
+            return Math.ceil(diff / (1000 * 60 * 60 * 24));
+        }
+        
+        // Update Views
+        function updateViews() {
+            document.getElementById('points').textContent = points;
+            document.getElementById('saved-money').textContent = '$' + savedMoney;
+            document.getElementById('saved-items').textContent = savedItems;
+            document.getElementById('total-points-display').textContent = points;
+            
+            updateFridge();
+            updateRecipes();
+        }
+        
+        // Update Fridge
+        function updateFridge() {
+            const list = document.getElementById('fridge-list');
+            const empty = document.getElementById('fridge-empty');
+            
+            if (ingredients.length === 0) {
+                list.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+            
+            empty.style.display = 'none';
+            list.innerHTML = ingredients.map(item => {
+                const days = getDaysUntilExpiry(item.expiry);
+                let badge = '';
+                if (days < 0) badge = '<span class="badge badge-danger">EXPIRED</span>';
+                else if (days <= 2) badge = '<span class="badge badge-danger">USE NOW</span>';
+                else if (days <= 5) badge = '<span class="badge badge-warning">SOON</span>';
+                else badge = '<span class="badge badge-success">FRESH</span>';
+                
+                const statusBadge = item.status === 'raw' 
+                    ? '<span class="badge badge-info">Raw</span>' 
+                    : '<span class="badge" style="background:#fef3c7;color:#92400e;">Cooked</span>';
+                
+                return `
+                    <div class="ingredient-card">
+                        <div class="ingredient-info">
+                            <h3>${item.name} ${statusBadge}${badge}</h3>
+                            <p>${item.quantity} • Expires in ${days} days</p>
+                        </div>
+                        <button class="btn" style="padding:10px 20px;font-size:14px;" onclick="deleteIngredient(${item.id})">Use</button>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // Update Recipes
+        function updateRecipes() {
+            const list = document.getElementById('recipes-list');
+            const empty = document.getElementById('recipes-empty');
+            
+            if (ingredients.length === 0) {
+                list.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+            
+            empty.style.display = 'none';
+            
+            const userIngredients = ingredients.map(i => i.name.toLowerCase());
+            
+            const matched = recipes.map(recipe => {
+                const matches = recipe.ingredients.filter(ing => 
+                    userIngredients.some(ui => ui.includes(ing) || ing.includes(ui))
+                );
+                const matchPercent = Math.round((matches.length / recipe.ingredients.length) * 100);
+                return {...recipe, matchPercent, matches: matches.length};
+            }).filter(r => r.matchPercent > 0)
+              .sort((a, b) => b.matchPercent - a.matchPercent);
+            
+            if (matched.length === 0) {
+                list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🍽️</div><h3>No matching recipes</h3><p>Add more ingredients to find recipes</p></div>';
+                return;
+            }
+            
+            list.innerHTML = matched.map(recipe => `
+                <div class="recipe-card">
+                    <div class="recipe-image">${recipe.emoji}</div>
+                    <div class="recipe-info">
+                        <h3 class="recipe-title">${recipe.name}</h3>
+                        <p class="recipe-meta">⏱️ ${recipe.time} • 📊 ${recipe.difficulty}</p>
+                        <p><strong>Match: ${recipe.matchPercent}%</strong> (${recipe.matches}/${recipe.ingredients.length} ingredients)</p>
+                        <div class="match-bar">
+                            <div class="match-fill" style="width:${recipe.matchPercent}%"></div>
+                        </div>
+                        ${recipe.matchPercent === 100 ? '<p style="color:#059669;font-weight:700;">✅ You can cook this now!</p>' : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Initialize on page load
+        loadData();
+    </script>
 </body>
 </html>
