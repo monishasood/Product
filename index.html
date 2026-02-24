@@ -3,856 +3,413 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FreshPlate - Smart Food Management Platform</title>
+    <title>FreshPlate - Smart Food Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-        
-        :root {
-            --primary: #4F46E5;
-            --primary-dark: #4338CA;
-            --secondary: #06B6D4;
-            --accent: #F59E0B;
-            --success: #10B981;
-            --danger: #EF4444;
-            --dark: #0F172A;
-            --gray: #64748B;
-            --light: #F8FAFC;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            color: var(--dark);
-            overflow-x: hidden;
-        }
-        
-        /* Landing Page Styles */
-        #landing-page {
-            display: block;
-        }
-        
-        #app-page {
-            display: none;
-        }
-        
-        .hero {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-        }
-        
-        .particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            opacity: 0.3;
-        }
-        
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: white;
-            border-radius: 50%;
-            animation: float 15s infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-1000px); opacity: 0; }
-        }
-        
-        .hero-content {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            max-width: 1200px;
-        }
-        
-        /* BIGGER LOGO */
-        .logo-container {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 40px;
-            background: white;
-            border-radius: 40px;
-            padding: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s;
-        }
-        
-        .logo-container:hover {
-            transform: scale(1.05) rotate(3deg);
-        }
-        
-        .logo-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-        
-        h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(40px, 6vw, 72px);
-            font-weight: 700;
-            color: white;
-            margin-bottom: 24px;
-            letter-spacing: -0.02em;
-        }
-        
-        .gradient-text {
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .subtitle {
-            font-size: clamp(18px, 2vw, 24px);
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 40px;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 24px;
-            margin: 40px 0;
-        }
-        
-        .stat-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 32px;
-            text-align: center;
-            transition: all 0.4s;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-        
-        .stat-icon {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 20px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .stat-icon i {
-            font-size: 28px;
-            color: white;
-        }
-        
-        .stat-number {
-            font-size: 48px;
-            font-weight: 800;
-            font-family: 'Space Grotesk', sans-serif;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .stat-label {
-            font-size: 16px;
-            color: var(--gray);
-            font-weight: 600;
-        }
-        
-        .cta-button {
-            background: white;
-            color: var(--primary);
-            padding: 20px 48px;
-            border-radius: 60px;
-            font-size: 18px;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-        
-        /* App Page Styles */
-        .app-page {
-            min-height: 100vh;
-            background: #F8FAFC;
-        }
-        
-        .app-nav {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            padding: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        .app-nav-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        /* BIGGER LOGO IN APP */
-        .app-logo {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        
-        .app-logo-img {
-            width: 50px;
-            height: 50px;
-            background: white;
-            border-radius: 12px;
-            padding: 8px;
-        }
-        
-        .app-logo-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-        
-        .app-brand {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 28px;
-            font-weight: 700;
-        }
-        
-        .app-header-right {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
-        
-        .points-badge {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 18px;
-        }
-        
-        .back-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
-        .tabs {
-            background: white;
-            border-bottom: 2px solid #E2E8F0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .tabs-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-        }
-        
-        .tab {
-            flex: 1;
-            padding: 20px;
-            text-align: center;
-            background: none;
-            border: none;
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--gray);
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
-        }
-        
-        .tab:hover {
-            background: #F8FAFC;
-            color: var(--primary);
-        }
-        
-        .tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-        }
-        
-        .tab i {
-            margin-right: 8px;
-        }
-        
-        .tab-content {
-            display: none;
-            padding: 40px 20px;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        /* Ingredient Card */
-        .ingredient-card {
-            background: white;
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 16px;
-            border: 2px solid #E2E8F0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s;
-        }
-        
-        .ingredient-card:hover {
-            transform: translateX(5px);
-            border-color: var(--primary);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-        }
-        
-        .ingredient-info {
-            flex: 1;
-        }
-        
-        .ingredient-name {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .badge {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-        
-        .badge-fresh {
-            background: #D1FAE5;
-            color: #065F46;
-        }
-        
-        .badge-soon {
-            background: #FEF3C7;
-            color: #92400E;
-        }
-        
-        .badge-urgent {
-            background: #FEE2E2;
-            color: #991B1B;
-        }
-        
-        .badge-raw {
-            background: #DBEAFE;
-            color: #1E40AF;
-        }
-        
-        .badge-cooked {
-            background: #FEF3C7;
-            color: #92400E;
-        }
-        
-        .ingredient-meta {
-            color: var(--gray);
-            font-size: 14px;
-        }
-        
-        .use-btn {
-            background: var(--success);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .use-btn:hover {
-            background: #059669;
-            transform: scale(1.05);
-        }
-        
-        /* FAB */
-        .fab {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            border: none;
-            border-radius: 50%;
-            color: white;
-            font-size: 32px;
-            cursor: pointer;
-            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.4);
-            transition: all 0.3s;
-            z-index: 999;
-        }
-        
-        .fab:hover {
-            transform: scale(1.1);
-            box-shadow: 0 12px 32px rgba(79, 70, 229, 0.5);
-        }
-        
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal.active {
-            display: flex;
-        }
-        
-        .modal-content {
-            background: white;
-            border-radius: 24px;
-            padding: 40px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            animation: slideUp 0.3s ease-out;
-        }
-        
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 32px;
-        }
-        
-        .modal-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 28px;
-            font-weight: 700;
-        }
-        
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 32px;
-            color: var(--gray);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .close-btn:hover {
-            color: var(--danger);
-            transform: rotate(90deg);
-        }
-        
-        .form-group {
-            margin-bottom: 24px;
-        }
-        
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--dark);
-        }
-        
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid #E2E8F0;
-            border-radius: 12px;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-        
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-        }
-        
-        .photo-upload {
-            border: 2px dashed #D1D5DB;
-            border-radius: 12px;
-            padding: 40px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .photo-upload:hover {
-            border-color: var(--primary);
-            background: #F9FAFB;
-        }
-        
-        .photo-upload input {
-            display: none;
-        }
-        
-        .photo-preview {
-            max-width: 200px;
-            margin-top: 16px;
-            border-radius: 12px;
-        }
-        
-        .submit-btn {
-            width: 100%;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            border: none;
-            padding: 16px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.3);
-        }
-        
-        /* Recipe Card */
-        .recipe-card {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            margin-bottom: 24px;
-            border: 2px solid #E2E8F0;
-            transition: all 0.3s;
-        }
-        
-        .recipe-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
-        }
-        
-        .recipe-icon {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, #FFA502 0%, #FF6348 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .recipe-icon i {
-            font-size: 80px;
-            color: white;
-        }
-        
-        .recipe-info {
-            padding: 24px;
-        }
-        
-        .recipe-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        
-        .recipe-meta {
-            color: var(--gray);
-            margin-bottom: 16px;
-        }
-        
-        .match-bar {
-            height: 10px;
-            background: #E5E7EB;
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 16px 0;
-        }
-        
-        .match-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
-            transition: width 0.5s;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 80px 20px;
-        }
-        
-        .empty-icon {
-            font-size: 80px;
-            color: #D1D5DB;
-            margin-bottom: 24px;
-        }
-        
-        .empty-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        
-        .empty-text {
-            color: var(--gray);
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 36px;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            .logo-container {
-                width: 150px;
-                height: 150px;
-            }
-        }
+        :root{--primary:#4F46E5;--secondary:#06B6D4;--success:#10B981;--danger:#EF4444;--dark:#0F172A;--gray:#64748B;}
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'Inter',sans-serif;color:var(--dark);overflow-x:hidden;}
+        #landing-page{display:block;}#app-page{display:none;}
+        .hero{min-height:100vh;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);position:relative;display:flex;align-items:center;justify-content:center;padding:40px 20px;}
+        .particles{position:absolute;width:100%;height:100%;overflow:hidden;opacity:0.3;}
+        .particle{position:absolute;width:4px;height:4px;background:white;border-radius:50%;animation:float 15s infinite;}
+        @keyframes float{0%,100%{transform:translateY(0);opacity:0;}10%{opacity:1;}90%{opacity:1;}100%{transform:translateY(-1000px);opacity:0;}}
+        .hero-content{position:relative;z-index:10;text-align:center;max-width:1200px;}
+        .logo-container{width:200px;height:200px;margin:0 auto 40px;background:white;border-radius:40px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,0.3);transition:transform 0.3s;}
+        .logo-container:hover{transform:scale(1.05) rotate(3deg);}
+        .logo-container img{width:100%;height:100%;object-fit:contain;}
+        h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(40px,6vw,72px);font-weight:700;color:white;margin-bottom:24px;}
+        .gradient-text{background:linear-gradient(135deg,#FFD700 0%,#FFA500 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+        .subtitle{font-size:clamp(18px,2vw,24px);color:rgba(255,255,255,0.9);margin-bottom:40px;}
+        .cta-button{background:white;color:var(--primary);padding:20px 48px;border-radius:60px;font-size:18px;font-weight:700;border:none;cursor:pointer;box-shadow:0 10px 40px rgba(0,0,0,0.2);transition:all 0.3s;display:inline-flex;align-items:center;gap:12px;margin-bottom:40px;}
+        .cta-button:hover{transform:translateY(-3px);box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+        .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px;margin:40px 0;}
+        .stat-card{background:rgba(255,255,255,0.95);border-radius:20px;padding:32px;text-align:center;transition:all 0.4s;}
+        .stat-card:hover{transform:translateY(-10px);box-shadow:0 20px 40px rgba(0,0,0,0.2);}
+        .stat-icon{width:60px;height:60px;margin:0 auto 20px;background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);border-radius:16px;display:flex;align-items:center;justify-content:center;}
+        .stat-icon i{font-size:28px;color:white;}
+        .stat-number{font-size:48px;font-weight:800;font-family:'Space Grotesk',sans-serif;background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+        .stat-label{font-size:16px;color:var(--gray);font-weight:600;}
+        .section{padding:100px 20px;}
+        .section-alt{background:#F8FAFC;}
+        .container{max-width:1200px;margin:0 auto;}
+        .section-header{text-align:center;margin-bottom:60px;}
+        .section-tag{display:inline-block;background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);color:white;padding:8px 20px;border-radius:20px;font-size:14px;font-weight:600;margin-bottom:20px;}
+        .section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(36px,5vw,56px);font-weight:700;margin-bottom:16px;}
+        .section-subtitle{font-size:20px;color:var(--gray);}
+        .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:32px;}
+        .feature-card{background:white;border-radius:20px;padding:40px;border:2px solid #E2E8F0;transition:all 0.4s;}
+        .feature-card:hover{transform:translateY(-10px);border-color:var(--primary);box-shadow:0 20px 40px rgba(79,70,229,0.15);}
+        .feature-icon{width:70px;height:70px;background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);border-radius:18px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;}
+        .feature-icon i{font-size:32px;color:white;}
+        .feature-title{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;margin-bottom:12px;}
+        .feature-desc{color:var(--gray);line-height:1.6;}
+        .faq-container{max-width:900px;margin:0 auto;}
+        .faq-item{background:white;border-radius:16px;margin-bottom:16px;border:2px solid #E2E8F0;overflow:hidden;transition:all 0.3s;}
+        .faq-item.active{border-color:var(--primary);box-shadow:0 8px 24px rgba(79,70,229,0.1);}
+        .faq-question{width:100%;background:none;border:none;padding:24px;text-align:left;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all 0.3s;}
+        .faq-question:hover{background:#F8FAFC;}
+        .faq-question-text{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:600;color:var(--dark);}
+        .faq-item.active .faq-question-text{color:var(--primary);}
+        .faq-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);border-radius:12px;display:flex;align-items:center;justify-content:center;transition:transform 0.3s;}
+        .faq-icon i{color:white;font-size:20px;}
+        .faq-item.active .faq-icon i{transform:rotate(180deg);}
+        .faq-answer{max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.4s ease;padding:0 24px;}
+        .faq-item.active .faq-answer{max-height:500px;padding:0 24px 24px 24px;}
+        .faq-answer p{color:var(--gray);line-height:1.8;}
+        .help-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;}
+        .help-card{background:white;border-radius:16px;padding:32px;border:2px solid #E2E8F0;transition:all 0.3s;}
+        .help-card:hover{transform:translateY(-5px);border-color:var(--primary);box-shadow:0 12px 24px rgba(79,70,229,0.15);}
+        .help-icon{width:50px;height:50px;background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;}
+        .help-icon i{font-size:24px;color:white;}
+        .help-title{font-size:20px;font-weight:700;margin-bottom:16px;}
+        .help-list{list-style:none;padding:0;}
+        .help-list li{padding:8px 0 8px 24px;position:relative;color:var(--gray);}
+        .help-list li::before{content:'→';position:absolute;left:0;color:var(--primary);font-weight:700;}
+        .footer{background:#0F172A;color:white;padding:60px 20px 30px;}
+        .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:40px;margin-bottom:40px;}
+        .footer-brand{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+        .footer-logo{width:40px;height:40px;background:white;border-radius:10px;padding:8px;}
+        .footer-logo img{width:100%;height:100%;object-fit:contain;}
+        .footer-brand-name{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;}
+        .footer-links{list-style:none;}
+        .footer-links li{margin-bottom:12px;}
+        .footer-links a{color:rgba(255,255,255,0.7);text-decoration:none;transition:color 0.3s;}
+        .footer-links a:hover{color:white;}
+        .footer-bottom{text-align:center;padding-top:30px;border-top:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);}
+        .app-page{min-height:100vh;background:#F8FAFC;}
+        .app-nav{background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);color:white;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.1);}
+        .app-nav-content{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;}
+        .app-logo{display:flex;align-items:center;gap:16px;}
+        .app-logo-img{width:50px;height:50px;background:white;border-radius:12px;padding:8px;}
+        .app-logo-img img{width:100%;height:100%;object-fit:contain;}
+        .app-brand{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;}
+        .app-header-right{display:flex;align-items:center;gap:24px;}
+        .points-badge{background:rgba(255,255,255,0.2);padding:12px 24px;border-radius:30px;font-weight:700;font-size:18px;}
+        .back-btn{background:rgba(255,255,255,0.2);border:none;color:white;padding:12px 24px;border-radius:30px;cursor:pointer;font-weight:600;transition:all 0.3s;}
+        .back-btn:hover{background:rgba(255,255,255,0.3);}
+        .tabs{background:white;border-bottom:2px solid #E2E8F0;position:sticky;top:0;z-index:100;}
+        .tabs-container{max-width:1200px;margin:0 auto;display:flex;}
+        .tab{flex:1;padding:20px;text-align:center;background:none;border:none;font-size:16px;font-weight:600;color:var(--gray);cursor:pointer;border-bottom:3px solid transparent;transition:all 0.3s;}
+        .tab:hover{background:#F8FAFC;color:var(--primary);}
+        .tab.active{color:var(--primary);border-bottom-color:var(--primary);}
+        .tab i{margin-right:8px;}
+        .tab-content{display:none;padding:40px 20px;}
+        .tab-content.active{display:block;}
+        .ingredient-card{background:white;border-radius:16px;padding:24px;margin-bottom:16px;border:2px solid #E2E8F0;display:flex;justify-content:space-between;align-items:center;transition:all 0.3s;}
+        .ingredient-card:hover{transform:translateX(5px);border-color:var(--primary);box-shadow:0 8px 24px rgba(0,0,0,0.1);}
+        .ingredient-info{flex:1;}
+        .ingredient-name{font-size:20px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:12px;}
+        .badge{padding:6px 12px;border-radius:20px;font-size:12px;font-weight:700;}
+        .badge-fresh{background:#D1FAE5;color:#065F46;}
+        .badge-soon{background:#FEF3C7;color:#92400E;}
+        .badge-urgent{background:#FEE2E2;color:#991B1B;}
+        .badge-raw{background:#DBEAFE;color:#1E40AF;}
+        .badge-cooked{background:#FEF3C7;color:#92400E;}
+        .ingredient-meta{color:var(--gray);font-size:14px;}
+        .use-btn{background:var(--success);color:white;border:none;padding:12px 24px;border-radius:30px;font-weight:600;cursor:pointer;transition:all 0.3s;}
+        .use-btn:hover{background:#059669;transform:scale(1.05);}
+        .fab{position:fixed;bottom:30px;right:30px;width:70px;height:70px;background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);border:none;border-radius:50%;color:white;font-size:32px;cursor:pointer;box-shadow:0 8px 24px rgba(79,70,229,0.4);transition:all 0.3s;z-index:999;}
+        .fab:hover{transform:scale(1.1);}
+        .modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center;}
+        .modal.active{display:flex;}
+        .modal-content{background:white;border-radius:24px;padding:40px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;}
+        .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;}
+        .modal-title{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;}
+        .close-btn{background:none;border:none;font-size:32px;color:var(--gray);cursor:pointer;}
+        .form-group{margin-bottom:24px;}
+        .form-group label{display:block;font-weight:600;margin-bottom:8px;}
+        .form-group input,.form-group select{width:100%;padding:14px;border:2px solid #E2E8F0;border-radius:12px;font-size:16px;}
+        .form-group input:focus,.form-group select:focus{outline:none;border-color:var(--primary);}
+        .photo-upload{border:2px dashed #D1D5DB;border-radius:12px;padding:40px;text-align:center;cursor:pointer;transition:all 0.3s;}
+        .photo-upload:hover{border-color:var(--primary);background:#F9FAFB;}
+        .photo-upload input{display:none;}
+        .photo-preview{max-width:200px;margin-top:16px;border-radius:12px;}
+        .submit-btn{width:100%;background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);color:white;border:none;padding:16px;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;}
+        .recipe-card{background:white;border-radius:16px;overflow:hidden;margin-bottom:24px;border:2px solid #E2E8F0;transition:all 0.3s;}
+        .recipe-card:hover{transform:translateY(-5px);border-color:var(--primary);}
+        .recipe-icon{width:100%;height:200px;background:linear-gradient(135deg,#FFA502 0%,#FF6348 100%);display:flex;align-items:center;justify-content:center;}
+        .recipe-icon i{font-size:80px;color:white;}
+        .recipe-info{padding:24px;}
+        .recipe-title{font-size:24px;font-weight:700;margin-bottom:12px;}
+        .recipe-meta{color:var(--gray);margin-bottom:16px;}
+        .match-bar{height:10px;background:#E5E7EB;border-radius:10px;overflow:hidden;margin:16px 0;}
+        .match-fill{height:100%;background:linear-gradient(90deg,var(--primary) 0%,var(--secondary) 100%);transition:width 0.5s;}
+        .empty-state{text-align:center;padding:80px 20px;}
+        .empty-icon{font-size:80px;color:#D1D5DB;margin-bottom:24px;}
+        @media (max-width:768px){h1{font-size:36px;}.stats-grid,.features-grid,.help-grid{grid-template-columns:1fr;}.logo-container{width:150px;height:150px;}}
     </style>
 </head>
 <body>
-    <!-- Landing Page -->
     <div id="landing-page">
         <section class="hero">
             <div class="particles" id="particles"></div>
-            
             <div class="hero-content">
-                <!-- BIGGER LOGO -->
-                <div class="logo-container">
-                    <img src="logo.png" alt="FreshPlate Logo">
-                </div>
-                
-                <h1>
-                    Stop Wasting Food,<br>
-                    Start Saving <span class="gradient-text">$1,600/Year</span>
-                </h1>
-                
-                <p class="subtitle">
-                    AI-powered platform that transforms how you manage food, reduce waste, and save money
-                </p>
-                
+                <div class="logo-container"><img src="logo.png" alt="FreshPlate"></div>
+                <h1>Stop Wasting Food,<br>Start Saving <span class="gradient-text">$1,600/Year</span></h1>
+                <p class="subtitle">AI-powered platform that transforms how you manage food</p>
                 <button class="cta-button" onclick="openApp()">
-                    <span>Launch Platform</span>
-                    <i class="fas fa-arrow-right"></i>
+                    <span>Launch Platform</span><i class="fas fa-arrow-right"></i>
                 </button>
-                
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
+                        <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
                         <div class="stat-number">32%</div>
                         <div class="stat-label">Waste Reduction</div>
                     </div>
-                    
                     <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-dollar-sign"></i>
-                        </div>
+                        <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
                         <div class="stat-number">$1,600</div>
                         <div class="stat-label">Average Savings</div>
                     </div>
-                    
                     <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
                         <div class="stat-number">1000+</div>
                         <div class="stat-label">Active Users</div>
                     </div>
                 </div>
             </div>
         </section>
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Features</span>
+                    <h2 class="section-title">Everything You Need</h2>
+                    <p class="section-subtitle">Powerful tools to reduce waste</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-camera"></i></div>
+                        <h3 class="feature-title">Photo Upload</h3>
+                        <p class="feature-desc">Upload photos and AI identifies items automatically</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-brain"></i></div>
+                        <h3 class="feature-title">AI Recipe Matching</h3>
+                        <p class="feature-desc">Get personalized recipe suggestions</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-bell"></i></div>
+                        <h3 class="feature-title">Expiration Alerts</h3>
+                        <p class="feature-desc">Never miss an expiration date</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-trophy"></i></div>
+                        <h3 class="feature-title">Gamified Rewards</h3>
+                        <p class="feature-desc">Earn points for every action</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-fire"></i></div>
+                        <h3 class="feature-title">Smart Categorization</h3>
+                        <p class="feature-desc">Separate fresh from leftovers</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-chart-pie"></i></div>
+                        <h3 class="feature-title">Impact Analytics</h3>
+                        <p class="feature-desc">See your savings in real-time</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Support</span>
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                </div>
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span class="faq-question-text">How does FreshPlate work?</span>
+                            <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                        </button>
+                        <div class="faq-answer"><p>Simply add ingredients to your virtual fridge with expiration dates. FreshPlate automatically suggests recipes based on what you have.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span class="faq-question-text">Is FreshPlate really free?</span>
+                            <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                        </button>
+                        <div class="faq-answer"><p>Yes, 100% free! No hidden costs. Your data stays on your device.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span class="faq-question-text">Do I need an account?</span>
+                            <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                        </button>
+                        <div class="faq-answer"><p>No signup required! Works entirely in your browser.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span class="faq-question-text">Can I use it on mobile?</span>
+                            <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                        </button>
+                        <div class="faq-answer"><p>Absolutely! Fully responsive on all devices.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Help</span>
+                    <h2 class="section-title">Get Started</h2>
+                </div>
+                <div class="help-grid">
+                    <div class="help-card">
+                        <div class="help-icon"><i class="fas fa-book"></i></div>
+                        <h3 class="help-title">Getting Started</h3>
+                        <ul class="help-list">
+                            <li>Click Launch Platform</li>
+                            <li>Add first ingredient</li>
+                            <li>Upload a photo</li>
+                            <li>Browse recipes</li>
+                        </ul>
+                    </div>
+                    <div class="help-card">
+                        <div class="help-icon"><i class="fas fa-lightbulb"></i></div>
+                        <h3 class="help-title">Pro Tips</h3>
+                        <ul class="help-list">
+                            <li>Upload photos after shopping</li>
+                            <li>Check expiring items daily</li>
+                            <li>Use Cooked filter</li>
+                            <li>Mark recipes as cooked</li>
+                        </ul>
+                    </div>
+                    <div class="help-card">
+                        <div class="help-icon"><i class="fas fa-wrench"></i></div>
+                        <h3 class="help-title">Troubleshooting</h3>
+                        <ul class="help-list">
+                            <li>Use smaller file sizes</li>
+                            <li>Check same browser</li>
+                            <li>Clear old ingredients</li>
+                            <li>Refresh if needed</li>
+                        </ul>
+                    </div>
+                    <div class="help-card">
+                        <div class="help-icon"><i class="fas fa-globe"></i></div>
+                        <h3 class="help-title">Browser Support</h3>
+                        <ul class="help-list">
+                            <li>Chrome 90+</li>
+                            <li>Firefox 88+</li>
+                            <li>Safari 14+</li>
+                            <li>Edge 90+</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div>
+                        <div class="footer-brand">
+                            <div class="footer-logo"><img src="logo.png" alt="FreshPlate"></div>
+                            <span class="footer-brand-name">FreshPlate</span>
+                        </div>
+                        <p style="color:rgba(255,255,255,0.7);">Smart food management platform</p>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom:20px;">Connect</h4>
+                        <ul class="footer-links">
+                            <li><a href="https://github.com/monishasood"><i class="fab fa-github"></i> GitHub</a></li>
+                            <li><a href="https://linkedin.com/in/monishasood"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom"><p>&copy; 2026 FreshPlate. Built by <strong>Monisha Sood</strong></p></div>
+            </div>
+        </footer>
     </div>
-
-    <!-- App Page -->
     <div id="app-page" class="app-page">
-        <!-- App Navigation with BIGGER LOGO -->
         <nav class="app-nav">
             <div class="app-nav-content">
                 <div class="app-logo">
-                    <div class="app-logo-img">
-                        <img src="logo.png" alt="FreshPlate">
-                    </div>
+                    <div class="app-logo-img"><img src="logo.png" alt="FreshPlate"></div>
                     <span class="app-brand">FreshPlate</span>
                 </div>
-                
                 <div class="app-header-right">
-                    <div class="points-badge">
-                        <i class="fas fa-star"></i> <span id="points">0</span> pts
-                    </div>
-                    <button class="back-btn" onclick="backToLanding()">
-                        <i class="fas fa-arrow-left"></i> Back
-                    </button>
+                    <div class="points-badge"><i class="fas fa-star"></i> <span id="points">0</span> pts</div>
+                    <button class="back-btn" onclick="backToLanding()"><i class="fas fa-arrow-left"></i> Back</button>
                 </div>
             </div>
         </nav>
-        
-        <!-- Tabs -->
         <div class="tabs">
             <div class="tabs-container">
-                <button class="tab active" onclick="switchTab('fridge')">
-                    <i class="fas fa-refrigerator"></i> My Fridge
-                </button>
-                <button class="tab" onclick="switchTab('recipes')">
-                    <i class="fas fa-utensils"></i> Recipes
-                </button>
-                <button class="tab" onclick="switchTab('insights')">
-                    <i class="fas fa-chart-bar"></i> Insights
-                </button>
+                <button class="tab active" onclick="switchTab('fridge')"><i class="fas fa-refrigerator"></i> My Fridge</button>
+                <button class="tab" onclick="switchTab('recipes')"><i class="fas fa-utensils"></i> Recipes</button>
+                <button class="tab" onclick="switchTab('insights')"><i class="fas fa-chart-bar"></i> Insights</button>
             </div>
         </div>
-        
-        <!-- Fridge Tab -->
         <div id="fridge-tab" class="tab-content active">
             <div class="container">
                 <div id="fridge-list"></div>
                 <div id="fridge-empty" class="empty-state">
-                    <div class="empty-icon">
-                        <i class="fas fa-refrigerator"></i>
-                    </div>
-                    <h3 class="empty-title">Your fridge is empty</h3>
-                    <p class="empty-text">Click the + button to add your first ingredient</p>
+                    <div class="empty-icon"><i class="fas fa-refrigerator"></i></div>
+                    <h3>Your fridge is empty</h3>
+                    <p>Click + to add your first ingredient</p>
                 </div>
             </div>
         </div>
-        
-        <!-- Recipes Tab -->
         <div id="recipes-tab" class="tab-content">
             <div class="container">
                 <div id="recipes-list"></div>
                 <div id="recipes-empty" class="empty-state">
-                    <div class="empty-icon">
-                        <i class="fas fa-utensils"></i>
-                    </div>
-                    <h3 class="empty-title">No recipes yet</h3>
-                    <p class="empty-text">Add ingredients to see recipe suggestions</p>
+                    <div class="empty-icon"><i class="fas fa-utensils"></i></div>
+                    <h3>No recipes yet</h3>
+                    <p>Add ingredients to see suggestions</p>
                 </div>
             </div>
         </div>
-        
-        <!-- Insights Tab -->
         <div id="insights-tab" class="tab-content">
             <div class="container">
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-dollar-sign"></i>
-                        </div>
+                        <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
                         <div class="stat-number" id="saved-money">$0</div>
                         <div class="stat-label">Money Saved</div>
                     </div>
-                    
                     <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
+                        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
                         <div class="stat-number" id="saved-items">0</div>
                         <div class="stat-label">Items Saved</div>
                     </div>
-                    
                     <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
+                        <div class="stat-icon"><i class="fas fa-star"></i></div>
                         <div class="stat-number" id="total-points">0</div>
                         <div class="stat-label">Total Points</div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <!-- FAB -->
-        <button class="fab" onclick="openModal()">
-            <i class="fas fa-plus"></i>
-        </button>
+        <button class="fab" onclick="openModal()"><i class="fas fa-plus"></i></button>
     </div>
-
-    <!-- Add Ingredient Modal -->
     <div id="add-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">Add Ingredient</h3>
                 <button class="close-btn" onclick="closeModal()">×</button>
             </div>
-            
             <form onsubmit="addIngredient(event)">
                 <div class="form-group">
                     <label onclick="document.getElementById('photo-input').click()" class="photo-upload">
                         <input type="file" id="photo-input" accept="image/*" onchange="previewPhoto(event)">
                         <div id="photo-placeholder">
-                            <i class="fas fa-camera" style="font-size: 40px; color: var(--gray); margin-bottom: 12px;"></i>
+                            <i class="fas fa-camera" style="font-size:40px;color:var(--gray);margin-bottom:12px;"></i>
                             <p>Click to upload photo (+10 points!)</p>
                         </div>
                         <img id="photo-preview" class="photo-preview" style="display:none;">
                     </label>
                 </div>
-                
                 <div class="form-group">
                     <label>Ingredient Name</label>
                     <input type="text" id="ingredient-name" placeholder="e.g., Spinach" required>
                 </div>
-                
                 <div class="form-group">
                     <label>Quantity</label>
-                    <input type="text" id="ingredient-quantity" placeholder="e.g., 1 bag, 500g" required>
+                    <input type="text" id="ingredient-quantity" placeholder="e.g., 1 bag" required>
                 </div>
-                
                 <div class="form-group">
                     <label>Status</label>
                     <select id="ingredient-status" required>
@@ -860,272 +417,40 @@
                         <option value="cooked">Cooked</option>
                     </select>
                 </div>
-                
                 <div class="form-group">
                     <label>Expiration Date</label>
                     <input type="date" id="ingredient-expiry" required>
                 </div>
-                
-                <button type="submit" class="submit-btn">
-                    <i class="fas fa-check"></i> Add to Fridge
-                </button>
+                <button type="submit" class="submit-btn"><i class="fas fa-check"></i> Add to Fridge</button>
             </form>
         </div>
     </div>
-
     <script>
-        // App State
-        let ingredients = [];
-        let points = 0;
-        let savedMoney = 0;
-        let savedItems = 0;
-        let currentPhoto = null;
-        
-        const recipes = [
-            {id: 1, name: "Spinach Omelet", icon: "egg", time: "15 min", ingredients: ["eggs", "spinach", "cheese"]},
-            {id: 2, name: "Chicken Stir Fry", icon: "drumstick-bite", time: "25 min", ingredients: ["chicken", "vegetables", "rice"]},
-            {id: 3, name: "Veggie Pasta", icon: "pizza-slice", time: "20 min", ingredients: ["pasta", "tomatoes", "vegetables"]},
-            {id: 4, name: "Caesar Salad", icon: "salad", time: "10 min", ingredients: ["lettuce", "chicken", "cheese"]},
-            {id: 5, name: "Rice Bowl", icon: "bowl-rice", time: "30 min", ingredients: ["rice", "vegetables", "eggs"]}
+        let ingredients=[];let points=0;let savedMoney=0;let savedItems=0;let currentPhoto=null;
+        const recipes=[
+            {id:1,name:"Spinach Omelet",icon:"egg",time:"15 min",ingredients:["eggs","spinach","cheese"]},
+            {id:2,name:"Chicken Stir Fry",icon:"drumstick-bite",time:"25 min",ingredients:["chicken","vegetables","rice"]},
+            {id:3,name:"Veggie Pasta",icon:"pizza-slice",time:"20 min",ingredients:["pasta","tomatoes","vegetables"]},
+            {id:4,name:"Caesar Salad",icon:"salad",time:"10 min",ingredients:["lettuce","chicken","cheese"]},
+            {id:5,name:"Rice Bowl",icon:"bowl-rice",time:"30 min",ingredients:["rice","vegetables","eggs"]}
         ];
-        
-        // Create Particles
-        function createParticles() {
-            const particles = document.getElementById('particles');
-            for (let i = 0; i < 50; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 15 + 's';
-                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                particles.appendChild(particle);
-            }
-        }
-        
-        // Navigation
-        function openApp() {
-            document.getElementById('landing-page').style.display = 'none';
-            document.getElementById('app-page').style.display = 'block';
-            loadData();
-        }
-        
-        function backToLanding() {
-            document.getElementById('landing-page').style.display = 'block';
-            document.getElementById('app-page').style.display = 'none';
-        }
-        
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            
-            document.getElementById(tabName + '-tab').classList.add('active');
-            event.target.classList.add('active');
-            
-            if (tabName === 'recipes') updateRecipes();
-        }
-        
-        // Modal
-        function openModal() {
-            document.getElementById('add-modal').classList.add('active');
-            const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 7);
-            document.getElementById('ingredient-expiry').value = tomorrow.toISOString().split('T')[0];
-        }
-        
-        function closeModal() {
-            document.getElementById('add-modal').classList.remove('active');
-            document.getElementById('photo-preview').style.display = 'none';
-            document.getElementById('photo-placeholder').style.display = 'block';
-            currentPhoto = null;
-        }
-        
-        // Photo
-        function previewPhoto(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    currentPhoto = e.target.result;
-                    document.getElementById('photo-preview').src = e.target.result;
-                    document.getElementById('photo-preview').style.display = 'block';
-                    document.getElementById('photo-placeholder').style.display = 'none';
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-        
-        // Add Ingredient
-        function addIngredient(event) {
-            event.preventDefault();
-            
-            const ingredient = {
-                id: Date.now(),
-                name: document.getElementById('ingredient-name').value,
-                quantity: document.getElementById('ingredient-quantity').value,
-                status: document.getElementById('ingredient-status').value,
-                expiry: document.getElementById('ingredient-expiry').value,
-                photo: currentPhoto
-            };
-            
-            ingredients.push(ingredient);
-            points += 5;
-            if (currentPhoto) points += 10;
-            
-            saveData();
-            closeModal();
-            event.target.reset();
-            showToast(`Added! Earned ${currentPhoto ? 15 : 5} points!`);
-        }
-        
-        // Delete Ingredient
-        function deleteIngredient(id) {
-            if (confirm('Mark as used?')) {
-                ingredients = ingredients.filter(i => i.id !== id);
-                savedMoney += 5;
-                savedItems += 1;
-                points += 10;
-                saveData();
-                showToast('Saved $5! +10 points');
-            }
-        }
-        
-        // Days until expiry
-        function getDaysUntilExpiry(expiryDate) {
-            const now = new Date();
-            const expiry = new Date(expiryDate);
-            return Math.ceil((expiry - now) / (1000 * 60 * 60 * 24));
-        }
-        
-        // Update Views
-        function updateViews() {
-            document.getElementById('points').textContent = points;
-            document.getElementById('saved-money').textContent = '$' + savedMoney;
-            document.getElementById('saved-items').textContent = savedItems;
-            document.getElementById('total-points').textContent = points;
-            
-            updateFridge();
-            updateRecipes();
-        }
-        
-        function updateFridge() {
-            const list = document.getElementById('fridge-list');
-            const empty = document.getElementById('fridge-empty');
-            
-            if (ingredients.length === 0) {
-                list.innerHTML = '';
-                empty.style.display = 'block';
-                return;
-            }
-            
-            empty.style.display = 'none';
-            list.innerHTML = ingredients.map(item => {
-                const days = getDaysUntilExpiry(item.expiry);
-                let expiryBadge = '';
-                if (days < 0) expiryBadge = '<span class="badge badge-urgent">EXPIRED</span>';
-                else if (days <= 2) expiryBadge = '<span class="badge badge-urgent">USE NOW</span>';
-                else if (days <= 5) expiryBadge = '<span class="badge badge-soon">SOON</span>';
-                else expiryBadge = '<span class="badge badge-fresh">FRESH</span>';
-                
-                const statusBadge = item.status === 'raw' 
-                    ? '<span class="badge badge-raw">Raw</span>' 
-                    : '<span class="badge badge-cooked">Cooked</span>';
-                
-                return `
-                    <div class="ingredient-card">
-                        <div class="ingredient-info">
-                            <div class="ingredient-name">
-                                ${item.name} ${statusBadge} ${expiryBadge}
-                            </div>
-                            <div class="ingredient-meta">
-                                <i class="fas fa-weight"></i> ${item.quantity} • 
-                                <i class="fas fa-calendar"></i> ${days} days left
-                            </div>
-                        </div>
-                        <button class="use-btn" onclick="deleteIngredient(${item.id})">
-                            <i class="fas fa-check"></i> Use
-                        </button>
-                    </div>
-                `;
-            }).join('');
-        }
-        
-        function updateRecipes() {
-            const list = document.getElementById('recipes-list');
-            const empty = document.getElementById('recipes-empty');
-            
-            if (ingredients.length === 0) {
-                list.innerHTML = '';
-                empty.style.display = 'block';
-                return;
-            }
-            
-            empty.style.display = 'none';
-            
-            const userIngredients = ingredients.map(i => i.name.toLowerCase());
-            const matched = recipes.map(recipe => {
-                const matches = recipe.ingredients.filter(ing => 
-                    userIngredients.some(ui => ui.includes(ing) || ing.includes(ui))
-                );
-                const matchPercent = Math.round((matches.length / recipe.ingredients.length) * 100);
-                return {...recipe, matchPercent, matches: matches.length};
-            }).filter(r => r.matchPercent > 0)
-              .sort((a, b) => b.matchPercent - a.matchPercent);
-            
-            if (matched.length === 0) {
-                list.innerHTML = '<div class="empty-state"><div class="empty-icon"><i class="fas fa-utensils"></i></div><h3 class="empty-title">No matching recipes</h3><p class="empty-text">Add more ingredients</p></div>';
-                return;
-            }
-            
-            list.innerHTML = matched.map(recipe => `
-                <div class="recipe-card">
-                    <div class="recipe-icon">
-                        <i class="fas fa-${recipe.icon}"></i>
-                    </div>
-                    <div class="recipe-info">
-                        <h3 class="recipe-title">${recipe.name}</h3>
-                        <p class="recipe-meta">
-                            <i class="fas fa-clock"></i> ${recipe.time} • 
-                            <strong>Match: ${recipe.matchPercent}%</strong> (${recipe.matches}/${recipe.ingredients.length} ingredients)
-                        </p>
-                        <div class="match-bar">
-                            <div class="match-fill" style="width:${recipe.matchPercent}%"></div>
-                        </div>
-                        ${recipe.matchPercent === 100 ? '<p style="color:var(--success);font-weight:700;"><i class="fas fa-check-circle"></i> You can cook this now!</p>' : ''}
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        // Data Management
-        function loadData() {
-            const saved = localStorage.getItem('freshplate_data');
-            if (saved) {
-                const data = JSON.parse(saved);
-                ingredients = data.ingredients || [];
-                points = data.points || 0;
-                savedMoney = data.savedMoney || 0;
-                savedItems = data.savedItems || 0;
-            }
-            updateViews();
-        }
-        
-        function saveData() {
-            localStorage.setItem('freshplate_data', JSON.stringify({
-                ingredients, points, savedMoney, savedItems
-            }));
-            updateViews();
-        }
-        
-        // Toast Notification
-        function showToast(message) {
-            alert(message);
-        }
-        
-        // Initialize
-        window.addEventListener('DOMContentLoaded', () => {
-            createParticles();
-            loadData();
-        });
+        function createParticles(){const p=document.getElementById('particles');for(let i=0;i<50;i++){const particle=document.createElement('div');particle.className='particle';particle.style.left=Math.random()*100+'%';particle.style.animationDelay=Math.random()*15+'s';p.appendChild(particle);}}
+        function toggleFAQ(button){const faqItem=button.parentElement;const wasActive=faqItem.classList.contains('active');document.querySelectorAll('.faq-item').forEach(item=>item.classList.remove('active'));if(!wasActive)faqItem.classList.add('active');}
+        function openApp(){document.getElementById('landing-page').style.display='none';document.getElementById('app-page').style.display='block';loadData();}
+        function backToLanding(){document.getElementById('landing-page').style.display='block';document.getElementById('app-page').style.display='none';}
+        function switchTab(tabName){document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(tabName+'-tab').classList.add('active');event.target.classList.add('active');if(tabName==='recipes')updateRecipes();}
+        function openModal(){document.getElementById('add-modal').classList.add('active');const tomorrow=new Date();tomorrow.setDate(tomorrow.getDate()+7);document.getElementById('ingredient-expiry').value=tomorrow.toISOString().split('T')[0];}
+        function closeModal(){document.getElementById('add-modal').classList.remove('active');document.getElementById('photo-preview').style.display='none';document.getElementById('photo-placeholder').style.display='block';currentPhoto=null;}
+        function previewPhoto(event){const file=event.target.files[0];if(file){const reader=new FileReader();reader.onload=function(e){currentPhoto=e.target.result;document.getElementById('photo-preview').src=e.target.result;document.getElementById('photo-preview').style.display='block';document.getElementById('photo-placeholder').style.display='none';};reader.readAsDataURL(file);}}
+        function addIngredient(event){event.preventDefault();const ingredient={id:Date.now(),name:document.getElementById('ingredient-name').value,quantity:document.getElementById('ingredient-quantity').value,status:document.getElementById('ingredient-status').value,expiry:document.getElementById('ingredient-expiry').value,photo:currentPhoto};ingredients.push(ingredient);points+=5;if(currentPhoto)points+=10;saveData();closeModal();event.target.reset();alert(`Added! Earned ${currentPhoto?15:5} points!`);}
+        function deleteIngredient(id){if(confirm('Mark as used?')){ingredients=ingredients.filter(i=>i.id!==id);savedMoney+=5;savedItems+=1;points+=10;saveData();alert('Saved $5! +10 points');}}
+        function getDaysUntilExpiry(expiryDate){const now=new Date();const expiry=new Date(expiryDate);return Math.ceil((expiry-now)/(1000*60*60*24));}
+        function updateViews(){document.getElementById('points').textContent=points;document.getElementById('saved-money').textContent='$'+savedMoney;document.getElementById('saved-items').textContent=savedItems;document.getElementById('total-points').textContent=points;updateFridge();updateRecipes();}
+        function updateFridge(){const list=document.getElementById('fridge-list');const empty=document.getElementById('fridge-empty');if(ingredients.length===0){list.innerHTML='';empty.style.display='block';return;}empty.style.display='none';list.innerHTML=ingredients.map(item=>{const days=getDaysUntilExpiry(item.expiry);let expiryBadge=days<0?'<span class="badge badge-urgent">EXPIRED</span>':days<=2?'<span class="badge badge-urgent">USE NOW</span>':days<=5?'<span class="badge badge-soon">SOON</span>':'<span class="badge badge-fresh">FRESH</span>';const statusBadge=item.status==='raw'?'<span class="badge badge-raw">Raw</span>':'<span class="badge badge-cooked">Cooked</span>';return `<div class="ingredient-card"><div class="ingredient-info"><div class="ingredient-name">${item.name} ${statusBadge} ${expiryBadge}</div><div class="ingredient-meta"><i class="fas fa-weight"></i> ${item.quantity} • <i class="fas fa-calendar"></i> ${days} days left</div></div><button class="use-btn" onclick="deleteIngredient(${item.id})"><i class="fas fa-check"></i> Use</button></div>`;}).join('');}
+        function updateRecipes(){const list=document.getElementById('recipes-list');const empty=document.getElementById('recipes-empty');if(ingredients.length===0){list.innerHTML='';empty.style.display='block';return;}empty.style.display='none';const userIngredients=ingredients.map(i=>i.name.toLowerCase());const matched=recipes.map(recipe=>{const matches=recipe.ingredients.filter(ing=>userIngredients.some(ui=>ui.includes(ing)||ing.includes(ui)));const matchPercent=Math.round((matches.length/recipe.ingredients.length)*100);return{...recipe,matchPercent,matches:matches.length};}).filter(r=>r.matchPercent>0).sort((a,b)=>b.matchPercent-a.matchPercent);if(matched.length===0){list.innerHTML='<div class="empty-state"><div class="empty-icon"><i class="fas fa-utensils"></i></div><h3>No matching recipes</h3></div>';return;}list.innerHTML=matched.map(recipe=>`<div class="recipe-card"><div class="recipe-icon"><i class="fas fa-${recipe.icon}"></i></div><div class="recipe-info"><h3 class="recipe-title">${recipe.name}</h3><p class="recipe-meta"><i class="fas fa-clock"></i> ${recipe.time} • <strong>Match: ${recipe.matchPercent}%</strong> (${recipe.matches}/${recipe.ingredients.length})</p><div class="match-bar"><div class="match-fill" style="width:${recipe.matchPercent}%"></div></div>${recipe.matchPercent===100?'<p style="color:var(--success);font-weight:700;"><i class="fas fa-check-circle"></i> You can cook this now!</p>':''}</div></div>`).join('');}
+        function loadData(){const saved=localStorage.getItem('freshplate_data');if(saved){const data=JSON.parse(saved);ingredients=data.ingredients||[];points=data.points||0;savedMoney=data.savedMoney||0;savedItems=data.savedItems||0;}updateViews();}
+        function saveData(){localStorage.setItem('freshplate_data',JSON.stringify({ingredients,points,savedMoney,savedItems}));updateViews();}
+        window.addEventListener('DOMContentLoaded',()=>{createParticles();loadData();});
     </script>
 </body>
 </html>
