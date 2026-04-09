@@ -1734,7 +1734,13 @@ function closeSettingsModal() {
 }
 
 function saveApiKey() {
-    apiKey = document.getElementById('apiKeyInput').value.trim();
+    // Strip ALL whitespace, newlines, invisible chars
+    apiKey = document.getElementById('apiKeyInput').value.replace(/\s+/g, '').replace(/[^\x20-\x7E]/g, '').trim();
+    document.getElementById('apiKeyInput').value = apiKey;
+    if (apiKey && !apiKey.startsWith('sk-ant-')) {
+        showToast('Key should start with sk-ant- — double check it', 'warn');
+        return;
+    }
     saveData();
     closeSettingsModal();
     checkApiKey();
