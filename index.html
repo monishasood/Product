@@ -3,454 +3,1751 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FreshPlate - Smart Food Management</title>
+    <title>FreshPlate — Smart Food Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,600;9..144,800;9..144,900&family=Fraunces:ital,opsz,wght@1,9..144,300;1,9..144,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-        :root{--primary:#4F46E5;--secondary:#06B6D4;--success:#10B981;--danger:#EF4444;--dark:#0F172A;--gray:#64748B;}
-        *{margin:0;padding:0;box-sizing:border-box;}
-        body{font-family:'Inter',sans-serif;color:var(--dark);overflow-x:hidden;}
-        #landing-page{display:block;}#app-page{display:none;}
-        .hero{min-height:100vh;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);position:relative;display:flex;align-items:center;justify-content:center;padding:40px 20px;}
-        .particles{position:absolute;width:100%;height:100%;overflow:hidden;opacity:0.3;}
-        .particle{position:absolute;width:4px;height:4px;background:white;border-radius:50%;animation:float 15s infinite;}
-        @keyframes float{0%,100%{transform:translateY(0);opacity:0;}10%{opacity:1;}90%{opacity:1;}100%{transform:translateY(-1000px);opacity:0;}}
-        .hero-content{position:relative;z-index:10;text-align:center;max-width:1200px;}
-        .logo-container{width:200px;height:200px;margin:0 auto 40px;background:white;border-radius:40px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,0.3);transition:transform 0.3s;}
-        .logo-container:hover{transform:scale(1.05) rotate(3deg);}
-        .logo-container img{width:100%;height:100%;object-fit:contain;}
-        h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(40px,6vw,72px);font-weight:700;color:white;margin-bottom:24px;}
-        .gradient-text{background:linear-gradient(135deg,#FFD700 0%,#FFA500 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-        .subtitle{font-size:clamp(18px,2vw,24px);color:rgba(255,255,255,0.9);margin-bottom:40px;}
-        .cta-button{background:white;color:var(--primary);padding:20px 48px;border-radius:60px;font-size:18px;font-weight:700;border:none;cursor:pointer;box-shadow:0 10px 40px rgba(0,0,0,0.2);transition:all 0.3s;display:inline-flex;align-items:center;gap:12px;margin-bottom:40px;}
-        .cta-button:hover{transform:translateY(-3px);box-shadow:0 20px 60px rgba(0,0,0,0.3);}
-        .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px;margin:40px 0;}
-        .stat-card{background:rgba(255,255,255,0.95);border-radius:20px;padding:32px;text-align:center;transition:all 0.4s;}
-        .stat-card:hover{transform:translateY(-10px);box-shadow:0 20px 40px rgba(0,0,0,0.2);}
-        .stat-icon{width:60px;height:60px;margin:0 auto 20px;background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);border-radius:16px;display:flex;align-items:center;justify-content:center;}
-        .stat-icon i{font-size:28px;color:white;}
-        .stat-number{font-size:48px;font-weight:800;font-family:'Space Grotesk',sans-serif;background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-        .stat-label{font-size:16px;color:var(--gray);font-weight:600;}
-        .section{padding:100px 20px;}
-        .section-alt{background:#F8FAFC;}
-        .container{max-width:1200px;margin:0 auto;}
-        .section-header{text-align:center;margin-bottom:60px;}
-        .section-tag{display:inline-block;background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);color:white;padding:8px 20px;border-radius:20px;font-size:14px;font-weight:600;margin-bottom:20px;}
-        .section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(36px,5vw,56px);font-weight:700;margin-bottom:16px;}
-        .section-subtitle{font-size:20px;color:var(--gray);}
-        .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:32px;}
-        .feature-card{background:white;border-radius:20px;padding:40px;border:2px solid #E2E8F0;transition:all 0.4s;}
-        .feature-card:hover{transform:translateY(-10px);border-color:var(--primary);box-shadow:0 20px 40px rgba(79,70,229,0.15);}
-        .feature-icon{width:70px;height:70px;background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);border-radius:18px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;}
-        .feature-icon i{font-size:32px;color:white;}
-        .feature-title{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;margin-bottom:12px;}
-        .feature-desc{color:var(--gray);line-height:1.6;}
-        .faq-container{max-width:900px;margin:0 auto;}
-        .faq-item{background:white;border-radius:16px;margin-bottom:16px;border:2px solid #E2E8F0;overflow:hidden;transition:all 0.3s;}
-        .faq-item.active{border-color:var(--primary);box-shadow:0 8px 24px rgba(79,70,229,0.1);}
-        .faq-question{width:100%;background:none;border:none;padding:24px;text-align:left;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all 0.3s;}
-        .faq-question:hover{background:#F8FAFC;}
-        .faq-question-text{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:600;color:var(--dark);}
-        .faq-item.active .faq-question-text{color:var(--primary);}
-        .faq-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);border-radius:12px;display:flex;align-items:center;justify-content:center;transition:transform 0.3s;}
-        .faq-icon i{color:white;font-size:20px;}
-        .faq-item.active .faq-icon i{transform:rotate(180deg);}
-        .faq-answer{max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.4s ease;padding:0 24px;}
-        .faq-item.active .faq-answer{max-height:500px;padding:0 24px 24px 24px;}
-        .faq-answer p{color:var(--gray);line-height:1.8;}
-        .help-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;}
-        .help-card{background:white;border-radius:16px;padding:32px;border:2px solid #E2E8F0;transition:all 0.3s;}
-        .help-card:hover{transform:translateY(-5px);border-color:var(--primary);box-shadow:0 12px 24px rgba(79,70,229,0.15);}
-        .help-icon{width:50px;height:50px;background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;}
-        .help-icon i{font-size:24px;color:white;}
-        .help-title{font-size:20px;font-weight:700;margin-bottom:16px;}
-        .help-list{list-style:none;padding:0;}
-        .help-list li{padding:8px 0 8px 24px;position:relative;color:var(--gray);}
-        .help-list li::before{content:'→';position:absolute;left:0;color:var(--primary);font-weight:700;}
-        .footer{background:#0F172A;color:white;padding:60px 20px 30px;}
-        .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:40px;margin-bottom:40px;}
-        .footer-brand{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
-        .footer-logo{width:40px;height:40px;background:white;border-radius:10px;padding:8px;}
-        .footer-logo img{width:100%;height:100%;object-fit:contain;}
-        .footer-brand-name{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;}
-        .footer-links{list-style:none;}
-        .footer-links li{margin-bottom:12px;}
-        .footer-links a{color:rgba(255,255,255,0.7);text-decoration:none;transition:color 0.3s;}
-        .footer-links a:hover{color:white;}
-        .footer-bottom{text-align:center;padding-top:30px;border-top:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);}
-        .app-page{min-height:100vh;background:#F8FAFC;}
-        .app-nav{background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);color:white;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.1);}
-        .app-nav-content{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;}
-        .app-logo{display:flex;align-items:center;gap:16px;}
-        .app-logo-img{width:50px;height:50px;background:white;border-radius:12px;padding:8px;}
-        .app-logo-img img{width:100%;height:100%;object-fit:contain;}
-        .app-brand{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;}
-        .app-header-right{display:flex;align-items:center;gap:24px;}
-        .points-badge{background:rgba(255,255,255,0.2);padding:12px 24px;border-radius:30px;font-weight:700;font-size:18px;}
-        .back-btn{background:rgba(255,255,255,0.2);border:none;color:white;padding:12px 24px;border-radius:30px;cursor:pointer;font-weight:600;transition:all 0.3s;}
-        .back-btn:hover{background:rgba(255,255,255,0.3);}
-        .tabs{background:white;border-bottom:2px solid #E2E8F0;position:sticky;top:0;z-index:100;}
-        .tabs-container{max-width:1200px;margin:0 auto;display:flex;}
-        .tab{flex:1;padding:20px;text-align:center;background:none;border:none;font-size:16px;font-weight:600;color:var(--gray);cursor:pointer;border-bottom:3px solid transparent;transition:all 0.3s;}
-        .tab:hover{background:#F8FAFC;color:var(--primary);}
-        .tab.active{color:var(--primary);border-bottom-color:var(--primary);}
-        .tab i{margin-right:8px;}
-        .tab-content{display:none;padding:40px 20px;}
-        .tab-content.active{display:block;}
-        .ingredient-card{background:white;border-radius:16px;padding:24px;margin-bottom:16px;border:2px solid #E2E8F0;display:flex;justify-content:space-between;align-items:center;transition:all 0.3s;}
-        .ingredient-card:hover{transform:translateX(5px);border-color:var(--primary);box-shadow:0 8px 24px rgba(0,0,0,0.1);}
-        .ingredient-info{flex:1;}
-        .ingredient-name{font-size:20px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:12px;}
-        .badge{padding:6px 12px;border-radius:20px;font-size:12px;font-weight:700;}
-        .badge-fresh{background:#D1FAE5;color:#065F46;}
-        .badge-soon{background:#FEF3C7;color:#92400E;}
-        .badge-urgent{background:#FEE2E2;color:#991B1B;}
-        .badge-raw{background:#DBEAFE;color:#1E40AF;}
-        .badge-cooked{background:#FEF3C7;color:#92400E;}
-        .ingredient-meta{color:var(--gray);font-size:14px;}
-        .use-btn{background:var(--success);color:white;border:none;padding:12px 24px;border-radius:30px;font-weight:600;cursor:pointer;transition:all 0.3s;}
-        .use-btn:hover{background:#059669;transform:scale(1.05);}
-        .fab{position:fixed;bottom:30px;right:30px;width:70px;height:70px;background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);border:none;border-radius:50%;color:white;font-size:32px;cursor:pointer;box-shadow:0 8px 24px rgba(79,70,229,0.4);transition:all 0.3s;z-index:999;}
-        .fab:hover{transform:scale(1.1);}
-        .modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center;}
-        .modal.active{display:flex;}
-        .modal-content{background:white;border-radius:24px;padding:40px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;}
-        .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;}
-        .modal-title{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;}
-        .close-btn{background:none;border:none;font-size:32px;color:var(--gray);cursor:pointer;}
-        .form-group{margin-bottom:24px;}
-        .form-group label{display:block;font-weight:600;margin-bottom:8px;}
-        .form-group input,.form-group select{width:100%;padding:14px;border:2px solid #E2E8F0;border-radius:12px;font-size:16px;}
-        .form-group input:focus,.form-group select:focus{outline:none;border-color:var(--primary);}
-        .photo-upload{border:2px dashed #D1D5DB;border-radius:12px;padding:40px;text-align:center;cursor:pointer;transition:all 0.3s;}
-        .photo-upload:hover{border-color:var(--primary);background:#F9FAFB;}
-        .photo-upload input{display:none;}
-        .photo-preview{max-width:200px;margin-top:16px;border-radius:12px;}
-        .submit-btn{width:100%;background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);color:white;border:none;padding:16px;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;}
-        .recipe-card{background:white;border-radius:16px;overflow:hidden;margin-bottom:24px;border:2px solid #E2E8F0;transition:all 0.3s;}
-        .recipe-card:hover{transform:translateY(-5px);border-color:var(--primary);}
-        .recipe-icon{width:100%;height:200px;background:linear-gradient(135deg,#FFA502 0%,#FF6348 100%);display:flex;align-items:center;justify-content:center;}
-        .recipe-icon i{font-size:80px;color:white;}
-        .recipe-info{padding:24px;}
-        .recipe-title{font-size:24px;font-weight:700;margin-bottom:12px;}
-        .recipe-meta{color:var(--gray);margin-bottom:16px;}
-        .match-bar{height:10px;background:#E5E7EB;border-radius:10px;overflow:hidden;margin:16px 0;}
-        .match-fill{height:100%;background:linear-gradient(90deg,var(--primary) 0%,var(--secondary) 100%);transition:width 0.5s;}
-        .empty-state{text-align:center;padding:80px 20px;}
-        .empty-icon{font-size:80px;color:#D1D5DB;margin-bottom:24px;}
-        @media (max-width:768px){h1{font-size:36px;}.stats-grid,.features-grid,.help-grid{grid-template-columns:1fr;}.logo-container{width:150px;height:150px;}}
+        :root {
+            --forest: #1B3D2A;
+            --forest-mid: #2D5C40;
+            --sage: #508660;
+            --mint: #A8D1B8;
+            --cream: #F5EFE2;
+            --warm-white: #FDFCF8;
+            --terra: #C4563A;
+            --gold: #D99B1A;
+            --gold-light: #F2CF7A;
+            --ink: #1A1A17;
+            --stone: #6B7060;
+            --border: #DDD8CC;
+            --urgent: #C4563A;
+            --warn: #D99B1A;
+            --good: #508660;
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--warm-white);
+            color: var(--ink);
+            overflow-x: hidden;
+        }
+
+        /* ========== LANDING ========== */
+        #landing { display: block; }
+        #app { display: none; }
+
+        /* NAV */
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+            padding: 24px 48px;
+            display: flex; align-items: center; justify-content: space-between;
+            transition: all 0.4s;
+        }
+        .nav.scrolled {
+            background: rgba(27, 61, 42, 0.97);
+            backdrop-filter: blur(12px);
+            padding: 16px 48px;
+            box-shadow: 0 2px 30px rgba(0,0,0,0.2);
+        }
+        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .nav-icon {
+            width: 40px; height: 40px;
+            background: var(--gold);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px;
+        }
+        .nav-brand {
+            font-family: 'Fraunces', serif;
+            font-size: 22px;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -0.5px;
+        }
+        .nav-links { display: flex; align-items: center; gap: 32px; }
+        .nav-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: white; }
+        .nav-cta {
+            background: var(--gold);
+            color: var(--forest) !important;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 600 !important;
+        }
+        .nav-cta:hover { background: var(--gold-light) !important; }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            background: var(--forest);
+            display: flex; flex-direction: column;
+            justify-content: center;
+            padding: 140px 48px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-bg-grid {
+            position: absolute; inset: 0; opacity: 0.04;
+            background-image: linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+        .hero-bg-glow {
+            position: absolute;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(80,134,96,0.3) 0%, transparent 70%);
+            top: -100px; right: -100px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .hero-bg-glow2 {
+            position: absolute;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(217,155,26,0.15) 0%, transparent 70%);
+            bottom: 50px; left: -50px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .floating-food {
+            position: absolute;
+            font-size: 56px;
+            opacity: 0.12;
+            animation: floatFood 20s infinite;
+            pointer-events: none;
+            user-select: none;
+        }
+        @keyframes floatFood {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.08; }
+            33% { transform: translateY(-30px) rotate(8deg); opacity: 0.15; }
+            66% { transform: translateY(-15px) rotate(-5deg); opacity: 0.10; }
+        }
+        .hero-content { position: relative; z-index: 10; max-width: 1200px; margin: 0 auto; width: 100%; }
+        .hero-tag {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(168,209,184,0.15);
+            border: 1px solid rgba(168,209,184,0.3);
+            color: var(--mint);
+            padding: 8px 18px; border-radius: 40px;
+            font-size: 13px; font-weight: 600; letter-spacing: 0.5px;
+            text-transform: uppercase; margin-bottom: 32px;
+        }
+        .hero-tag span { width: 6px; height: 6px; background: var(--mint); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .hero-h1 {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(56px, 8vw, 108px);
+            font-weight: 900;
+            line-height: 0.92;
+            letter-spacing: -3px;
+            color: white;
+            margin-bottom: 32px;
+        }
+        .hero-h1 .accent { color: var(--gold); font-style: italic; }
+        .hero-h1 .accent-green { color: var(--mint); }
+        .hero-sub {
+            font-size: 20px;
+            color: rgba(255,255,255,0.65);
+            max-width: 520px;
+            line-height: 1.6;
+            margin-bottom: 48px;
+            font-weight: 300;
+        }
+        .hero-actions { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 80px; }
+        .btn-primary {
+            background: var(--gold);
+            color: var(--forest);
+            padding: 18px 40px;
+            border-radius: 60px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            display: inline-flex; align-items: center; gap: 10px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(217,155,26,0.35); }
+        .btn-secondary {
+            background: transparent;
+            color: rgba(255,255,255,0.8);
+            padding: 18px 40px;
+            border-radius: 60px;
+            font-size: 16px;
+            font-weight: 500;
+            border: 1px solid rgba(255,255,255,0.25);
+            cursor: pointer;
+            display: inline-flex; align-items: center; gap: 10px;
+            transition: all 0.3s;
+        }
+        .btn-secondary:hover { border-color: rgba(255,255,255,0.6); color: white; background: rgba(255,255,255,0.05); }
+        .hero-stats {
+            display: flex; gap: 48px; flex-wrap: wrap;
+            padding-top: 48px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .hero-stat-num {
+            font-family: 'Fraunces', serif;
+            font-size: 44px; font-weight: 900;
+            color: white; letter-spacing: -1px;
+            display: block; margin-bottom: 4px;
+        }
+        .hero-stat-num .unit { color: var(--gold); }
+        .hero-stat-label { font-size: 14px; color: rgba(255,255,255,0.5); font-weight: 400; }
+
+        /* MARQUEE */
+        .marquee-strip {
+            background: var(--gold);
+            padding: 16px 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-inner {
+            display: inline-block;
+            animation: marquee 25s linear infinite;
+        }
+        .marquee-inner span {
+            font-family: 'Fraunces', serif;
+            font-size: 15px; font-weight: 600;
+            color: var(--forest);
+            padding: 0 40px;
+            letter-spacing: 0.5px;
+        }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* SECTION BASE */
+        .section { padding: 120px 48px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section-eyebrow {
+            font-size: 12px; font-weight: 600; letter-spacing: 2px;
+            text-transform: uppercase; color: var(--sage);
+            margin-bottom: 16px;
+        }
+        .section-h2 {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(40px, 5vw, 64px);
+            font-weight: 900; letter-spacing: -2px;
+            color: var(--ink); line-height: 1.0;
+            margin-bottom: 20px;
+        }
+        .section-h2 em { color: var(--terra); font-style: italic; }
+        .section-sub {
+            font-size: 18px; color: var(--stone);
+            font-weight: 300; line-height: 1.6;
+            max-width: 500px;
+        }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.7s cubic-bezier(0.22,1,0.36,1); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* PROBLEM SECTION */
+        .problem-section { background: var(--cream); }
+        .problem-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 80px; align-items: center;
+        }
+        .problem-visual {
+            background: var(--forest);
+            border-radius: 24px;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative; overflow: hidden;
+        }
+        .problem-big-num {
+            font-family: 'Fraunces', serif;
+            font-size: 120px; font-weight: 900;
+            color: var(--gold); line-height: 1;
+            display: block; letter-spacing: -4px;
+        }
+        .problem-big-label { color: rgba(255,255,255,0.7); font-size: 18px; font-weight: 400; }
+        .problem-visual-sub { color: rgba(255,255,255,0.4); font-size: 14px; margin-top: 12px; }
+        .problem-list { list-style: none; margin-top: 32px; }
+        .problem-list li {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: flex-start; gap: 16px;
+            font-size: 17px; color: var(--ink); line-height: 1.5;
+        }
+        .problem-list li:last-child { border-bottom: none; }
+        .problem-list .icon {
+            width: 36px; height: 36px; flex-shrink: 0;
+            background: var(--forest);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--mint); font-size: 16px;
+        }
+
+        /* FEATURES */
+        .features-section { background: var(--warm-white); }
+        .features-intro {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 80px; align-items: end;
+            margin-bottom: 80px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid var(--border);
+        }
+        .feature-card {
+            background: var(--warm-white);
+            padding: 40px 36px;
+            transition: all 0.35s;
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: var(--forest);
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+        }
+        .feature-card:hover::before { transform: translateY(0); }
+        .feature-card:hover .fc-icon { background: var(--gold); color: var(--forest); }
+        .feature-card:hover .fc-title, .feature-card:hover .fc-desc { color: white; }
+        .feature-card:hover .fc-desc { color: rgba(255,255,255,0.7); }
+        .fc-inner { position: relative; z-index: 1; }
+        .fc-icon {
+            width: 52px; height: 52px;
+            background: var(--cream);
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; color: var(--forest);
+            margin-bottom: 24px;
+            transition: all 0.35s;
+        }
+        .fc-num {
+            position: absolute; top: 32px; right: 32px;
+            font-family: 'Fraunces', serif;
+            font-size: 48px; font-weight: 900; color: var(--border);
+            line-height: 1; z-index: 0; transition: color 0.35s;
+        }
+        .feature-card:hover .fc-num { color: rgba(255,255,255,0.1); }
+        .fc-title {
+            font-family: 'Fraunces', serif;
+            font-size: 22px; font-weight: 600;
+            letter-spacing: -0.5px; margin-bottom: 10px;
+            transition: color 0.35s;
+        }
+        .fc-desc { font-size: 15px; color: var(--stone); line-height: 1.6; transition: color 0.35s; }
+
+        /* HOW IT WORKS */
+        .how-section { background: var(--forest); }
+        .how-section .section-eyebrow { color: var(--mint); }
+        .how-section .section-h2 { color: white; }
+        .how-section .section-h2 em { color: var(--gold); }
+        .how-steps {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 40px; margin-top: 64px;
+        }
+        .how-step {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px; padding: 40px 32px;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .how-step:hover { background: rgba(255,255,255,0.08); transform: translateY(-4px); }
+        .how-step-num {
+            font-family: 'Fraunces', serif;
+            font-size: 72px; font-weight: 900;
+            color: rgba(255,255,255,0.08);
+            position: absolute; top: 20px; right: 24px;
+            line-height: 1;
+        }
+        .how-step-emoji { font-size: 40px; margin-bottom: 20px; display: block; }
+        .how-step-title {
+            font-family: 'Fraunces', serif;
+            font-size: 26px; font-weight: 600;
+            color: white; margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+        .how-step-desc { color: rgba(255,255,255,0.55); font-size: 16px; line-height: 1.6; font-weight: 300; }
+        .how-connector {
+            display: flex; align-items: center; justify-content: center;
+            color: var(--gold); font-size: 24px; margin-top: 100px;
+        }
+
+        /* FAQ */
+        .faq-section { background: var(--cream); }
+        .faq-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; align-items: start; }
+        .faq-list { margin-top: 0; }
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+        }
+        .faq-q {
+            width: 100%; background: none; border: none;
+            padding: 24px 0; text-align: left;
+            cursor: pointer; display: flex;
+            justify-content: space-between; align-items: center;
+            gap: 16px;
+        }
+        .faq-q-text {
+            font-family: 'Fraunces', serif;
+            font-size: 18px; font-weight: 600;
+            color: var(--ink); text-align: left;
+            line-height: 1.3;
+        }
+        .faq-item.open .faq-q-text { color: var(--forest); }
+        .faq-icon-btn {
+            width: 32px; height: 32px; flex-shrink: 0;
+            background: var(--forest); color: white;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; transition: all 0.3s;
+        }
+        .faq-item.open .faq-icon-btn { background: var(--gold); color: var(--forest); transform: rotate(45deg); }
+        .faq-answer {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+        .faq-item.open .faq-answer { max-height: 300px; }
+        .faq-answer p { padding-bottom: 24px; color: var(--stone); line-height: 1.7; font-size: 16px; }
+
+        /* SOCIAL PROOF / CTA */
+        .cta-section {
+            background: var(--warm-white);
+            padding: 120px 48px;
+        }
+        .cta-box {
+            background: var(--forest);
+            border-radius: 32px;
+            padding: 80px 80px;
+            display: flex; align-items: center;
+            justify-content: space-between; gap: 60px;
+            flex-wrap: wrap;
+            position: relative; overflow: hidden;
+        }
+        .cta-box::before {
+            content: '🌿';
+            position: absolute; right: -30px; top: -30px;
+            font-size: 200px; opacity: 0.06; line-height: 1;
+        }
+        .cta-box-left { flex: 1; min-width: 280px; }
+        .cta-box .section-h2 { color: white; margin-bottom: 12px; }
+        .cta-box .section-h2 em { color: var(--gold); }
+        .cta-box-sub { color: rgba(255,255,255,0.6); font-size: 18px; font-weight: 300; }
+        .cta-box-right { display: flex; flex-direction: column; gap: 16px; }
+        .cta-feature {
+            display: flex; align-items: center; gap: 12px;
+            color: rgba(255,255,255,0.8); font-size: 15px;
+        }
+        .cta-feature i { color: var(--gold); width: 20px; }
+
+        /* FOOTER */
+        footer {
+            background: var(--ink);
+            padding: 64px 48px 40px;
+        }
+        .footer-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; justify-content: space-between;
+            align-items: start; gap: 40px; flex-wrap: wrap;
+            padding-bottom: 48px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            margin-bottom: 32px;
+        }
+        .footer-logo-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .footer-brand {
+            font-family: 'Fraunces', serif;
+            font-size: 20px; font-weight: 800; color: white;
+        }
+        .footer-tagline { color: rgba(255,255,255,0.4); font-size: 14px; max-width: 240px; line-height: 1.5; }
+        .footer-links-group h4 { color: rgba(255,255,255,0.5); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+        .footer-links-group a {
+            display: block; color: rgba(255,255,255,0.7);
+            text-decoration: none; font-size: 15px;
+            margin-bottom: 10px; transition: color 0.2s;
+        }
+        .footer-links-group a:hover { color: white; }
+        .footer-bottom {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+            color: rgba(255,255,255,0.3); font-size: 14px; flex-wrap: wrap; gap: 12px;
+        }
+        .footer-bottom strong { color: rgba(255,255,255,0.6); }
+
+        /* ========== APP ========== */
+        .app-nav {
+            background: var(--forest);
+            padding: 0 40px;
+            display: flex; align-items: center;
+            justify-content: space-between;
+            height: 70px;
+            position: sticky; top: 0; z-index: 500;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+        }
+        .app-nav-logo { display: flex; align-items: center; gap: 12px; }
+        .app-nav-icon { font-size: 22px; }
+        .app-nav-brand {
+            font-family: 'Fraunces', serif;
+            font-size: 22px; font-weight: 800;
+            color: white; letter-spacing: -0.5px;
+        }
+        .app-nav-right { display: flex; align-items: center; gap: 16px; }
+        .points-badge {
+            background: rgba(217,155,26,0.2);
+            border: 1px solid rgba(217,155,26,0.4);
+            color: var(--gold-light);
+            padding: 8px 18px; border-radius: 30px;
+            font-size: 14px; font-weight: 600;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .settings-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: white; padding: 8px 16px;
+            border-radius: 30px; cursor: pointer;
+            font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif;
+            display: flex; align-items: center; gap: 6px;
+            transition: all 0.2s;
+        }
+        .settings-btn:hover { background: rgba(255,255,255,0.18); }
+        .back-btn-app {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.25);
+            color: rgba(255,255,255,0.8); padding: 8px 18px;
+            border-radius: 30px; cursor: pointer;
+            font-size: 14px; font-family: 'DM Sans', sans-serif;
+            transition: all 0.2s; display: flex; align-items: center; gap: 6px;
+        }
+        .back-btn-app:hover { background: rgba(255,255,255,0.1); color: white; }
+        .app-tabs {
+            background: var(--warm-white);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            position: sticky; top: 70px; z-index: 400;
+        }
+        .app-tab {
+            flex: 1; padding: 18px 20px;
+            background: none; border: none;
+            font-size: 15px; font-weight: 500;
+            color: var(--stone); cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            font-family: 'DM Sans', sans-serif;
+            display: flex; align-items: center;
+            justify-content: center; gap: 8px;
+        }
+        .app-tab:hover { color: var(--forest); background: var(--cream); }
+        .app-tab.active { color: var(--forest); border-bottom-color: var(--forest); font-weight: 600; }
+        .app-panel { display: none; }
+        .app-panel.active { display: block; }
+        .app-content { padding: 36px 40px; max-width: 1000px; margin: 0 auto; }
+
+        /* Ingredient Cards */
+        .fridge-header {
+            display: flex; justify-content: space-between;
+            align-items: center; margin-bottom: 28px;
+        }
+        .fridge-title {
+            font-family: 'Fraunces', serif;
+            font-size: 28px; font-weight: 800; color: var(--ink);
+            letter-spacing: -0.5px;
+        }
+        .fridge-count {
+            font-size: 14px; color: var(--stone);
+            margin-top: 2px;
+        }
+        .urgency-filter {
+            display: flex; gap: 8px;
+        }
+        .filter-chip {
+            padding: 6px 14px; border-radius: 20px;
+            border: 1px solid var(--border);
+            background: white; color: var(--stone);
+            font-size: 13px; font-weight: 500; cursor: pointer;
+            transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+        }
+        .filter-chip.active { background: var(--forest); color: white; border-color: var(--forest); }
+        .ing-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 12px;
+            display: flex; align-items: center; gap: 20px;
+            transition: all 0.25s;
+            border-left: 4px solid transparent;
+        }
+        .ing-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.07); transform: translateX(3px); }
+        .ing-card.urgent { border-left-color: var(--urgent); }
+        .ing-card.warn { border-left-color: var(--warn); }
+        .ing-card.good { border-left-color: var(--good); }
+        .ing-card.expired { border-left-color: #999; background: #fafafa; }
+        .ing-emoji { font-size: 32px; width: 48px; text-align: center; flex-shrink: 0; }
+        .ing-info { flex: 1; }
+        .ing-name {
+            font-size: 17px; font-weight: 600;
+            color: var(--ink); display: flex; align-items: center; gap: 10px;
+            margin-bottom: 4px;
+        }
+        .ing-badge {
+            padding: 3px 10px; border-radius: 12px;
+            font-size: 11px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .ing-badge.urgent { background: #FEE2E2; color: #991B1B; }
+        .ing-badge.warn { background: #FEF9C3; color: #854D0E; }
+        .ing-badge.good { background: #DCFCE7; color: #166534; }
+        .ing-badge.expired { background: #F3F4F6; color: #6B7280; }
+        .ing-badge.raw { background: #EFF6FF; color: #1D4ED8; }
+        .ing-badge.cooked { background: #FFF7ED; color: #9A3412; }
+        .ing-meta { font-size: 14px; color: var(--stone); display: flex; align-items: center; gap: 12px; }
+        .ing-actions { display: flex; gap: 8px; align-items: center; }
+        .use-btn-app {
+            background: var(--good); color: white;
+            border: none; padding: 10px 20px;
+            border-radius: 20px; font-size: 14px; font-weight: 600;
+            cursor: pointer; font-family: 'DM Sans', sans-serif;
+            display: flex; align-items: center; gap: 6px;
+            transition: all 0.2s;
+        }
+        .use-btn-app:hover { background: #3D7048; transform: scale(1.03); }
+        .del-btn-app {
+            background: none; border: 1px solid var(--border);
+            color: var(--stone); padding: 10px 14px;
+            border-radius: 20px; font-size: 14px;
+            cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+        }
+        .del-btn-app:hover { background: #FEE2E2; color: #991B1B; border-color: #FECACA; }
+        .empty-state {
+            text-align: center; padding: 80px 40px;
+            color: var(--stone);
+        }
+        .empty-state .big-emoji { font-size: 64px; margin-bottom: 20px; display: block; }
+        .empty-state h3 { font-family: 'Fraunces', serif; font-size: 24px; color: var(--ink); margin-bottom: 8px; }
+        .empty-state p { font-size: 16px; font-weight: 300; }
+
+        /* FAB */
+        .fab-app {
+            position: fixed; bottom: 32px; right: 32px;
+            width: 64px; height: 64px;
+            background: var(--gold); color: var(--forest);
+            border: none; border-radius: 50%;
+            font-size: 28px; cursor: pointer;
+            box-shadow: 0 8px 32px rgba(217,155,26,0.4);
+            transition: all 0.3s; z-index: 300;
+            display: none; align-items: center; justify-content: center;
+        }
+        .fab-app.show { display: flex; }
+        .fab-app:hover { transform: scale(1.1) rotate(15deg); box-shadow: 0 12px 40px rgba(217,155,26,0.5); }
+
+        /* Recipes tab */
+        .ai-bar {
+            background: linear-gradient(135deg, var(--forest) 0%, var(--forest-mid) 100%);
+            border-radius: 16px;
+            padding: 28px 32px;
+            display: flex; align-items: center;
+            justify-content: space-between; gap: 20px;
+            margin-bottom: 32px; flex-wrap: wrap;
+        }
+        .ai-bar-left { }
+        .ai-bar-title {
+            font-family: 'Fraunces', serif;
+            font-size: 20px; font-weight: 700;
+            color: white; margin-bottom: 4px;
+        }
+        .ai-bar-sub { color: rgba(255,255,255,0.55); font-size: 14px; }
+        .ai-btn {
+            background: var(--gold); color: var(--forest);
+            border: none; padding: 14px 28px; border-radius: 30px;
+            font-size: 15px; font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; gap: 8px;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.3s; white-space: nowrap;
+        }
+        .ai-btn:hover { background: var(--gold-light); transform: scale(1.03); }
+        .ai-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .ai-loading {
+            display: none; align-items: center; gap: 12px;
+            color: var(--stone); font-size: 15px; padding: 20px 0;
+        }
+        .ai-loading.show { display: flex; }
+        .spinner {
+            width: 22px; height: 22px;
+            border: 2px solid var(--border);
+            border-top-color: var(--forest);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .recipe-card-app {
+            background: white; border: 1px solid var(--border);
+            border-radius: 16px; padding: 28px;
+            margin-bottom: 16px; transition: all 0.25s;
+        }
+        .recipe-card-app:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.08); transform: translateY(-2px); }
+        .rc-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 12px; }
+        .rc-name {
+            font-family: 'Fraunces', serif;
+            font-size: 22px; font-weight: 700; color: var(--ink);
+            letter-spacing: -0.5px;
+        }
+        .rc-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+        .rc-badge {
+            padding: 4px 12px; border-radius: 12px;
+            font-size: 12px; font-weight: 600;
+            background: var(--cream); color: var(--stone);
+            display: flex; align-items: center; gap: 5px;
+        }
+        .rc-desc { font-size: 15px; color: var(--stone); line-height: 1.6; font-weight: 300; }
+        .rc-uses { margin-top: 16px; }
+        .rc-uses-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--stone); margin-bottom: 8px; }
+        .rc-uses-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+        .rc-chip {
+            background: #DCFCE7; color: #166534;
+            padding: 4px 12px; border-radius: 12px;
+            font-size: 12px; font-weight: 600;
+        }
+        .difficulty-easy { background: #DCFCE7; color: #166534; }
+        .difficulty-medium { background: #FEF9C3; color: #854D0E; }
+        .difficulty-hard { background: #FEE2E2; color: #991B1B; }
+        .match-badge { background: var(--forest); color: var(--gold); }
+
+        /* Insights */
+        .insights-stats {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 16px; margin-bottom: 32px;
+        }
+        .insight-card {
+            background: white; border: 1px solid var(--border);
+            border-radius: 16px; padding: 28px;
+            text-align: center;
+        }
+        .insight-num {
+            font-family: 'Fraunces', serif;
+            font-size: 48px; font-weight: 900;
+            color: var(--forest); letter-spacing: -2px;
+            display: block; margin-bottom: 4px;
+        }
+        .insight-num .unit { font-size: 28px; }
+        .insight-label { font-size: 14px; color: var(--stone); font-weight: 400; }
+        .expiry-timeline { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 28px; }
+        .timeline-title { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+        .timeline-row { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
+        .timeline-label { font-size: 14px; color: var(--stone); width: 120px; flex-shrink: 0; }
+        .timeline-bar-wrap { flex: 1; background: var(--cream); border-radius: 8px; height: 10px; overflow: hidden; }
+        .timeline-bar { height: 100%; border-radius: 8px; transition: width 1s ease; }
+        .timeline-count { font-size: 13px; font-weight: 600; width: 20px; text-align: right; }
+
+        /* MODALS */
+        .modal-overlay {
+            display: none; position: fixed;
+            inset: 0; background: rgba(0,0,0,0.5);
+            z-index: 800; align-items: center; justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-box {
+            background: var(--warm-white);
+            border-radius: 24px; padding: 40px;
+            width: 90%; max-width: 480px;
+            max-height: 90vh; overflow-y: auto;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.2);
+        }
+        .modal-h {
+            font-family: 'Fraunces', serif;
+            font-size: 26px; font-weight: 800;
+            color: var(--ink); margin-bottom: 28px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .modal-close {
+            background: none; border: none;
+            font-size: 24px; color: var(--stone);
+            cursor: pointer; transition: color 0.2s; line-height: 1;
+        }
+        .modal-close:hover { color: var(--ink); }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--stone); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+        .form-input {
+            width: 100%; padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px; font-size: 16px;
+            font-family: 'DM Sans', sans-serif;
+            background: white; color: var(--ink);
+            transition: border-color 0.2s;
+        }
+        .form-input:focus { outline: none; border-color: var(--forest); }
+        .form-select {
+            width: 100%; padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px; font-size: 16px;
+            font-family: 'DM Sans', sans-serif;
+            background: white; color: var(--ink);
+            cursor: pointer; appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7060' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 16px center;
+        }
+        .form-select:focus { outline: none; border-color: var(--forest); }
+        .emoji-picker { display: flex; flex-wrap: wrap; gap: 8px; }
+        .emoji-opt {
+            font-size: 28px; padding: 8px; border-radius: 10px;
+            cursor: pointer; border: 2px solid transparent;
+            transition: all 0.15s; background: white;
+        }
+        .emoji-opt:hover { transform: scale(1.15); }
+        .emoji-opt.selected { border-color: var(--forest); background: var(--cream); }
+        .form-submit {
+            width: 100%; background: var(--forest);
+            color: white; border: none; padding: 16px;
+            border-radius: 12px; font-size: 16px; font-weight: 600;
+            cursor: pointer; font-family: 'DM Sans', sans-serif;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            transition: all 0.2s; margin-top: 8px;
+        }
+        .form-submit:hover { background: var(--forest-mid); transform: translateY(-1px); }
+        .api-key-note { background: var(--cream); border-radius: 12px; padding: 16px; font-size: 14px; color: var(--stone); line-height: 1.5; margin-top: 12px; }
+        .api-key-note a { color: var(--forest); }
+
+        /* Toast */
+        .toast {
+            position: fixed; bottom: 32px; left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--ink); color: white;
+            padding: 14px 28px; border-radius: 30px;
+            font-size: 15px; font-weight: 500;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            z-index: 1000; opacity: 0;
+            transition: all 0.3s;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast.success { background: var(--good); }
+        .toast.warn { background: var(--warn); color: var(--forest); }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .nav { padding: 20px 24px; }
+            .nav.scrolled { padding: 14px 24px; }
+            .nav-links { display: none; }
+            .hero { padding: 120px 24px 60px; }
+            .section { padding: 80px 24px; }
+            .problem-grid { grid-template-columns: 1fr; }
+            .features-intro { grid-template-columns: 1fr; gap: 40px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .how-steps { grid-template-columns: 1fr; }
+            .faq-grid { grid-template-columns: 1fr; gap: 40px; }
+            .cta-box { padding: 48px 32px; }
+            .footer-inner { flex-direction: column; }
+            .app-content { padding: 24px 20px; }
+            .insights-stats { grid-template-columns: 1fr; }
+            .ai-bar { flex-direction: column; align-items: flex-start; }
+        }
     </style>
 </head>
 <body>
-    <div id="landing-page">
-        <section class="hero">
-            <div class="particles" id="particles"></div>
-            <div class="hero-content">
-                <div class="logo-container"><img src="logo.png" alt="FreshPlate"></div>
-                <h1>Stop Wasting Food,<br>Start Saving <span class="gradient-text">$1,600/Year</span></h1>
-                <p class="subtitle">AI-powered platform that transforms how you manage food</p>
-                <button class="cta-button" onclick="openApp()">
-                    <span>Launch Platform</span><i class="fas fa-arrow-right"></i>
+
+<!-- =============================== LANDING =============================== -->
+<div id="landing">
+
+    <!-- NAV -->
+    <nav class="nav" id="mainNav">
+        <a href="#" class="nav-logo" onclick="return false;">
+            <div class="nav-icon">🌿</div>
+            <span class="nav-brand">FreshPlate</span>
+        </a>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#how">How It Works</a>
+            <a href="#faq">FAQ</a>
+            <a href="#" class="nav-cta" onclick="openApp(); return false;">Launch App →</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-bg-grid"></div>
+        <div class="hero-bg-glow"></div>
+        <div class="hero-bg-glow2"></div>
+        <!-- Floating food -->
+        <span class="floating-food" style="top:15%;left:8%;animation-delay:0s;font-size:48px;">🥬</span>
+        <span class="floating-food" style="top:30%;right:10%;animation-delay:3s;font-size:64px;">🍅</span>
+        <span class="floating-food" style="top:65%;left:5%;animation-delay:6s;font-size:40px;">🧄</span>
+        <span class="floating-food" style="top:20%;right:25%;animation-delay:9s;font-size:52px;">🥕</span>
+        <span class="floating-food" style="bottom:25%;right:8%;animation-delay:2s;font-size:44px;">🍋</span>
+        <span class="floating-food" style="bottom:15%;left:20%;animation-delay:7s;font-size:56px;">🥚</span>
+        <span class="floating-food" style="top:55%;right:20%;animation-delay:4s;font-size:36px;">🧅</span>
+        <div class="hero-content">
+            <div class="hero-tag">
+                <span></span> AI-Powered Food Management
+            </div>
+            <h1 class="hero-h1">
+                Stop Wasting<br>
+                <em class="accent">Food.</em>
+                <span class="accent-green"> Start</span><br>
+                Saving More.
+            </h1>
+            <p class="hero-sub">
+                FreshPlate tracks your ingredients, alerts you before things expire, 
+                and uses AI to suggest recipes — so nothing goes to waste.
+            </p>
+            <div class="hero-actions">
+                <button class="btn-primary" onclick="openApp()">
+                    Launch FreshPlate <i class="fas fa-arrow-right"></i>
                 </button>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
-                        <div class="stat-number">32%</div>
-                        <div class="stat-label">Waste Reduction</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
-                        <div class="stat-number">$1,600</div>
-                        <div class="stat-label">Average Savings</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-users"></i></div>
-                        <div class="stat-number">1000+</div>
-                        <div class="stat-label">Active Users</div>
-                    </div>
+                <a href="#how" class="btn-secondary">
+                    <i class="fas fa-play"></i> See How It Works
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div>
+                    <span class="hero-stat-num"><span class="unit">$</span>1,600</span>
+                    <span class="hero-stat-label">avg. saved per household / year</span>
+                </div>
+                <div>
+                    <span class="hero-stat-num">32<span class="unit">%</span></span>
+                    <span class="hero-stat-label">average waste reduction</span>
+                </div>
+                <div>
+                    <span class="hero-stat-num">1k<span class="unit">+</span></span>
+                    <span class="hero-stat-label">active users this month</span>
                 </div>
             </div>
-        </section>
-        <section class="section">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Features</span>
-                    <h2 class="section-title">Everything You Need</h2>
-                    <p class="section-subtitle">Powerful tools to reduce waste</p>
-                </div>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-camera"></i></div>
-                        <h3 class="feature-title">Photo Upload</h3>
-                        <p class="feature-desc">Upload photos and AI identifies items automatically</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-brain"></i></div>
-                        <h3 class="feature-title">AI Recipe Matching</h3>
-                        <p class="feature-desc">Get personalized recipe suggestions</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-bell"></i></div>
-                        <h3 class="feature-title">Expiration Alerts</h3>
-                        <p class="feature-desc">Never miss an expiration date</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-trophy"></i></div>
-                        <h3 class="feature-title">Gamified Rewards</h3>
-                        <p class="feature-desc">Earn points for every action</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-fire"></i></div>
-                        <h3 class="feature-title">Smart Categorization</h3>
-                        <p class="feature-desc">Separate fresh from leftovers</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-chart-pie"></i></div>
-                        <h3 class="feature-title">Impact Analytics</h3>
-                        <p class="feature-desc">See your savings in real-time</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="section section-alt">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Support</span>
-                    <h2 class="section-title">Frequently Asked Questions</h2>
-                </div>
-                <div class="faq-container">
-                    <div class="faq-item">
-                        <button class="faq-question" onclick="toggleFAQ(this)">
-                            <span class="faq-question-text">How does FreshPlate work?</span>
-                            <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
-                        </button>
-                        <div class="faq-answer"><p>Simply add ingredients to your virtual fridge with expiration dates. FreshPlate automatically suggests recipes based on what you have.</p></div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question" onclick="toggleFAQ(this)">
-                            <span class="faq-question-text">Is FreshPlate really free?</span>
-                            <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
-                        </button>
-                        <div class="faq-answer"><p>Yes, 100% free! No hidden costs. Your data stays on your device.</p></div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question" onclick="toggleFAQ(this)">
-                            <span class="faq-question-text">Do I need an account?</span>
-                            <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
-                        </button>
-                        <div class="faq-answer"><p>No signup required! Works entirely in your browser.</p></div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question" onclick="toggleFAQ(this)">
-                            <span class="faq-question-text">Can I use it on mobile?</span>
-                            <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
-                        </button>
-                        <div class="faq-answer"><p>Absolutely! Fully responsive on all devices.</p></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="section">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Help</span>
-                    <h2 class="section-title">Get Started</h2>
-                </div>
-                <div class="help-grid">
-                    <div class="help-card">
-                        <div class="help-icon"><i class="fas fa-book"></i></div>
-                        <h3 class="help-title">Getting Started</h3>
-                        <ul class="help-list">
-                            <li>Click Launch Platform</li>
-                            <li>Add first ingredient</li>
-                            <li>Upload a photo</li>
-                            <li>Browse recipes</li>
-                        </ul>
-                    </div>
-                    <div class="help-card">
-                        <div class="help-icon"><i class="fas fa-lightbulb"></i></div>
-                        <h3 class="help-title">Pro Tips</h3>
-                        <ul class="help-list">
-                            <li>Upload photos after shopping</li>
-                            <li>Check expiring items daily</li>
-                            <li>Use Cooked filter</li>
-                            <li>Mark recipes as cooked</li>
-                        </ul>
-                    </div>
-                    <div class="help-card">
-                        <div class="help-icon"><i class="fas fa-wrench"></i></div>
-                        <h3 class="help-title">Troubleshooting</h3>
-                        <ul class="help-list">
-                            <li>Use smaller file sizes</li>
-                            <li>Check same browser</li>
-                            <li>Clear old ingredients</li>
-                            <li>Refresh if needed</li>
-                        </ul>
-                    </div>
-                    <div class="help-card">
-                        <div class="help-icon"><i class="fas fa-globe"></i></div>
-                        <h3 class="help-title">Browser Support</h3>
-                        <ul class="help-list">
-                            <li>Chrome 90+</li>
-                            <li>Firefox 88+</li>
-                            <li>Safari 14+</li>
-                            <li>Edge 90+</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <footer class="footer">
-            <div class="container">
-                <div class="footer-content">
-                    <div>
-                        <div class="footer-brand">
-                            <div class="footer-logo"><img src="logo.png" alt="FreshPlate"></div>
-                            <span class="footer-brand-name">FreshPlate</span>
+        </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-strip">
+        <div class="marquee-inner">
+            <span>🥬 Smart Expiry Tracking</span>
+            <span>🤖 AI Recipe Suggestions</span>
+            <span>🏆 Gamified Rewards</span>
+            <span>📊 Impact Analytics</span>
+            <span>📸 Photo Upload</span>
+            <span>💯 100% Free</span>
+            <span>🔒 No Account Needed</span>
+            <span>🥬 Smart Expiry Tracking</span>
+            <span>🤖 AI Recipe Suggestions</span>
+            <span>🏆 Gamified Rewards</span>
+            <span>📊 Impact Analytics</span>
+            <span>📸 Photo Upload</span>
+            <span>💯 100% Free</span>
+            <span>🔒 No Account Needed</span>
+        </div>
+    </div>
+
+    <!-- PROBLEM -->
+    <section class="section problem-section">
+        <div class="container">
+            <div class="problem-grid">
+                <div class="problem-visual reveal">
+                    <div style="position:relative;z-index:1;">
+                        <span class="problem-big-num">40%</span>
+                        <span class="problem-big-label">of food purchased is wasted</span>
+                        <span class="problem-visual-sub">USDA data — that's $1,600+ per household annually</span>
+                        <div style="margin-top:32px;display:flex;gap:24px;flex-wrap:wrap;">
+                            <div style="text-align:center;">
+                                <span style="font-family:'Fraunces',serif;font-size:36px;font-weight:900;color:var(--gold-light);display:block;">133B</span>
+                                <span style="color:rgba(255,255,255,0.5);font-size:13px;">lbs wasted per year</span>
+                            </div>
+                            <div style="text-align:center;">
+                                <span style="font-family:'Fraunces',serif;font-size:36px;font-weight:900;color:var(--gold-light);display:block;">8%</span>
+                                <span style="color:rgba(255,255,255,0.5);font-size:13px;">of global emissions</span>
+                            </div>
                         </div>
-                        <p style="color:rgba(255,255,255,0.7);">Smart food management platform</p>
                     </div>
-                    <div>
-                        <h4 style="margin-bottom:20px;">Connect</h4>
-                        <ul class="footer-links">
-                            <li><a href="https://github.com/monishasood"><i class="fab fa-github"></i> GitHub</a></li>
-                            <li><a href="http://linkedin.com/in/monishasood07"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
-                        </ul>
+                    <div style="position:absolute;inset:0;border-radius:24px;background:radial-gradient(circle at 30% 70%,rgba(80,134,96,0.2),transparent 60%);pointer-events:none;"></div>
+                </div>
+                <div class="reveal" style="transition-delay:0.15s;">
+                    <p class="section-eyebrow">The Problem</p>
+                    <h2 class="section-h2">Most food waste is <em>preventable</em></h2>
+                    <p class="section-sub" style="margin-bottom:32px;">You buy it. You forget it. It expires. FreshPlate breaks that cycle with smart tracking and AI-powered suggestions.</p>
+                    <ul class="problem-list">
+                        <li>
+                            <div class="icon"><i class="fas fa-calendar-xmark"></i></div>
+                            <div>Forgetting expiry dates is the #1 cause of avoidable food waste at home</div>
+                        </li>
+                        <li>
+                            <div class="icon"><i class="fas fa-question-circle"></i></div>
+                            <div>Most people don't know what recipes they can make with what they already have</div>
+                        </li>
+                        <li>
+                            <div class="icon"><i class="fas fa-eye-slash"></i></div>
+                            <div>Out of sight, out of mind — items at the back of the fridge go to waste unnoticed</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section features-section" id="features">
+        <div class="container">
+            <div class="features-intro">
+                <div class="reveal">
+                    <p class="section-eyebrow">Features</p>
+                    <h2 class="section-h2">Everything to<br><em>end food waste</em></h2>
+                </div>
+                <div class="reveal" style="transition-delay:0.1s;">
+                    <p class="section-sub" style="max-width:400px;">Six core capabilities, designed to work together. Track, alert, cook, repeat — and earn points while doing it.</p>
+                </div>
+            </div>
+            <div class="features-grid reveal" style="transition-delay:0.2s;">
+                <div class="feature-card">
+                    <div class="fc-inner">
+                        <div class="fc-num">01</div>
+                        <div class="fc-icon">📸</div>
+                        <h3 class="fc-title">Photo Logging</h3>
+                        <p class="fc-desc">Snap a photo of any ingredient when adding it. Build a visual inventory of your fridge.</p>
                     </div>
                 </div>
-                <div class="footer-bottom"><p>&copy; 2026 FreshPlate. Built by <strong>Monisha Sood</strong></p></div>
+                <div class="feature-card">
+                    <div class="fc-inner">
+                        <div class="fc-num">02</div>
+                        <div class="fc-icon">🤖</div>
+                        <h3 class="fc-title">AI Recipes</h3>
+                        <p class="fc-desc">Claude AI analyzes your current ingredients and generates personalized recipe ideas instantly.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="fc-inner">
+                        <div class="fc-num">03</div>
+                        <div class="fc-icon">🔔</div>
+                        <h3 class="fc-title">Expiry Alerts</h3>
+                        <p class="fc-desc">Color-coded urgency indicators — never let something expire without knowing about it.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="fc-inner">
+                        <div class="fc-num">04</div>
+                        <div class="fc-icon">🏆</div>
+                        <h3 class="fc-title">Points & Rewards</h3>
+                        <p class="fc-desc">Earn points for adding ingredients, using them up, and cooking recipes. Track your streak.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="fc-inner">
+                        <div class="fc-num">05</div>
+                        <div class="fc-icon">🔀</div>
+                        <h3 class="fc-title">Raw vs. Cooked</h3>
+                        <p class="fc-desc">Tag items as raw or cooked. Track leftovers separately for a clearer fridge picture.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="fc-inner">
+                        <div class="fc-num">06</div>
+                        <div class="fc-icon">📊</div>
+                        <h3 class="fc-title">Impact Insights</h3>
+                        <p class="fc-desc">See exactly how much money and food you've saved — with a visual breakdown over time.</p>
+                    </div>
+                </div>
             </div>
-        </footer>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section how-section" id="how">
+        <div class="container">
+            <div class="reveal">
+                <p class="section-eyebrow">How It Works</p>
+                <h2 class="section-h2">Three steps to <em>zero waste</em></h2>
+            </div>
+            <div class="how-steps">
+                <div class="how-step reveal" style="transition-delay:0.1s;">
+                    <div class="how-step-num">01</div>
+                    <span class="how-step-emoji">➕</span>
+                    <h3 class="how-step-title">Add Ingredients</h3>
+                    <p class="how-step-desc">Log what's in your fridge with expiry dates. Optionally snap a photo. Earn 5–15 points per item added.</p>
+                </div>
+                <div class="how-step reveal" style="transition-delay:0.2s;">
+                    <div class="how-step-num">02</div>
+                    <span class="how-step-emoji">🔔</span>
+                    <h3 class="how-step-title">Get Alerts</h3>
+                    <p class="how-step-desc">FreshPlate shows color-coded urgency: green for fresh, yellow for expiring soon, red for use-now.</p>
+                </div>
+                <div class="how-step reveal" style="transition-delay:0.3s;">
+                    <div class="how-step-num">03</div>
+                    <span class="how-step-emoji">🍳</span>
+                    <h3 class="how-step-title">Cook with AI</h3>
+                    <p class="how-step-desc">Hit "Generate AI Recipes" and Claude crafts personalized recipe ideas based on exactly what you have.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section faq-section" id="faq">
+        <div class="container">
+            <div class="faq-grid">
+                <div class="reveal">
+                    <p class="section-eyebrow">FAQ</p>
+                    <h2 class="section-h2">Good<br><em>questions</em></h2>
+                    <p class="section-sub" style="margin-top:16px;">Everything you need to know before you start.</p>
+                    <div style="margin-top:40px;">
+                        <button class="btn-primary" onclick="openApp()" style="font-size:15px;padding:14px 32px;">
+                            Start Now — It's Free <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="faq-list reveal" style="transition-delay:0.15s;">
+                    <div class="faq-item">
+                        <button class="faq-q" onclick="toggleFAQ(this)">
+                            <span class="faq-q-text">How does FreshPlate actually work?</span>
+                            <div class="faq-icon-btn"><i class="fas fa-plus"></i></div>
+                        </button>
+                        <div class="faq-answer"><p>Add ingredients to your virtual fridge with names, quantities, and expiry dates. FreshPlate tracks urgency automatically and, when you enable AI Recipes, sends your ingredient list to Claude AI to generate personalized recipe suggestions tailored to exactly what you have.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" onclick="toggleFAQ(this)">
+                            <span class="faq-q-text">Is FreshPlate really free?</span>
+                            <div class="faq-icon-btn"><i class="fas fa-plus"></i></div>
+                        </button>
+                        <div class="faq-answer"><p>Yes — 100% free with no account required. The base app works entirely in your browser. The AI recipe feature uses the Anthropic API; you'll need your own API key (available free from Anthropic) to enable it.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" onclick="toggleFAQ(this)">
+                            <span class="faq-q-text">Where is my data stored?</span>
+                            <div class="faq-icon-btn"><i class="fas fa-plus"></i></div>
+                        </button>
+                        <div class="faq-answer"><p>Everything stays in your browser's localStorage — no servers, no accounts, no data sharing. Clear your browser data and it resets. Your API key is only ever used client-side and never transmitted to FreshPlate.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" onclick="toggleFAQ(this)">
+                            <span class="faq-q-text">What's the AI recipe feature?</span>
+                            <div class="faq-icon-btn"><i class="fas fa-plus"></i></div>
+                        </button>
+                        <div class="faq-answer"><p>The AI feature sends your current ingredient list to Claude (Anthropic's AI) which generates 3–5 creative, practical recipe ideas customized to your exact inventory — including difficulty, cook time, and descriptions. It's far better than a static recipe database.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" onclick="toggleFAQ(this)">
+                            <span class="faq-q-text">Does it work on mobile?</span>
+                            <div class="faq-icon-btn"><i class="fas fa-plus"></i></div>
+                        </button>
+                        <div class="faq-answer"><p>Absolutely. FreshPlate is fully responsive and works on all modern browsers — Chrome, Firefox, Safari, Edge — on desktop and mobile.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-box reveal">
+                <div class="cta-box-left">
+                    <h2 class="section-h2" style="font-size:clamp(36px,4vw,52px);">Ready to stop<br><em>wasting food?</em></h2>
+                    <p class="cta-box-sub" style="margin-top:12px;margin-bottom:32px;">No sign-up. No downloads. Just launch and start tracking.</p>
+                    <button class="btn-primary" onclick="openApp()">
+                        Launch FreshPlate Now <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                <div class="cta-box-right">
+                    <div class="cta-feature"><i class="fas fa-check"></i> Free forever, no credit card</div>
+                    <div class="cta-feature"><i class="fas fa-check"></i> Works in your browser instantly</div>
+                    <div class="cta-feature"><i class="fas fa-check"></i> AI-powered recipe generation</div>
+                    <div class="cta-feature"><i class="fas fa-check"></i> Earn points for every action</div>
+                    <div class="cta-feature"><i class="fas fa-check"></i> Private — your data stays local</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-inner">
+            <div>
+                <div class="footer-logo-wrap">
+                    <span style="font-size:28px;">🌿</span>
+                    <span class="footer-brand">FreshPlate</span>
+                </div>
+                <p class="footer-tagline">AI-powered food management. Stop wasting, start saving.</p>
+            </div>
+            <div class="footer-links-group">
+                <h4>Product</h4>
+                <a href="#features">Features</a>
+                <a href="#how">How It Works</a>
+                <a href="#faq">FAQ</a>
+                <a href="#" onclick="openApp(); return false;">Launch App</a>
+            </div>
+            <div class="footer-links-group">
+                <h4>Connect</h4>
+                <a href="https://github.com/monishasood" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                <a href="http://linkedin.com/in/monishasood07" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                <a href="https://monishasood.github.io/Product-Manager" target="_blank">Portfolio</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 FreshPlate. Built with ❤️ by <strong>Monisha Sood</strong></span>
+            <span>No data leaves your browser.</span>
+        </div>
+    </footer>
+
+</div>
+
+<!-- =============================== APP =============================== -->
+<div id="app">
+    <nav class="app-nav">
+        <div class="app-nav-logo">
+            <span class="app-nav-icon">🌿</span>
+            <span class="app-nav-brand">FreshPlate</span>
+        </div>
+        <div class="app-nav-right">
+            <div class="points-badge">⭐ <span id="pointsDisplay">0</span> pts</div>
+            <button class="settings-btn" onclick="openSettingsModal()">
+                <i class="fas fa-key"></i> AI Settings
+            </button>
+            <button class="back-btn-app" onclick="backToLanding()">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+        </div>
+    </nav>
+
+    <div class="app-tabs">
+        <button class="app-tab active" onclick="switchAppTab('fridge', this)">
+            <i class="fas fa-refrigerator"></i> My Fridge
+        </button>
+        <button class="app-tab" onclick="switchAppTab('recipes', this)">
+            <i class="fas fa-utensils"></i> AI Recipes
+        </button>
+        <button class="app-tab" onclick="switchAppTab('insights', this)">
+            <i class="fas fa-chart-bar"></i> Insights
+        </button>
     </div>
-    <div id="app-page" class="app-page">
-        <nav class="app-nav">
-            <div class="app-nav-content">
-                <div class="app-logo">
-                    <div class="app-logo-img"><img src="logo.png" alt="FreshPlate"></div>
-                    <span class="app-brand">FreshPlate</span>
+
+    <!-- FRIDGE TAB -->
+    <div class="app-panel active" id="panel-fridge">
+        <div class="app-content">
+            <div class="fridge-header">
+                <div>
+                    <div class="fridge-title">My Fridge</div>
+                    <div class="fridge-count" id="fridgeCount">0 ingredients tracked</div>
                 </div>
-                <div class="app-header-right">
-                    <div class="points-badge"><i class="fas fa-star"></i> <span id="points">0</span> pts</div>
-                    <button class="back-btn" onclick="backToLanding()"><i class="fas fa-arrow-left"></i> Back</button>
-                </div>
-            </div>
-        </nav>
-        <div class="tabs">
-            <div class="tabs-container">
-                <button class="tab active" onclick="switchTab('fridge')"><i class="fas fa-refrigerator"></i> My Fridge</button>
-                <button class="tab" onclick="switchTab('recipes')"><i class="fas fa-utensils"></i> Recipes</button>
-                <button class="tab" onclick="switchTab('insights')"><i class="fas fa-chart-bar"></i> Insights</button>
-            </div>
-        </div>
-        <div id="fridge-tab" class="tab-content active">
-            <div class="container">
-                <div id="fridge-list"></div>
-                <div id="fridge-empty" class="empty-state">
-                    <div class="empty-icon"><i class="fas fa-refrigerator"></i></div>
-                    <h3>Your fridge is empty</h3>
-                    <p>Click + to add your first ingredient</p>
+                <div class="urgency-filter">
+                    <button class="filter-chip active" onclick="setFilter('all', this)">All</button>
+                    <button class="filter-chip" onclick="setFilter('urgent', this)">🔴 Urgent</button>
+                    <button class="filter-chip" onclick="setFilter('warn', this)">🟡 Soon</button>
+                    <button class="filter-chip" onclick="setFilter('good', this)">🟢 Fresh</button>
                 </div>
             </div>
-        </div>
-        <div id="recipes-tab" class="tab-content">
-            <div class="container">
-                <div id="recipes-list"></div>
-                <div id="recipes-empty" class="empty-state">
-                    <div class="empty-icon"><i class="fas fa-utensils"></i></div>
-                    <h3>No recipes yet</h3>
-                    <p>Add ingredients to see suggestions</p>
-                </div>
+            <div id="fridgeList"></div>
+            <div id="fridgeEmpty" class="empty-state">
+                <span class="big-emoji">🧊</span>
+                <h3>Your fridge is empty</h3>
+                <p>Tap the + button to add your first ingredient</p>
             </div>
-        </div>
-        <div id="insights-tab" class="tab-content">
-            <div class="container">
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
-                        <div class="stat-number" id="saved-money">$0</div>
-                        <div class="stat-label">Money Saved</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
-                        <div class="stat-number" id="saved-items">0</div>
-                        <div class="stat-label">Items Saved</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-star"></i></div>
-                        <div class="stat-number" id="total-points">0</div>
-                        <div class="stat-label">Total Points</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button class="fab" onclick="openModal()"><i class="fas fa-plus"></i></button>
-    </div>
-    <div id="add-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Add Ingredient</h3>
-                <button class="close-btn" onclick="closeModal()">×</button>
-            </div>
-            <form onsubmit="addIngredient(event)">
-                <div class="form-group">
-                    <label onclick="document.getElementById('photo-input').click()" class="photo-upload">
-                        <input type="file" id="photo-input" accept="image/*" onchange="previewPhoto(event)">
-                        <div id="photo-placeholder">
-                            <i class="fas fa-camera" style="font-size:40px;color:var(--gray);margin-bottom:12px;"></i>
-                            <p>Click to upload photo (+10 points!)</p>
-                        </div>
-                        <img id="photo-preview" class="photo-preview" style="display:none;">
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>Ingredient Name</label>
-                    <input type="text" id="ingredient-name" placeholder="e.g., Spinach" required>
-                </div>
-                <div class="form-group">
-                    <label>Quantity</label>
-                    <input type="text" id="ingredient-quantity" placeholder="e.g., 1 bag" required>
-                </div>
-                <div class="form-group">
-                    <label>Status</label>
-                    <select id="ingredient-status" required>
-                        <option value="raw">Raw/Fresh</option>
-                        <option value="cooked">Cooked</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Expiration Date</label>
-                    <input type="date" id="ingredient-expiry" required>
-                </div>
-                <button type="submit" class="submit-btn"><i class="fas fa-check"></i> Add to Fridge</button>
-            </form>
         </div>
     </div>
-    <script>
-        let ingredients=[];let points=0;let savedMoney=0;let savedItems=0;let currentPhoto=null;
-        const recipes=[
-            {id:1,name:"Spinach Omelet",icon:"egg",time:"15 min",ingredients:["eggs","spinach","cheese"]},
-            {id:2,name:"Chicken Stir Fry",icon:"drumstick-bite",time:"25 min",ingredients:["chicken","vegetables","rice"]},
-            {id:3,name:"Veggie Pasta",icon:"pizza-slice",time:"20 min",ingredients:["pasta","tomatoes","vegetables"]},
-            {id:4,name:"Caesar Salad",icon:"salad",time:"10 min",ingredients:["lettuce","chicken","cheese"]},
-            {id:5,name:"Rice Bowl",icon:"bowl-rice",time:"30 min",ingredients:["rice","vegetables","eggs"]}
-        ];
-        function createParticles(){const p=document.getElementById('particles');for(let i=0;i<50;i++){const particle=document.createElement('div');particle.className='particle';particle.style.left=Math.random()*100+'%';particle.style.animationDelay=Math.random()*15+'s';p.appendChild(particle);}}
-        function toggleFAQ(button){const faqItem=button.parentElement;const wasActive=faqItem.classList.contains('active');document.querySelectorAll('.faq-item').forEach(item=>item.classList.remove('active'));if(!wasActive)faqItem.classList.add('active');}
-        function openApp(){document.getElementById('landing-page').style.display='none';document.getElementById('app-page').style.display='block';loadData();}
-        function backToLanding(){document.getElementById('landing-page').style.display='block';document.getElementById('app-page').style.display='none';}
-        function switchTab(tabName){document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(tabName+'-tab').classList.add('active');event.target.classList.add('active');if(tabName==='recipes')updateRecipes();}
-        function openModal(){document.getElementById('add-modal').classList.add('active');const tomorrow=new Date();tomorrow.setDate(tomorrow.getDate()+7);document.getElementById('ingredient-expiry').value=tomorrow.toISOString().split('T')[0];}
-        function closeModal(){document.getElementById('add-modal').classList.remove('active');document.getElementById('photo-preview').style.display='none';document.getElementById('photo-placeholder').style.display='block';currentPhoto=null;}
-        function previewPhoto(event){const file=event.target.files[0];if(file){const reader=new FileReader();reader.onload=function(e){currentPhoto=e.target.result;document.getElementById('photo-preview').src=e.target.result;document.getElementById('photo-preview').style.display='block';document.getElementById('photo-placeholder').style.display='none';};reader.readAsDataURL(file);}}
-        function addIngredient(event){event.preventDefault();const ingredient={id:Date.now(),name:document.getElementById('ingredient-name').value,quantity:document.getElementById('ingredient-quantity').value,status:document.getElementById('ingredient-status').value,expiry:document.getElementById('ingredient-expiry').value,photo:currentPhoto};ingredients.push(ingredient);points+=5;if(currentPhoto)points+=10;saveData();closeModal();event.target.reset();alert(`Added! Earned ${currentPhoto?15:5} points!`);}
-        function deleteIngredient(id){if(confirm('Mark as used?')){ingredients=ingredients.filter(i=>i.id!==id);savedMoney+=5;savedItems+=1;points+=10;saveData();alert('Saved $5! +10 points');}}
-        function getDaysUntilExpiry(expiryDate){const now=new Date();const expiry=new Date(expiryDate);return Math.ceil((expiry-now)/(1000*60*60*24));}
-        function updateViews(){document.getElementById('points').textContent=points;document.getElementById('saved-money').textContent='$'+savedMoney;document.getElementById('saved-items').textContent=savedItems;document.getElementById('total-points').textContent=points;updateFridge();updateRecipes();}
-        function updateFridge(){const list=document.getElementById('fridge-list');const empty=document.getElementById('fridge-empty');if(ingredients.length===0){list.innerHTML='';empty.style.display='block';return;}empty.style.display='none';list.innerHTML=ingredients.map(item=>{const days=getDaysUntilExpiry(item.expiry);let expiryBadge=days<0?'<span class="badge badge-urgent">EXPIRED</span>':days<=2?'<span class="badge badge-urgent">USE NOW</span>':days<=5?'<span class="badge badge-soon">SOON</span>':'<span class="badge badge-fresh">FRESH</span>';const statusBadge=item.status==='raw'?'<span class="badge badge-raw">Raw</span>':'<span class="badge badge-cooked">Cooked</span>';return `<div class="ingredient-card"><div class="ingredient-info"><div class="ingredient-name">${item.name} ${statusBadge} ${expiryBadge}</div><div class="ingredient-meta"><i class="fas fa-weight"></i> ${item.quantity} • <i class="fas fa-calendar"></i> ${days} days left</div></div><button class="use-btn" onclick="deleteIngredient(${item.id})"><i class="fas fa-check"></i> Use</button></div>`;}).join('');}
-        function updateRecipes(){const list=document.getElementById('recipes-list');const empty=document.getElementById('recipes-empty');if(ingredients.length===0){list.innerHTML='';empty.style.display='block';return;}empty.style.display='none';const userIngredients=ingredients.map(i=>i.name.toLowerCase());const matched=recipes.map(recipe=>{const matches=recipe.ingredients.filter(ing=>userIngredients.some(ui=>ui.includes(ing)||ing.includes(ui)));const matchPercent=Math.round((matches.length/recipe.ingredients.length)*100);return{...recipe,matchPercent,matches:matches.length};}).filter(r=>r.matchPercent>0).sort((a,b)=>b.matchPercent-a.matchPercent);if(matched.length===0){list.innerHTML='<div class="empty-state"><div class="empty-icon"><i class="fas fa-utensils"></i></div><h3>No matching recipes</h3></div>';return;}list.innerHTML=matched.map(recipe=>`<div class="recipe-card"><div class="recipe-icon"><i class="fas fa-${recipe.icon}"></i></div><div class="recipe-info"><h3 class="recipe-title">${recipe.name}</h3><p class="recipe-meta"><i class="fas fa-clock"></i> ${recipe.time} • <strong>Match: ${recipe.matchPercent}%</strong> (${recipe.matches}/${recipe.ingredients.length})</p><div class="match-bar"><div class="match-fill" style="width:${recipe.matchPercent}%"></div></div>${recipe.matchPercent===100?'<p style="color:var(--success);font-weight:700;"><i class="fas fa-check-circle"></i> You can cook this now!</p>':''}</div></div>`).join('');}
-        function loadData(){const saved=localStorage.getItem('freshplate_data');if(saved){const data=JSON.parse(saved);ingredients=data.ingredients||[];points=data.points||0;savedMoney=data.savedMoney||0;savedItems=data.savedItems||0;}updateViews();}
-        function saveData(){localStorage.setItem('freshplate_data',JSON.stringify({ingredients,points,savedMoney,savedItems}));updateViews();}
-        window.addEventListener('DOMContentLoaded',()=>{createParticles();loadData();});
-    </script>
+
+    <!-- RECIPES TAB -->
+    <div class="app-panel" id="panel-recipes">
+        <div class="app-content">
+            <div class="ai-bar">
+                <div class="ai-bar-left">
+                    <div class="ai-bar-title">🤖 AI Recipe Generator</div>
+                    <div class="ai-bar-sub" id="aiBarSub">Add your Anthropic API key in settings to enable AI recipes</div>
+                </div>
+                <button class="ai-btn" id="aiGenerateBtn" onclick="generateAIRecipes()" disabled>
+                    <i class="fas fa-wand-magic-sparkles"></i> Generate Recipes
+                </button>
+            </div>
+            <div class="ai-loading" id="aiLoading">
+                <div class="spinner"></div>
+                <span>Claude is crafting recipes from your ingredients...</span>
+            </div>
+            <div id="recipeList"></div>
+            <div id="recipesEmpty" class="empty-state">
+                <span class="big-emoji">🍳</span>
+                <h3>No recipes yet</h3>
+                <p>Add ingredients and hit Generate to see AI-powered recipe ideas</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- INSIGHTS TAB -->
+    <div class="app-panel" id="panel-insights">
+        <div class="app-content">
+            <div class="fridge-header">
+                <div><div class="fridge-title">Your Impact</div></div>
+            </div>
+            <div class="insights-stats">
+                <div class="insight-card">
+                    <span class="insight-num"><span class="unit">$</span><span id="insightMoney">0</span></span>
+                    <div class="insight-label">Estimated Money Saved</div>
+                </div>
+                <div class="insight-card">
+                    <span class="insight-num"><span id="insightItems">0</span></span>
+                    <div class="insight-label">Ingredients Used Up</div>
+                </div>
+                <div class="insight-card">
+                    <span class="insight-num"><span id="insightPoints">0</span></span>
+                    <div class="insight-label">Total Points Earned</div>
+                </div>
+            </div>
+            <div class="expiry-timeline" id="expiryTimeline">
+                <div class="timeline-title">Fridge Snapshot</div>
+                <div id="timelineContent"><p style="color:var(--stone);font-size:15px;">Add ingredients to see your fridge breakdown.</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAB -->
+    <button class="fab-app show" id="fabBtn" onclick="openAddModal()" title="Add ingredient">
+        <i class="fas fa-plus"></i>
+    </button>
+</div>
+
+<!-- ADD INGREDIENT MODAL -->
+<div class="modal-overlay" id="addModal">
+    <div class="modal-box">
+        <div class="modal-h">
+            Add Ingredient
+            <button class="modal-close" onclick="closeAddModal()">×</button>
+        </div>
+        <!-- Emoji Picker -->
+        <div class="form-group">
+            <label class="form-label">Pick an Emoji</label>
+            <div class="emoji-picker">
+                <span class="emoji-opt selected" data-emoji="🥬" onclick="selectEmoji(this)">🥬</span>
+                <span class="emoji-opt" data-emoji="🍅" onclick="selectEmoji(this)">🍅</span>
+                <span class="emoji-opt" data-emoji="🥕" onclick="selectEmoji(this)">🥕</span>
+                <span class="emoji-opt" data-emoji="🧄" onclick="selectEmoji(this)">🧄</span>
+                <span class="emoji-opt" data-emoji="🧅" onclick="selectEmoji(this)">🧅</span>
+                <span class="emoji-opt" data-emoji="🥩" onclick="selectEmoji(this)">🥩</span>
+                <span class="emoji-opt" data-emoji="🍗" onclick="selectEmoji(this)">🍗</span>
+                <span class="emoji-opt" data-emoji="🥚" onclick="selectEmoji(this)">🥚</span>
+                <span class="emoji-opt" data-emoji="🧀" onclick="selectEmoji(this)">🧀</span>
+                <span class="emoji-opt" data-emoji="🥛" onclick="selectEmoji(this)">🥛</span>
+                <span class="emoji-opt" data-emoji="🍋" onclick="selectEmoji(this)">🍋</span>
+                <span class="emoji-opt" data-emoji="🍎" onclick="selectEmoji(this)">🍎</span>
+                <span class="emoji-opt" data-emoji="🍞" onclick="selectEmoji(this)">🍞</span>
+                <span class="emoji-opt" data-emoji="🌽" onclick="selectEmoji(this)">🌽</span>
+                <span class="emoji-opt" data-emoji="🫑" onclick="selectEmoji(this)">🫑</span>
+                <span class="emoji-opt" data-emoji="🍄" onclick="selectEmoji(this)">🍄</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Ingredient Name</label>
+            <input type="text" class="form-input" id="ingName" placeholder="e.g., Baby Spinach" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Quantity</label>
+            <input type="text" class="form-input" id="ingQty" placeholder="e.g., 1 bag, 200g, 3 pieces">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Status</label>
+            <select class="form-select" id="ingStatus">
+                <option value="raw">🥗 Raw / Fresh</option>
+                <option value="cooked">🍲 Cooked / Leftover</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Expiry Date</label>
+            <input type="date" class="form-input" id="ingExpiry" required>
+        </div>
+        <button class="form-submit" onclick="submitIngredient()">
+            <i class="fas fa-plus"></i> Add to Fridge (+5 pts)
+        </button>
+    </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="settingsModal">
+    <div class="modal-box">
+        <div class="modal-h">
+            AI Settings
+            <button class="modal-close" onclick="closeSettingsModal()">×</button>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Anthropic API Key</label>
+            <input type="password" class="form-input" id="apiKeyInput" placeholder="sk-ant-...">
+        </div>
+        <div class="api-key-note">
+            🔑 Your API key is stored locally in your browser and never sent to FreshPlate servers. Get a free API key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>. The AI recipe feature uses Claude claude-sonnet-4-20250514.
+        </div>
+        <button class="form-submit" onclick="saveApiKey()" style="margin-top:20px;">
+            <i class="fas fa-save"></i> Save API Key
+        </button>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ======= STATE ======= */
+let ingredients = [];
+let points = 0;
+let savedMoney = 0;
+let savedItems = 0;
+let selectedEmoji = '🥬';
+let activeFilter = 'all';
+let apiKey = '';
+let aiRecipes = [];
+
+/* ======= INIT ======= */
+window.addEventListener('DOMContentLoaded', () => {
+    createScrollReveal();
+    navScroll();
+    loadData();
+    // Set default expiry (7 days from now)
+    const d = new Date();
+    d.setDate(d.getDate() + 7);
+    document.getElementById('ingExpiry').value = d.toISOString().split('T')[0];
+});
+
+/* ======= NAVIGATION ======= */
+function navScroll() {
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+        nav && (nav.classList.toggle('scrolled', window.scrollY > 60));
+    });
+}
+
+function openApp() {
+    document.getElementById('landing').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    renderFridge();
+    updateInsights();
+    checkApiKey();
+}
+
+function backToLanding() {
+    document.getElementById('landing').style.display = 'block';
+    document.getElementById('app').style.display = 'none';
+}
+
+function switchAppTab(name, btn) {
+    document.querySelectorAll('.app-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.app-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('panel-' + name).classList.add('active');
+    btn.classList.add('active');
+    if (name === 'insights') updateInsights();
+}
+
+/* ======= FAQ ======= */
+function toggleFAQ(btn) {
+    const item = btn.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+}
+
+/* ======= SCROLL REVEAL ======= */
+function createScrollReveal() {
+    const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+}
+
+/* ======= DATA ======= */
+function loadData() {
+    try {
+        const d = JSON.parse(localStorage.getItem('fp_v2') || '{}');
+        ingredients = d.ingredients || [];
+        points = d.points || 0;
+        savedMoney = d.savedMoney || 0;
+        savedItems = d.savedItems || 0;
+        apiKey = d.apiKey || '';
+        if (apiKey) document.getElementById('apiKeyInput').value = apiKey;
+    } catch(e) { ingredients = []; }
+}
+
+function saveData() {
+    localStorage.setItem('fp_v2', JSON.stringify({ ingredients, points, savedMoney, savedItems, apiKey }));
+    document.getElementById('pointsDisplay').textContent = points;
+}
+
+/* ======= INGREDIENT CRUD ======= */
+function getDays(expiry) {
+    return Math.ceil((new Date(expiry) - new Date()) / 86400000);
+}
+
+function getUrgency(days) {
+    if (days < 0) return 'expired';
+    if (days <= 2) return 'urgent';
+    if (days <= 5) return 'warn';
+    return 'good';
+}
+
+function selectEmoji(el) {
+    document.querySelectorAll('.emoji-opt').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedEmoji = el.dataset.emoji;
+}
+
+function openAddModal() {
+    document.getElementById('addModal').classList.add('open');
+    document.getElementById('ingName').focus();
+}
+
+function closeAddModal() {
+    document.getElementById('addModal').classList.remove('open');
+    document.getElementById('ingName').value = '';
+    document.getElementById('ingQty').value = '';
+    document.getElementById('ingStatus').value = 'raw';
+    selectedEmoji = '🥬';
+    document.querySelectorAll('.emoji-opt').forEach(e => e.classList.remove('selected'));
+    document.querySelector('.emoji-opt[data-emoji="🥬"]').classList.add('selected');
+}
+
+function submitIngredient() {
+    const name = document.getElementById('ingName').value.trim();
+    const expiry = document.getElementById('ingExpiry').value;
+    if (!name || !expiry) { showToast('Please fill in name and expiry date', 'warn'); return; }
+    const ing = {
+        id: Date.now(),
+        emoji: selectedEmoji,
+        name,
+        qty: document.getElementById('ingQty').value || '—',
+        status: document.getElementById('ingStatus').value,
+        expiry
+    };
+    ingredients.push(ing);
+    points += 5;
+    saveData();
+    renderFridge();
+    closeAddModal();
+    showToast(`Added ${name}! +5 pts 🎉`, 'success');
+    // Reset expiry
+    const d = new Date(); d.setDate(d.getDate() + 7);
+    document.getElementById('ingExpiry').value = d.toISOString().split('T')[0];
+}
+
+function deleteIngredient(id, used) {
+    const ing = ingredients.find(i => i.id === id);
+    if (!ing) return;
+    if (used) {
+        savedMoney += 4;
+        savedItems += 1;
+        points += 10;
+        showToast(`Used ${ing.name}! Saved ~$4 + 10 pts 🏆`, 'success');
+    } else {
+        showToast(`Removed ${ing.name}`, '');
+    }
+    ingredients = ingredients.filter(i => i.id !== id);
+    saveData();
+    renderFridge();
+    updateInsights();
+}
+
+function setFilter(f, btn) {
+    activeFilter = f;
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    renderFridge();
+}
+
+function renderFridge() {
+    const list = document.getElementById('fridgeList');
+    const empty = document.getElementById('fridgeEmpty');
+    const count = document.getElementById('fridgeCount');
+    count.textContent = ingredients.length + ' ingredient' + (ingredients.length !== 1 ? 's' : '') + ' tracked';
+
+    let filtered = [...ingredients].sort((a, b) => getDays(a.expiry) - getDays(b.expiry));
+    if (activeFilter !== 'all') filtered = filtered.filter(i => getUrgency(getDays(i.expiry)) === activeFilter);
+
+    if (filtered.length === 0) {
+        list.innerHTML = '';
+        empty.style.display = 'block';
+        empty.querySelector('h3').textContent = ingredients.length === 0 ? 'Your fridge is empty' : 'No items match this filter';
+        empty.querySelector('p').textContent = ingredients.length === 0 ? 'Tap the + button to add your first ingredient' : 'Try selecting a different filter';
+        return;
+    }
+
+    empty.style.display = 'none';
+    list.innerHTML = filtered.map(ing => {
+        const days = getDays(ing.expiry);
+        const urg = getUrgency(days);
+        const urgLabel = urg === 'expired' ? 'EXPIRED' : urg === 'urgent' ? 'USE NOW' : urg === 'warn' ? 'EXPIRING SOON' : 'FRESH';
+        const daysLabel = days < 0 ? `${Math.abs(days)}d ago` : days === 0 ? 'Today' : `${days}d left`;
+        const statusLabel = ing.status === 'raw' ? 'Raw' : 'Cooked';
+        return `<div class="ing-card ${urg}">
+            <div class="ing-emoji">${ing.emoji}</div>
+            <div class="ing-info">
+                <div class="ing-name">
+                    ${ing.name}
+                    <span class="ing-badge ${urg}">${urgLabel}</span>
+                    <span class="ing-badge ${ing.status}">${statusLabel}</span>
+                </div>
+                <div class="ing-meta">
+                    <span><i class="fas fa-scale-balanced" style="margin-right:4px;"></i>${ing.qty}</span>
+                    <span><i class="fas fa-calendar" style="margin-right:4px;"></i>${daysLabel}</span>
+                </div>
+            </div>
+            <div class="ing-actions">
+                <button class="use-btn-app" onclick="deleteIngredient(${ing.id}, true)"><i class="fas fa-check"></i> Used</button>
+                <button class="del-btn-app" onclick="deleteIngredient(${ing.id}, false)" title="Remove"><i class="fas fa-trash"></i></button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+/* ======= AI RECIPES ======= */
+function checkApiKey() {
+    const hasKey = !!apiKey;
+    const btn = document.getElementById('aiGenerateBtn');
+    const sub = document.getElementById('aiBarSub');
+    btn.disabled = !hasKey;
+    sub.textContent = hasKey
+        ? `${ingredients.length} ingredient${ingredients.length !== 1 ? 's' : ''} ready — click Generate for personalized AI recipes`
+        : 'Add your Anthropic API key in Settings to enable AI recipes';
+}
+
+async function generateAIRecipes() {
+    if (!apiKey) { showToast('Add your API key in AI Settings first', 'warn'); return; }
+    if (ingredients.length === 0) { showToast('Add some ingredients first!', 'warn'); return; }
+
+    const btn = document.getElementById('aiGenerateBtn');
+    const loading = document.getElementById('aiLoading');
+    const list = document.getElementById('recipeList');
+    const empty = document.getElementById('recipesEmpty');
+
+    btn.disabled = true;
+    loading.classList.add('show');
+    list.innerHTML = '';
+    empty.style.display = 'none';
+
+    const ingList = ingredients.map(i =>
+        `${i.emoji} ${i.name} (${i.qty}, ${i.status}, expires in ${getDays(i.expiry)} days)`
+    ).join('\n');
+
+    try {
+        const res = await fetch('https://api.anthropic.com/v1/messages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': apiKey,
+                'anthropic-version': '2023-06-01',
+                'anthropic-dangerous-direct-browser-access': 'true'
+            },
+            body: JSON.stringify({
+                model: 'claude-sonnet-4-20250514',
+                max_tokens: 1500,
+                system: 'You are a helpful chef assistant. Always respond with ONLY valid JSON, no markdown, no backticks, no preamble.',
+                messages: [{
+                    role: 'user',
+                    content: `I have these ingredients in my fridge:\n${ingList}\n\nSuggest 4 creative recipes I can make with some or all of these ingredients. Prioritize items expiring soonest. Respond ONLY with this exact JSON structure:\n{"recipes":[{"name":"...","time":"...","difficulty":"Easy|Medium|Hard","description":"...","uses":["ingredient1","ingredient2"],"tip":"..."}]}`
+                }]
+            })
+        });
+
+        if (!res.ok) {
+            const err = await res.json();
+            throw new Error(err.error?.message || 'API error ' + res.status);
+        }
+
+        const data = await res.json();
+        const text = data.content.map(b => b.text || '').join('');
+        const clean = text.replace(/```json|```/g, '').trim();
+        const parsed = JSON.parse(clean);
+        aiRecipes = parsed.recipes || [];
+
+        loading.classList.remove('show');
+        btn.disabled = false;
+
+        if (aiRecipes.length === 0) {
+            empty.style.display = 'block';
+            return;
+        }
+
+        list.innerHTML = aiRecipes.map(r => `
+            <div class="recipe-card-app">
+                <div class="rc-header">
+                    <div class="rc-name">${r.name}</div>
+                </div>
+                <div class="rc-badges">
+                    <span class="rc-badge"><i class="fas fa-clock"></i> ${r.time}</span>
+                    <span class="rc-badge difficulty-${r.difficulty.toLowerCase()}">${r.difficulty}</span>
+                    <span class="rc-badge match-badge">🤖 AI Suggested</span>
+                </div>
+                <p class="rc-desc">${r.description}</p>
+                ${r.tip ? `<p class="rc-desc" style="margin-top:10px;font-style:italic;color:var(--sage);">💡 ${r.tip}</p>` : ''}
+                <div class="rc-uses">
+                    <div class="rc-uses-label">Uses from your fridge</div>
+                    <div class="rc-uses-chips">${(r.uses||[]).map(u => `<span class="rc-chip">${u}</span>`).join('')}</div>
+                </div>
+            </div>
+        `).join('');
+
+        points += 5;
+        saveData();
+        showToast('AI recipes generated! +5 pts ✨', 'success');
+
+    } catch (err) {
+        loading.classList.remove('show');
+        btn.disabled = false;
+        list.innerHTML = `<div style="background:#FEE2E2;border-radius:12px;padding:24px;color:#991B1B;">
+            <strong>Error generating recipes:</strong> ${err.message}<br>
+            <span style="font-size:14px;margin-top:8px;display:block;">Check your API key and try again.</span>
+        </div>`;
+        console.error(err);
+    }
+}
+
+/* ======= INSIGHTS ======= */
+function updateInsights() {
+    document.getElementById('insightMoney').textContent = savedMoney;
+    document.getElementById('insightItems').textContent = savedItems;
+    document.getElementById('insightPoints').textContent = points;
+
+    // Timeline
+    const timeline = document.getElementById('timelineContent');
+    if (ingredients.length === 0) {
+        timeline.innerHTML = '<p style="color:var(--stone);font-size:15px;">Add ingredients to see your fridge breakdown.</p>';
+        return;
+    }
+    const cats = { expired: 0, urgent: 0, warn: 0, good: 0 };
+    ingredients.forEach(i => cats[getUrgency(getDays(i.expiry))]++);
+    const total = ingredients.length;
+    const rows = [
+        { label: '🔴 Expired', key: 'expired', color: '#EF4444' },
+        { label: '🟠 Use Now (1-2d)', key: 'urgent', color: '#F97316' },
+        { label: '🟡 Expiring (3-5d)', key: 'warn', color: '#EAB308' },
+        { label: '🟢 Fresh (6d+)', key: 'good', color: '#22C55E' }
+    ];
+    timeline.innerHTML = rows.map(r => `
+        <div class="timeline-row">
+            <span class="timeline-label">${r.label}</span>
+            <div class="timeline-bar-wrap">
+                <div class="timeline-bar" style="width:${total ? (cats[r.key]/total*100) : 0}%;background:${r.color};"></div>
+            </div>
+            <span class="timeline-count" style="color:${r.color};">${cats[r.key]}</span>
+        </div>
+    `).join('');
+}
+
+/* ======= SETTINGS ======= */
+function openSettingsModal() {
+    document.getElementById('settingsModal').classList.add('open');
+    document.getElementById('apiKeyInput').value = apiKey || '';
+}
+
+function closeSettingsModal() {
+    document.getElementById('settingsModal').classList.remove('open');
+}
+
+function saveApiKey() {
+    apiKey = document.getElementById('apiKeyInput').value.trim();
+    saveData();
+    closeSettingsModal();
+    checkApiKey();
+    showToast(apiKey ? 'API key saved! AI recipes enabled 🤖' : 'API key cleared', 'success');
+}
+
+/* ======= TOAST ======= */
+function showToast(msg, type = '') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast' + (type ? ' ' + type : '') + ' show';
+    setTimeout(() => t.classList.remove('show'), 3200);
+}
+</script>
 </body>
 </html>
